@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Phudu:wght@300..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Elsie+Swash+Caps:wght@400;900&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  --font-nunito: "Nunito Sans", sans-serif;
+  --font-Phudu: "Phudu", sans-serif;
+  --font-Archivo-Black: "Archivo Black", sans-serif;
+  --font-Elsie-Swash-Caps: "Elsie Swash Caps", serif;
+  --color-blue-possacode: #1a2251;
+  --color-orange-possacode: #f14d0e;
+}
+
+/* Classes utilitaires personnalisées */
+@utility text-shadow {
+  text-shadow: 4px 4px 2px rgba(0, 0, 0, 0.5);
+}
+
+@utility card {
+  border: 2px solid var(--color-blue-possacode);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+/* Extraction de style commun pour les boutons */
+.boutton-hero {
+  @apply border-2 border-[#1A2251] text-[#1A2251] px-4 rounded-lg font-bold;
+}
+
+.boutton-standard {
+  @apply bg-orange-possacode px-2 py-2 font-bold rounded-lg;
+}
+
+.wave-line {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: drawLine 2.5s ease infinite;
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

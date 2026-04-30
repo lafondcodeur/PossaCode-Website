@@ -1,0 +1,245 @@
+---
+import Welcome from '../components/Welcome.astro';
+import Layout from '../layouts/Layout.astro';
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+
+<Layout>
+    <!-- Hero section -->
+	<section class="bg-[#fff3ee] h-180 flex justify-between items-center px-10 font-main py-20">
+        <div class=" w-1/2 h-full space-y-7  content-center">
+            <h1 class="text-5xl font-semibold leading-15"><span class="text-orange-possacode italic font-bold">PossaCode,</span> une <br> communauté de <span class="text-orange-possacode italic font-bold">développeurs</span> <span class="text-orange-possacode italic font-bold">impactante</span> en Afrique.</h1>
+            <div class="flex flex-wrap gap-4">
+                <div class="boutton-hero">#Former</div><div class="boutton-hero">#Partager</div><div class="boutton-hero ">#Inspirer</div><div class="boutton-hero">#Orienter</div><div class="boutton-hero ">#Réseauter</div>
+            </div>
+            <div class="border-2 border-orange-possacode px-1 py-1 w-115 rounded-lg flex justify-between items-center">
+                <p class="text-lg text-orange-possacode">Intégrer une communauté dynamique</p>
+                <a class="boutton-standard text-white" href="">Nous Rejoindre</a>
+            </div>
+        </div>
+        <div class=" w-1/2 h-full flex justify-between gap-3 content-center ">
+            <img class="rounded-lg w-70 h-full object-cover object-center hover:rotate-3 transition-transform duration-300" src="/src/assets/femme1.png" alt="">
+            <img class="rounded-lg w-50 h-105 object-cover object-center hover:rotate-3 transition-transform duration-300" src="/src/assets/homme1.png" alt="">
+            <img class="rounded-lg w-40 h-75 object-cover object-center hover:rotate-3 transition-transform duration-300" src="/src/assets/femme2.png" alt="">
+        </div>
+    </section>
+    <!-- Partenaires Section -->
+    <section class="px-10 py-5 h-80 content-center">  
+        <h1 class="text-center font-bold text-orange-possacode text-5xl mb-20 font-Phudu">Ils nous font confiance</h1>
+        <div class="flex justify-center items-center gap-10">
+            <img class="w-35 h-20 object-cover " src="/src/assets/par/cgdt.jpg" alt="">
+             <img class="w-65 h-20 " src="/src/assets/par/Logo de l'ACDN.png" alt="">
+            <img class="w-35 h-20 " src="/src/assets/par/galsendev.jpg" alt="">
+               <img class="w-35 h-25 object-cover " src="/src/assets/par/unionlab.jpg" alt=""> 
+            <img class="w-35 h-20 object-cover " src="/src/assets/par/Congo DevOps.jpg" alt=""> 
+            <img class="w-55 h-20 " src="/src/assets/par/logo.webp" alt=""> 
+            <img class="w-35 h-20 " src="/src/assets/par/logo-asso-10000codeurs.png" alt=""> 
+        </div>
+    </section>
+    <!-- Objective Section -->
+    <section class="bg-[#1A2251] px-10 py-20">
+        <div class="flex justify-center  ">
+         <div class="inline-block">
+                    <h1 class="text-white text-5xl font-Phudu font-bold text-center ">Qui <span class="text-orange-possacode">sommes-nous ?</span></h1>
+                    <svg
+                        class="w-full h-4 mt-2"
+                        viewBox="0 0 200 20"
+                        preserveAspectRatio="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        >
+                        <path
+                            d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10"
+                            stroke="#f14d0e"
+                            stroke-width="2"
+                            fill="transparent"
+                            class="wave-line"
+                        />
+                    </svg>   
+         </div>
+       </div>
+       <p class="text-center text-white font-nunito font-light text-xl mt-5 w-200 m-auto"> <span class="text-orange-possacode font-bold">PossaCode</span> est une association qui forme et réunit les développeurs du Congo et d’Afrique à travers des meetUp, des hackatons, ainsi que des conférences techniques dédiées aux développeurs </p>
+       <div class="grid grid-cols-[350px_350px_1fr] grid-rows-[300px_200px_300px] my-20 gap-6">
+            <img class="row-span-2 h-full object-cover rounded-2xl" src="/src/assets/ca.jpg" alt="">
+            <div class="bg-white rounded-2xl content-center text-center text-blue-possacode font-bold font-Phudu text-4xl ">Plus de <br> <span class="font-light text-orange-possacode">80 Membres</span></div>
+            <div class="row-span-3  flex justify-center items-center flex-col gap-5">
+              <div class="space-y-5">
+                <p class="text-xl text-justify text-white font-nunito w-120"> Nous sommes convaincus que la <span class="font-bold text-orange-possacode">formation</span> et l’organisation d’événements de rencontre comme des <span class="font-bold text-orange-possacode">meetUp</span>, 
+                des <span class="font-bold text-orange-possacode">hackatons</span>, ainsi que des <span class="font-bold text-orange-possacode">conférences techniques</span> dédiées aux développeurs en Afrique est essentielle pour : le <span class="font-semibold ">renforcement des compétences techniques</span> et à 
+                l'<span class="font-semibold ">amélioration de la qualité du travail</span> des développeurs en Afrique, favoriser les <span class="font-semibold ">opportunités de réseautage</span>, d'échange d'expériences et de <span class="font-semibold ">partage de connaissances</span>
+                 entre les participants, etc...
+              </p>
+              <a href="/about" class="bg-orange-possacode w-50 text-white inline-block text-xl text-center px-1 py-2 rounded-lg">En savoir plus...</a>
+              </div>
+            </div>
+            <div class="bg-[url('/src/assets/groupe.jpg')] bg-cover bg-left row-span-2 rounded-2xl"></div>
+            <div class="bg-white rounded-2xl content-center text-center text-blue-possacode font-bold font-Phudu text-4xl shadow-xl/20 shadow-white ">Plus de <br> <span class=" font-nunito font-semibold text-orange-possacode">1000 personnes impactées</span></div>
+    </div>   
+    </section> 
+    <!-- Images Member Section -->
+    <section class="bg-white h-80 py-6 mb-20 px-10 flex justify-between gap-5">
+       <img class="w-60 h-80 hover:w-70 transition duration-500 object-cover object-top rounded-xl" src="/src/assets/CODEUR.png" alt=""> 
+       <img class="w-60 h-80 hover:w-70 transition duration-500 cursor-pointer object-cover object-left rounded-xl" src="/src/assets/femme3.png" alt=""> 
+       <img class="w-60 h-80 hover:w-70 transition duration-500 cursor-pointer object-cover  rounded-xl" src="/src/assets/homme2.png" alt="">
+       <img class="w-60 h-80 hover:w-70 transition duration-500 cursor-pointer object-cover object-left rounded-xl" src="/src/assets/homme1.png" alt=""> 
+       <img class="w-60 h-80 hover:w-70 transition duration-500 cursor-pointer object-cover object-top  rounded-xl" src="/src/assets/new3.jpg" alt="">
+    </section>
+    <!-- Mission, Valeur, Vision Section -->
+    <section class="bg-orange-possacode h-110 py-2 px-10 mb-20 flex justify-center items-center gap-30 ">
+        <div class="w-100 border-l-2 text-white   p-8">
+              <div class="inline-block">
+                    <h1 class="text-4xl font-Phudu text-blue-possacode font-bold">Notre vision</h1>
+                    <svg
+                        class="w-full h-4 mt-2"
+                        viewBox="0 0 200 20"
+                        preserveAspectRatio="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        >
+                        <path
+                            d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10"
+                            stroke="#1a2251"
+                            stroke-width="2"
+                            fill="transparent"
+                            class="wave-line"
+                        />
+                    </svg>   
+                </div>
+            <p class="text-md font-nunito text-justify text-blue-possacode font-semibold mt-2">
+                 Nous aspirons à créer une communauté de développeurs en Afrique qui soit inclusive, collaborative et innovante, où les membres peuvent s'entraider pour atteindre leurs objectifs professionnels et personnels, tout en contribuant au développement de l'écosystème technologique africain.
+            </p>
+        </div>
+        
+        <div class="w-100 border-l-2 text-white  p-8">
+             <div class="inline-block">
+                     <h1 class="text-4xl font-Phudu  font-bold">Notre mission</h1>
+                    <svg
+                        class="w-full h-4 mt-2"
+                        viewBox="0 0 200 20"
+                        preserveAspectRatio="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        >
+                        <path
+                            d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10"
+                            stroke="white"
+                            stroke-width="2"
+                            fill="transparent"
+                            class="wave-line"
+                        />
+                    </svg>   
+            </div>
+            <p class="text-md font-nunito text-justify  font-semibold mt-2">
+                Notre mission est de fournir une plateforme de formation, d'échange et de collaboration pour les développeurs en Afrique, afin de renforcer leurs compétences techniques, favoriser les opportunités de réseautage et d'échange d'expériences, et contribuer au développement de l'écosystème technologique africain.
+            </p>
+       
+        </div>
+         <div class="w-100 border-l-2 h-90 text-white p-8">
+             <div class="inline-block">
+                    <h1 class="text-4xl font-Phudu text-blue-possacode font-bold">Nos valeurs</h1>
+                    <svg
+                        class="w-full h-4 mt-2"
+                        viewBox="0 0 200 20"
+                        preserveAspectRatio="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        >
+                        <path
+                            d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10"
+                            stroke="#1a2251"
+                            stroke-width="2"
+                            fill="transparent"
+                            class="wave-line"
+                        />
+                    </svg>   
+            </div>
+            <p class="text-md font-nunito text-justify text-blue-possacode font-semibold mt-2">
+                Nous valorisons l'inclusion, la collaboration, l'innovation, la diversité et l'impact social. Nous croyons que chaque membre de notre communauté a un rôle à jouer dans le développement de l'écosystème technologique africain, et nous nous engageons à créer un environnement où chacun peut s'épanouir et contribuer à la croissance de notre communauté.
+            </p>
+            <img src="/src/assets/icones/arrow new.png"  alt="">
+        </div>
+    </section>
+    <!-- Activities Sections -->
+    <section class="px-10 py-8 ">
+        <div class="flex justify-center">
+             <div class="inline-block pb-20 ">
+                    <h1 class="font-bold text-5xl font-Phudu text-blue-possacode">Nos événements </h1>
+                    <svg
+                        class="w-full h-4 mt-2"
+                        viewBox="0 0 200 20"
+                        preserveAspectRatio="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        >
+                        <path
+                            d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10"
+                            stroke="#f14d0e"
+                            stroke-width="2"
+                            fill="transparent"
+                            class="wave-line"
+                        />
+                    </svg>   
+        </div>
+        </div>
+        <div class="flex justify-between items-center gap-8 h-200">
+            <div class=" w-1/2 h-full p-2 flex flex-col justify-between">
+                <img class=" w-full rounded-lg object-cover object-top " src="/src/assets/NOUS.jpg"  alt="">
+                <p class="text-orange-possacode text-lg font-nunito font-light">25 Mars 2026</p>
+                <h1 class="text-2xl font-bold font-Phudu text-blue-possacode ">
+                    Comment utiliser tailwindcss dans un projet Astro ?
+                </h1>
+                <p class="text-gray-500 text-lg text-justify font-nunito font-light">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta, consectetur vel. 
+                    Voluptatem, expedita architecto eligendi laborum fugiat illo molestias ullam, 
+                    molestiae repellendus consectetur, ad culpa animi cupiditate provident quae non. 
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos nam possimus quod 
+                    dignissimos rem minima amet odio ea perferendis, necessitatibus sed labore deleniti
+                     numquam cum sit, eaque, officiis explicabo commodi.
+                </p>
+                <div class="boutton-standard text-white font-nunito text-center text-lg">Participer</div>
+            </div>
+            <div class=" w-1/2 h-full flex flex-col justify-between">
+                <div class="border-b border-gray-300 pb-4 flex gap-4">
+                    <img class="h-60 w-80 object-cover rounded-lg" src="/src/assets/maxresdefault - Copie.jpg" alt="">
+                    <div class="content-center space-y-3">
+                       <p class="text-orange-possacode text-lg font-nunito font-light">25 Mars 2026</p>
+                         <h1 class="text-2xl font-bold font-Phudu ">
+                           Comment utiliser tailwindcss dans un projet Astro ?
+                         </h1>
+                    </div>
+                </div>
+                 <div class="border-b border-gray-300 pb-4 flex gap-4">
+                    <img class="h-60 w-80 object-cover rounded-lg" src="/src/assets/new1.jpg" alt="">
+                    <div class="content-center space-y-3">
+                       <p class="text-orange-possacode text-lg font-nunito font-light">25 Mars 2026</p>
+                         <h1 class="text-2xl font-bold font-Phudu ">
+                           Comment utiliser tailwindcss dans un projet Astro ?
+                         </h1>
+                    </div>
+                </div>
+                <div class="border-b border-gray-300 pb-4 flex gap-4">
+                    <img class="h-60 w-80 object-cover rounded-lg" src="/src/assets/femmecode - Copie.jpg" alt="">
+                    <div class="content-center space-y-3">
+                       <p class="text-orange-possacode text-lg font-nunito font-light">25 Mars 2026</p>
+                         <h1 class="text-2xl font-bold font-Phudu ">
+                           Comment utiliser tailwindcss dans un projet Astro ?
+                         </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+   <section class="my-10  h-180 p-10">
+    <h1 class="text-5xl text-center font-bold text-orange-possacode font-Phudu">Quelques experts qui ont impactés notre communauté</h1>
+    <div>
+        <div class="bg-blue-300"></div>
+        <div class="bg-blue-300"></div>
+        <div class="bg-blue-300"></div>
+        <div class="bg-blue-300"></div>
+        <div class="bg-blue-300"></div>
+        <div class="bg-blue-300"></div>
+        <div class="bg-blue-300"></div>
+        <div class="bg-blue-300"></div>
+    </div>
+   </section>
+   <section class="my-10 bg-blue-possacode h-870">
+    <h1>Dernière Section</h1>
+   </section>
+ </Layout>  
