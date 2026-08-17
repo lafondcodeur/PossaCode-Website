@@ -7,6 +7,8 @@
 
 ## 🔧 Feature en cours
 
+**Status : ✅ Implémenté — prêt pour /feature complete** (branche `feature/section-cta-finale`)
+
 **Section : Page d'accueil — Section CTA finale**
 
 La dernière section de la page d'accueil (`index.astro`) est encore un placeholder (`bg-blue-possacode h-200`). Elle doit être conçue et implémentée.
@@ -21,11 +23,11 @@ Créer une section de clôture de la homepage qui incite l'utilisateur à passer
 
 ## ✅ Critères d'acceptation
 
-- [ ] La section a un fond visuellement distinct (ex : bleu possacode ou dégradé)
-- [ ] Elle contient un titre accrocheur
-- [ ] Elle contient au moins un CTA principal ("Nous Rejoindre" ou "Faire un don")
-- [ ] Elle est cohérente avec le design system (couleurs, typographie, boutons)
-- [ ] Elle s'intègre visuellement avec la section "Experts" qui la précède
+- [x] La section a un fond visuellement distinct (ex : bleu possacode ou dégradé)
+- [x] Elle contient un titre accrocheur
+- [x] Elle contient au moins un CTA principal ("Nous Rejoindre" ou "Faire un don")
+- [x] Elle est cohérente avec le design system (couleurs, typographie, boutons)
+- [x] Elle s'intègre visuellement avec la section "Experts" qui la précède
 
 ---
 
