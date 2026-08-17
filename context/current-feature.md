@@ -7,46 +7,46 @@
 
 ## 🔧 Feature en cours
 
-Fix page metadata — Layout.astro
+_Aucune feature active._
 
-**Status:** In Progress
+**Status:** Not Started
 
 ---
 
 ## 🎯 Objectif
 
-Remplacer le `<title>` placeholder "Document" par un titre réel et descriptif
-pour le site communautaire, et ajouter une meta description ainsi que des
-balises Open Graph de base pour les previews de partage social.
+_À définir._
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- Le `<title>` reflète le nom et la mission du site (communauté de
-  développeurs) au lieu de "Document"
-- Une balise `<meta name="description">` résume le site
-- Balises Open Graph présentes : `og:title`, `og:description`, `og:image`
-- Aucune régression visuelle ou fonctionnelle sur les pages utilisant
-  `<Layout>`
+_À définir._
 
 ---
 
 ## 📍 Fichier concerné
 
-`src/layouts/Layout.astro` (balise `<title>` ligne ~12, `<head>` lignes 9-13)
+_À définir._
 
 ---
 
 ## 🗒️ Notes
 
-Le `<head>` actuel ne contient que `charset` et `viewport`. L'image Open
-Graph (`og:image`) devra pointer vers un asset existant dans `public/` (à
-vérifier/choisir parmi les images disponibles, ex. logo ou visuel hero).
+_Aucune note pour le moment._
 
 ---
 
 ## 📜 History
+
+### Fix page metadata — Layout.astro (2026-08-17)
+
+Remplacement du `<title>` placeholder "Document" par un titre réel
+("PossaCode — Communauté de développeurs"), ajout d'une
+`<meta name="description">` et des balises Open Graph (`og:title`,
+`og:description`, `og:image`) pour les previews de partage social.
+`og:image` pointe vers `/assets/possacodebb.jpg`, le même logo déjà utilisé
+dans le header, garantissant la cohérence et évitant un lien mort.
 
 ### Section CTA finale — Page d'accueil (2026-08-17)
 
