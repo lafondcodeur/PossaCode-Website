@@ -7,44 +7,31 @@
 
 ## 🔧 Feature en cours
 
-Fix logos partenaires déformés — section "Ils nous font confiance"
-
-**Statut :** In Progress
+_Aucune feature active pour le moment._
 
 ---
 
 ## 🎯 Objectif
 
-Corriger 4 logos partenaires visiblement étirés dans la section "Ils nous
-font confiance" de la homepage, qui utilisent `object-fit: fill` par défaut
-au lieu de conserver leur ratio d'aspect naturel comme les autres logos de
-la même rangée.
+<!-- À définir lors du prochain /feature load -->
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- Les 4 balises `<img>` concernées (lignes ~37, 38, 41, 42 de
-  `src/pages/index.astro`) ont la classe `object-contain` ajoutée
-- Les logos ne sont plus étirés/déformés et gardent leur ratio d'aspect
-  naturel
-- Les logos ne sont pas rognés (pas de `object-cover`)
-- Cohérence visuelle avec les autres logos de la même rangée
+<!-- À définir lors du prochain /feature load -->
 
 ---
 
 ## 📍 Fichier concerné
 
-`src/pages/index.astro` (lignes ~37, 38, 41, 42)
+<!-- À définir lors du prochain /feature load -->
 
 ---
 
 ## 🗒️ Notes
 
-Les 4 `<img>` en question n'ont actuellement aucune classe `object-fit`
-explicite, donc le navigateur applique le défaut `object-fit: fill`, ce qui
-étire l'image pour remplir son conteneur. Ajouter `object-contain` corrige
-ce problème sans rogner le logo.
+<!-- À définir lors du prochain /feature load -->
 
 ---
 
@@ -87,3 +74,14 @@ réelles via un script Playwright (`playwright-core` + Edge headless, le
 serveur MCP Playwright n'étant pas connecté dans la session) : les 6 cibles
 mesurées atteignent 44-48px. Aucune régression visuelle constatée sur les
 captures desktop (1440px).
+
+### Fix logos partenaires déformés — section "Ils nous font confiance" (2026-08-17)
+
+Correction de 4 logos partenaires (ACDN, galsendev, logo.webp/Miabé
+Hackathon, 10000codeurs) visiblement étirés car dépourvus de classe
+`object-fit` explicite (défaut du navigateur : `object-fit: fill`). Ajout de
+`object-contain` sur ces 4 `<img>` (`src/pages/index.astro` lignes ~37, 38,
+41, 42) pour conserver leur ratio d'aspect naturel sans les rogner. Vérifié
+via Playwright (`getComputedStyle` + capture d'écran) que les 4 logos
+affichent bien `object-fit: contain` et ne sont plus déformés, cohérence
+visuelle rétablie avec les autres logos de la rangée.
