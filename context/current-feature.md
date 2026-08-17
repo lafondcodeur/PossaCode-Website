@@ -7,31 +7,42 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active pour le moment._
+Fix page metadata — Layout.astro
+
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-<!-- À définir lors du prochain /feature load -->
+Remplacer le `<title>` placeholder "Document" par un titre réel et descriptif
+pour le site communautaire, et ajouter une meta description ainsi que des
+balises Open Graph de base pour les previews de partage social.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-<!-- À définir lors du prochain /feature load -->
+- Le `<title>` reflète le nom et la mission du site (communauté de
+  développeurs) au lieu de "Document"
+- Une balise `<meta name="description">` résume le site
+- Balises Open Graph présentes : `og:title`, `og:description`, `og:image`
+- Aucune régression visuelle ou fonctionnelle sur les pages utilisant
+  `<Layout>`
 
 ---
 
 ## 📍 Fichier concerné
 
-<!-- À définir lors du prochain /feature load -->
+`src/layouts/Layout.astro` (balise `<title>` ligne ~12, `<head>` lignes 9-13)
 
 ---
 
 ## 🗒️ Notes
 
-<!-- À définir lors du prochain /feature load -->
+Le `<head>` actuel ne contient que `charset` et `viewport`. L'image Open
+Graph (`og:image`) devra pointer vers un asset existant dans `public/` (à
+vérifier/choisir parmi les images disponibles, ex. logo ou visuel hero).
 
 ---
 
