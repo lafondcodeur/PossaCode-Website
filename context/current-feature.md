@@ -61,3 +61,16 @@ Ajout de `md:hidden` sur `#mobile-menu` et d'un listener `matchMedia`
 burger/close lors du passage du breakpoint. Vérifié via Playwright : ouverture
 du menu à 375px, resize à 1280px (menu fermé, seule la nav desktop visible),
 puis retour à 375px (toggle mobile toujours fonctionnel).
+
+### Fix tap targets mobile — 44px minimum (2026-08-17)
+
+Remontée des cibles tactiles mobiles sous la barre des 44px. Padding vertical
+de `.boutton-standard` augmenté (`py-2` → `py-3`), ce qui corrige en un seul
+endroit le CTA hero "Nous Rejoindre" (36px → 44px) et le CTA "Participer"
+(40px → 48px), les deux partageant cette classe. Ajout de `block py-3` sur
+les liens du menu mobile pour remplacer l'espacement visuel par une vraie
+zone cliquable (22px → 48px). Vérifié avec des mesures `getBoundingClientRect`
+réelles via un script Playwright (`playwright-core` + Edge headless, le
+serveur MCP Playwright n'étant pas connecté dans la session) : les 6 cibles
+mesurées atteignent 44-48px. Aucune régression visuelle constatée sur les
+captures desktop (1440px).
