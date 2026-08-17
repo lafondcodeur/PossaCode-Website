@@ -7,31 +7,44 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active pour le moment._
+Fix logos partenaires déformés — section "Ils nous font confiance"
+
+**Statut :** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-<!-- À définir lors du prochain /feature load -->
+Corriger 4 logos partenaires visiblement étirés dans la section "Ils nous
+font confiance" de la homepage, qui utilisent `object-fit: fill` par défaut
+au lieu de conserver leur ratio d'aspect naturel comme les autres logos de
+la même rangée.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-<!-- À définir lors du prochain /feature load -->
+- Les 4 balises `<img>` concernées (lignes ~37, 38, 41, 42 de
+  `src/pages/index.astro`) ont la classe `object-contain` ajoutée
+- Les logos ne sont plus étirés/déformés et gardent leur ratio d'aspect
+  naturel
+- Les logos ne sont pas rognés (pas de `object-cover`)
+- Cohérence visuelle avec les autres logos de la même rangée
 
 ---
 
 ## 📍 Fichier concerné
 
-<!-- À définir lors du prochain /feature load -->
+`src/pages/index.astro` (lignes ~37, 38, 41, 42)
 
 ---
 
 ## 🗒️ Notes
 
-<!-- À définir lors du prochain /feature load -->
+Les 4 `<img>` en question n'ont actuellement aucune classe `object-fit`
+explicite, donc le navigateur applique le défaut `object-fit: fill`, ce qui
+étire l'image pour remplir son conteneur. Ajouter `object-contain` corrige
+ce problème sans rogner le logo.
 
 ---
 
