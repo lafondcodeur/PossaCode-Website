@@ -30,7 +30,7 @@
 }
 
 .boutton-standard {
-  @apply bg-orange-possacode px-2 py-2 font-bold rounded-lg;
+  @apply bg-orange-possacode px-2 py-3 font-bold rounded-lg;
 }
 
 .wave-line {
