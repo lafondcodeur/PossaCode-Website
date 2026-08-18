@@ -7,33 +7,138 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Fix section "Ces experts qui impactent notre communauté" — portraits anonymes
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+La section affiche actuellement 10 cercles de photos (8 en desktop, 6 en
+mobile/tablette) sans aucun nom ni rôle visible nulle part. Ajouter un nom et
+un rôle/titre sous (ou au survol/focus de) chaque portrait, à partir de
+données réelles. Si les données ne sont pas disponibles pour un expert
+donné, ne pas afficher de visage anonyme dans cette section axée confiance —
+masquer la section entière tant que les données ne sont pas complètes.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- Chaque portrait affiché montre un nom ET un rôle/titre (⚠️ **exception
+  temporaire demandée par l'utilisateur le 2026-08-18** : données fictives
+  en attendant les vraies infos, voir Notes).
+- Accessible sans dépendre uniquement du hover (visible aussi au focus
+  clavier, et idéalement affiché en permanence sous la photo plutôt que
+  caché par défaut).
+- Si les données (nom + rôle) manquent pour un ou plusieurs portraits, la
+  section entière est masquée jusqu'à ce que les données soient complètes —
+  pas de mélange visages nommés / visages anonymes.
+- Pas de doublon visuel : la grille desktop actuelle réutilise 2 photos
+  (gedeon.jpg, EzéchielAmenAGBLA.png) deux fois chacune pour combler 8
+  cases avec seulement 6 fichiers images distincts — à corriger si la
+  section est réactivée.
+- Chaque portrait a un effet de hover et mène vers le profil LinkedIn/
+  portfolio de l'expert (⚠️ **exception temporaire demandée par
+  l'utilisateur le 2026-08-18** : liens fictifs en attendant les vraies
+  URLs, voir Notes).
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+`src/pages/index.astro` (section "Experts") + `src/data/experts.ts`
+(données des experts, extraites dans un fichier séparé à la demande de
+l'utilisateur le 2026-08-18)
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+Audit des données disponibles avant implémentation :
+
+- `context/project-overview-astro.md` (section "👨‍💻 Experts Mis en Avant")
+  liste 5 noms : Modeste ASSIONBON, Gédéon, Ezéchiel Amen AGBLA, Nadet,
+  Adonai Nangui — **mais aucun rôle/titre** n'est fourni pour aucun d'eux.
+- Le fichier image `_DSC0979.jpg` (utilisé dans les deux grilles) n'a
+  **aucun nom associé** dans la documentation existante.
+- Aucune autre source de données (pas de content collection, pas de JSON,
+  pas de mention de rôle/poste) n'a été trouvée dans le repo.
+- Conclusion : les données réelles sont incomplètes (rôles manquants pour
+  tous, nom manquant pour un portrait) → la section doit rester masquée
+  jusqu'à ce que le nom ET le rôle de chaque expert affiché soient fournis
+  par l'utilisateur/client, plutôt que d'inventer des rôles ou de laisser
+  des visages anonymes dans une section de confiance.
+
+Implémentation : la grille statique à 8/6 cercles (avec doublons de photos)
+a été remplacée par un tableau `experts` piloté par données dans le
+frontmatter d'`index.astro` (`{ name, role, image }`). La section entière
+n'est rendue que si `experts.length > 0`. Chaque carte affiche nom + rôle en
+permanence sous la photo (pas caché derrière un hover) pour rester
+accessible au clavier sans JS. Vérifié via `npm run build` + grep sur
+`dist/index.html` : les 6 images distinctes apparaissent chacune une seule
+fois (plus de doublons ModesteASSIONGBON/gedeon/EzéchielAmenAGBLA/nadet/
+_DSC0979/AdonaiNangui), chaque nom/rôle placeholder rendu correctement.
+
+**2026-08-18 — demande explicite de l'utilisateur** : remplir le tableau
+`experts` avec des **données fictives** (nom + rôle inventés, ex. "Modeste
+Assiongbon — Ingénieur Backend") en gardant les 6 images réelles existantes,
+pour que la section soit visible dès maintenant plutôt que masquée. Le code
+utilise toujours la même image par expert (aucun doublon). Un commentaire
+dans `index.astro` marque ces données comme temporaires. **À faire avant
+mise en production** : remplacer les 6 entrées par les vrais noms/rôles —
+sinon le site affiche de fausses identités attribuées à de vraies photos de
+personnes, ce qui est plus trompeur que la section masquée initiale.
+
+**2026-08-18 — ajout hover + lien profil** : chaque carte expert est
+maintenant un `<a>` (au lieu d'un `<div>`) pointant vers `expert.link`
+(ajouté au type `Expert` dans `src/data/experts.ts`), `target="_blank"
+rel="noopener noreferrer"`. Effet hover : anneau orange (`ring-4
+ring-orange-possacode`) + léger agrandissement (`scale-105`) sur la photo,
+nom qui passe en orange, transition fluide. Focus clavier : même style
+`focus-visible:outline` que `Footer.astro` (cohérence avec le reste du
+site) — accessible sans souris. Les 6 URLs sont **elles aussi fictives**
+(`linkedin.com/in/<slug-fictif>`, ne résolvent vers aucun vrai profil) —
+même statut temporaire que le nom/rôle, à remplacer ensemble avant mise en
+production. Vérifié via `npm run build` + grep sur `dist/index.html` : les
+6 `href` distincts sont bien présents.
+
+**2026-08-18 — vérification live (Edge headless, MCP Playwright non connecté
+malgré demande explicite de l'utilisateur) : 2 bugs réels trouvés,
+invisibles via `npm run build` seul** :
+
+1. **Crash serveur dev sur nom de fichier accentué.** `EzéchielAmenAGBLA.png`
+   provoquait un plantage `URI malformed` (`vite-plugin-astro-server/
+   trailing-slash.js`) reproductible en navigant sur la page en dev — le
+   build de production n'était pas affecté (ce middleware est dev-only),
+   mais le dev server devenait peu fiable. Fix : fichier renommé en
+   `EzechielAmenAGBLA.png` (ASCII), référence mise à jour dans
+   `experts.ts`.
+2. **Les 6 portraits ne s'affichaient pas du tout** (cercles vides) malgré
+   un HTML généré correct. Cause : la classe Tailwind arbitraire
+   `` bg-[url('${expert.image}')] `` utilisait un template literal
+   interpolé dans `.map()` — le scanner JIT de Tailwind ne peut extraire
+   que des chaînes de classe *littérales* trouvées telles quelles dans le
+   code source, donc il a généré une règle CSS inutile pour la chaîne
+   littérale non résolue (`background-image:url(${expert.image})`) et
+   aucune règle pour les vraies URLs. Le HTML contenait les bonnes classes,
+   `npm run build` ne signalait aucune erreur, et un grep sur
+   `dist/index.html` semblait "passer" — seul un rendu réel dans un
+   navigateur révélait le problème. Fix : l'image de fond dynamique est
+   passée en attribut `style` inline (`style={`background-image:
+   url('${expert.image}')`}`) au lieu d'une classe Tailwind arbitraire ;
+   `bg-cover`/`bg-top` restent des classes Tailwind statiques (valides).
+
+Revérifié via Edge headless (`--run-all-compositor-stages-before-draw
+--virtual-time-budget=10000`, MCP Playwright toujours indisponible dans la
+session) à 375px et 1440px après les deux fixes : les 6 portraits
+s'affichent correctement avec leur photo, aucun chevauchement, grille
+équilibrée (2 lignes de 3 en desktop/tablette, 3 lignes de 2 en mobile,
+aucune ligne orpheline), aucun crash. Cette vérification live a été
+explicitement demandée par l'utilisateur après que l'audit statique du
+sous-agent (sans outils Playwright disponibles) n'ait pu que réviser le
+code source sans rien confirmer visuellement.
 
 ---
 
