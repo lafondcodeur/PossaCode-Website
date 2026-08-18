@@ -7,54 +7,33 @@
 
 ## 🔧 Feature en cours
 
-Optimisation de l'asset logo partenaire "Congo DevOps.jpg"
+_Aucune feature active._
 
-**Status:** In Progress
+**Status:** Not Started
 
 ---
 
 ## 🎯 Objectif
 
-Le logo partenaire `Congo DevOps.jpg` pèse 1,36 Mo pour une résolution de
-3906×3906px, alors qu'il est affiché à seulement 140×80px (classes
-`w-24 md:w-35 h-14 md:h-20`) dans la section "Ils nous font confiance" de la
-page d'accueil. Redimensionner et compresser la source, et migrer si possible
-vers le composant `<Image>` d'Astro (`astro:assets`) pour générer
-automatiquement des variantes responsives adaptées à la taille d'affichage
-réelle.
+_À définir._
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- Le poids du fichier source est fortement réduit (résolution ramenée à une
-  taille cohérente avec l'affichage réel, en tenant compte du 2x/3x pour les
-  écrans HiDPI)
-- Utilisation de `<Image>` de `astro:assets` si le fichier peut être déplacé
-  dans `src/assets/` (génération automatique de variantes responsives)
-- Le rendu visuel du logo reste identique (pas de déformation, `object-cover`
-  ou équivalent conservé)
-- Aucune régression sur les autres logos partenaires de la même section
+_À définir._
 
 ---
 
 ## 📍 Fichier concerné
 
-- `src/pages/index.astro` (ligne ~40)
-- `public/assets/par/Congo DevOps.jpg` (source actuelle, 3906×3906px, 1,36 Mo)
+_À définir._
 
 ---
 
 ## 🗒️ Notes
 
-Le fichier est actuellement dans `public/assets/par/`, donc servi tel quel
-sans optimisation (pas de pipeline `astro:assets`). Pour utiliser `<Image>`,
-il faudra le déplacer vers `src/assets/` (cf. history "Fix logos partenaires"
-qui a migré des images de `src/assets` vers `public` pour une autre raison —
-vérifier qu'un retour vers `src/assets` pour ce fichier spécifique ne casse
-rien en prod). Le logo utilise `object-cover` (pas `object-contain` comme les
-4 autres logos corrigés précédemment) — à vérifier si ce choix était
-intentionnel avant d'y toucher.
+_Aucune note pour le moment._
 
 ---
 
@@ -124,3 +103,15 @@ Correction de l'attribut `lang` de la balise `<html>` dans
 `src/layouts/Layout.astro` (ligne ~8), passé de `"en"` à `"fr"`. Tout le
 contenu de la page étant en français, `lang="en"` induisait en erreur les
 lecteurs d'écran et les outils de traduction/SEO.
+
+### Optimisation logo partenaire — Congo DevOps.jpg (2026-08-18)
+
+Le logo pesait 1,36 Mo pour une résolution de 3906×3906px, affiché à
+seulement 140×80px dans la section "Ils nous font confiance". Déplacement du
+fichier de `public/assets/par/` vers `src/assets/par/` et migration vers le
+composant `<Image>` d'`astro:assets` (`densities={[1, 2]}`, `format="webp"`)
+dans `src/pages/index.astro`, qui génère désormais deux variantes optimisées
+de 1 Ko et 3 Ko au lieu d'un fichier statique unique. Vérifié via
+`npm run build` : markup généré avec `srcset` 1x/2x correct, rendu visuel
+identique (`object-cover` conservé), aucune régression sur les autres logos
+partenaires (non touchés).
