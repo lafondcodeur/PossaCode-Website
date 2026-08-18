@@ -44,3 +44,10 @@
     stroke-dashoffset: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-line {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}

@@ -7,33 +7,47 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Prefers-reduced-motion pour les animations décoratives (wave-line)
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+Respecter la préférence système `prefers-reduced-motion` pour les animations
+décoratives toujours actives du site, en commençant par le trait ondulé
+`.wave-line` (`@keyframes drawLine`) défini dans `src/styles/global.css`.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- Une media query `@media (prefers-reduced-motion: reduce)` est ajoutée dans
+  `src/styles/global.css`.
+- Sous cette media query, `.wave-line` a `animation: none` et
+  `stroke-dashoffset: 0` (trait affiché statique, complet, sans dessin animé).
+- Toute autre animation décorative "always-on" trouvée sur le site (à
+  auditer : hero, CTA, etc.) reçoit le même garde-fou sous la même media
+  query.
+- Aucune régression visuelle quand `prefers-reduced-motion` n'est pas activé
+  (comportement animé inchangé).
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+`src/styles/global.css` (et tout autre fichier contenant une animation
+décorative always-on identifiée pendant l'audit).
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+- Partir de `@keyframes drawLine` et de la classe `.wave-line` dans
+  `src/styles/global.css`.
+- Auditer les autres pages/composants pour d'éventuelles animations CSS
+  always-on (autres que `.wave-line`) avant de considérer la feature complète.
 
 ---
 
