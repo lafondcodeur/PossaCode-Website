@@ -7,33 +7,37 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Fix langue du document — Layout.astro
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+Corriger l'attribut `lang` du document HTML pour refléter la langue réelle
+du contenu (français), actuellement déclaré à tort en `en`.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- L'attribut `lang` de la balise `<html>` dans `src/layouts/Layout.astro`
+  (ligne ~8) passe de `"en"` à `"fr"`.
+- Aucune régression visuelle ou fonctionnelle.
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+`src/layouts/Layout.astro` (ligne ~8)
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+Tout le contenu de la page est en français ; `lang="en"` induit en erreur les
+lecteurs d'écran et les outils de traduction/SEO.
 
 ---
 
