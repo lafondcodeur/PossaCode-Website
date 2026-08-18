@@ -7,33 +7,54 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Optimisation de l'asset logo partenaire "Congo DevOps.jpg"
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+Le logo partenaire `Congo DevOps.jpg` pèse 1,36 Mo pour une résolution de
+3906×3906px, alors qu'il est affiché à seulement 140×80px (classes
+`w-24 md:w-35 h-14 md:h-20`) dans la section "Ils nous font confiance" de la
+page d'accueil. Redimensionner et compresser la source, et migrer si possible
+vers le composant `<Image>` d'Astro (`astro:assets`) pour générer
+automatiquement des variantes responsives adaptées à la taille d'affichage
+réelle.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- Le poids du fichier source est fortement réduit (résolution ramenée à une
+  taille cohérente avec l'affichage réel, en tenant compte du 2x/3x pour les
+  écrans HiDPI)
+- Utilisation de `<Image>` de `astro:assets` si le fichier peut être déplacé
+  dans `src/assets/` (génération automatique de variantes responsives)
+- Le rendu visuel du logo reste identique (pas de déformation, `object-cover`
+  ou équivalent conservé)
+- Aucune régression sur les autres logos partenaires de la même section
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+- `src/pages/index.astro` (ligne ~40)
+- `public/assets/par/Congo DevOps.jpg` (source actuelle, 3906×3906px, 1,36 Mo)
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+Le fichier est actuellement dans `public/assets/par/`, donc servi tel quel
+sans optimisation (pas de pipeline `astro:assets`). Pour utiliser `<Image>`,
+il faudra le déplacer vers `src/assets/` (cf. history "Fix logos partenaires"
+qui a migré des images de `src/assets` vers `public` pour une autre raison —
+vérifier qu'un retour vers `src/assets` pour ce fichier spécifique ne casse
+rien en prod). Le logo utilise `object-cover` (pas `object-contain` comme les
+4 autres logos corrigés précédemment) — à vérifier si ce choix était
+intentionnel avant d'y toucher.
 
 ---
 
