@@ -7,47 +7,33 @@
 
 ## 🔧 Feature en cours
 
-Prefers-reduced-motion pour les animations décoratives (wave-line)
+_Aucune feature active._
 
-**Status:** In Progress
+**Status:** Not Started
 
 ---
 
 ## 🎯 Objectif
 
-Respecter la préférence système `prefers-reduced-motion` pour les animations
-décoratives toujours actives du site, en commençant par le trait ondulé
-`.wave-line` (`@keyframes drawLine`) défini dans `src/styles/global.css`.
+_À définir._
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- Une media query `@media (prefers-reduced-motion: reduce)` est ajoutée dans
-  `src/styles/global.css`.
-- Sous cette media query, `.wave-line` a `animation: none` et
-  `stroke-dashoffset: 0` (trait affiché statique, complet, sans dessin animé).
-- Toute autre animation décorative "always-on" trouvée sur le site (à
-  auditer : hero, CTA, etc.) reçoit le même garde-fou sous la même media
-  query.
-- Aucune régression visuelle quand `prefers-reduced-motion` n'est pas activé
-  (comportement animé inchangé).
+_À définir._
 
 ---
 
 ## 📍 Fichier concerné
 
-`src/styles/global.css` (et tout autre fichier contenant une animation
-décorative always-on identifiée pendant l'audit).
+_À définir._
 
 ---
 
 ## 🗒️ Notes
 
-- Partir de `@keyframes drawLine` et de la classe `.wave-line` dans
-  `src/styles/global.css`.
-- Auditer les autres pages/composants pour d'éventuelles animations CSS
-  always-on (autres que `.wave-line`) avant de considérer la feature complète.
+_Aucune note pour le moment._
 
 ---
 
@@ -163,3 +149,13 @@ orange 3.62:1 (sous 4.5:1 mais ≥ 3:1, conforme AA "large text" ; combinaison
 déjà utilisée ailleurs sur le site pour des accents sur fond clair). Aucun
 noir pur dans l'arbre du footer. 3 breakpoints (375/768/1440px) confirmant
 1/2/4 colonnes, `focus-visible` produit un outline visible.
+
+### Prefers-reduced-motion — wave-line (2026-08-18)
+
+Ajout d'une media query `@media (prefers-reduced-motion: reduce)` dans
+`src/styles/global.css` : sous cette préférence, `.wave-line` passe à
+`animation: none` et `stroke-dashoffset: 0`, affichant le trait complet et
+statique au lieu de l'animation `drawLine` continue. Audit du reste du site
+(`.astro` + `global.css`) : `.wave-line` est la seule animation CSS
+décorative always-on, aucun autre garde-fou n'était nécessaire. Vérifié via
+`npm run build` (build réussi, aucune régression).
