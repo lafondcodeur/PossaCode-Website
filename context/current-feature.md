@@ -1,4 +1,4 @@
-## Current Feature — PossaCode Website
+# Current Feature: Section héro Nos Membres
 
 > Ce fichier décrit la fonctionnalité ou la section en cours de développement.  
 > Mettre à jour à chaque changement de focus.
@@ -7,33 +7,61 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Section héro "Nos Membres" (recherche de membres), basée sur la maquette `context/screenshot/image.png`
 
-**Status:** Not Started
+**Status:** Complete
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+Implémenter la première section de `src/pages/members.astro` en s'inspirant de la
+maquette fournie (titre accrocheur, sous-titre, barre de recherche à deux champs +
+bouton, bandeau de portraits en bas de section) tout en respectant la charte
+graphique du site (couleurs `blue-possacode`/`orange-possacode`, polices
+Phudu/Nunito Sans, wave-line, rayons de bordure existants) plutôt que de copier le
+style visuel brut (violet/bleu vif) de la maquette source.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- La section est la toute première section à l'intérieur de `<Layout>` sur `/members`.
+- Titre en `font-Phudu`, accent `text-orange-possacode`, cohérent avec le reste du site.
+- Barre de recherche avec 2 champs (ex: compétence/rôle + ville) et un bouton d'action
+  utilisant le style de bouton existant (`boutton-standard` ou équivalent), sans backend
+  réel (site statique — comportement visuel uniquement, comme les autres CTA du site).
+- Bandeau de portraits en bas de section utilisant des photos déjà présentes dans
+  `public/assets/`.
+- Au survol d'une carte membre : nom, rôle et lien "Voir plus" affichés en overlay
+  (données fictives temporaires, voir Notes ci-dessous).
+- Responsive vérifié à 375px / 768px / 1440px, pas d'overflow horizontal.
+- Le reste de la page (placeholder "en construction") reste cohérent après l'ajout.
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+`src/pages/members.astro`
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+Maquette source : `context/screenshot/image.png` (fond dégradé violet/bleu clair,
+titre "Showcase Your Mastery. Get Connected", barre de recherche avec icônes
+loupe/localisation + bouton bleu "Search", bandeau de portraits colorés en bas de
+section). Adapter les couleurs à la charte PossaCode (`#1a2251` / `#f14d0e`) plutôt
+que de reprendre le violet/bleu vif de la source.
+
+Effet hover sur les cartes membres (demande utilisateur du 2026-08-22) : au survol,
+overlay dégradé `blue-possacode` + nom/rôle/lien "Voir plus". Nécessite des données
+nom/rôle/lien par carte — question posée à l'utilisateur sur la source de ces
+données (fictif temporaire / vraies infos / pas de nom), réponse : **fictif
+temporaire**. Créé `src/data/members-preview.ts` (même pattern que
+`src/data/experts.ts`) avec 6 entrées de placeholder clairement commentées comme
+temporaires. **À faire avant mise en production : remplacer ces 6 entrées par les
+vraies informations des membres**, comme pour `experts.ts`.
 
 ---
 

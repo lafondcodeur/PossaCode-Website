@@ -1,10 +1,95 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { membersPreview } from '../data/members-preview';
+
+const cardBg = ['bg-[#fff3ee]', 'bg-[#e9ecf7]', 'bg-gray-100', 'bg-[#fff3ee]', 'bg-[#e9ecf7]', 'bg-gray-100'];
+const cardVisibility = ['hidden sm:block', '', '', '', 'hidden sm:block', 'hidden md:block'];
 ---
 
 <Layout>
+    <!-- Hero Section : recherche de membres -->
+    <section class="relative overflow-hidden bg-linear-to-b from-[#e9ecf7] via-[#f6f7fb] to-white">
+        <div class="px-6 md:px-10 pt-16 md:pt-24 pb-12 md:pb-16 text-center">
+            <div class="inline-block">
+                <h1 class="text-3xl md:text-5xl lg:text-6xl font-Phudu font-bold text-blue-possacode leading-tight">
+                    Trouvez le <span class="text-orange-possacode">talent</span> qu'il vous faut.<br>
+                    Connectez-vous à la <span class="text-orange-possacode">communauté</span>
+                </h1>
+                <svg class="w-full h-4 mt-2" viewBox="0 0 200 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10" stroke="#f14d0e" stroke-width="2" fill="transparent" class="wave-line"/>
+                </svg>
+            </div>
+            <p class="text-gray-500 font-nunito mt-5 max-w-xl mx-auto text-base md:text-lg">
+                Parcourez les profils de nos membres, découvrez leurs compétences et
+                entrez directement en contact avec eux.
+            </p>
+
+            <!-- Barre de recherche -->
+            <div class="mt-8 md:mt-10 mx-auto max-w-3xl bg-white border border-gray-200 rounded-2xl shadow-lg shadow-blue-possacode/5 flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-2 p-3">
+                <label class="flex-1 flex items-center gap-2 px-3 py-2">
+                    <svg class="w-5 h-5 text-orange-possacode shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/>
+                    </svg>
+                    <input
+                        type="text"
+                        placeholder="ex : Développeur Backend"
+                        class="w-full font-nunito text-sm md:text-base text-blue-possacode placeholder-gray-400 outline-none bg-transparent"
+                    />
+                </label>
+                <div class="hidden md:block w-px h-8 bg-gray-200"></div>
+                <label class="flex-1 flex items-center gap-2 px-3 py-2">
+                    <svg class="w-5 h-5 text-orange-possacode shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <input
+                        type="text"
+                        placeholder="ex : Brazzaville, Congo"
+                        class="w-full font-nunito text-sm md:text-base text-blue-possacode placeholder-gray-400 outline-none bg-transparent"
+                    />
+                </label>
+                <button type="button" class="boutton-standard text-white font-nunito text-sm md:text-base whitespace-nowrap">
+                    Rechercher
+                </button>
+            </div>
+        </div>
+
+        <!-- Bandeau de portraits -->
+        <div class="flex w-full gap-3 md:gap-5 px-6 md:px-10 pb-12 md:pb-16">
+            {membersPreview.map((member, i) => (
+                <a
+                    href={member.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class:list={[
+                        'group relative flex-1 min-w-0 h-52 sm:h-64 md:h-96 rounded-2xl overflow-hidden shadow-lg shadow-blue-possacode/15 ring-0 ring-orange-possacode transition-all duration-300 hover:ring-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-possacode',
+                        cardBg[i],
+                        cardVisibility[i],
+                    ]}
+                >
+                    <img
+                        class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-110"
+                        src={member.image}
+                        alt={member.name}
+                    />
+                    <div class="absolute inset-0 flex flex-col justify-end p-4 bg-linear-to-t from-blue-possacode/95 via-blue-possacode/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p class="font-Phudu font-bold text-white text-base md:text-lg leading-tight">{member.name}</p>
+                        <p class="font-nunito text-white/80 text-xs md:text-sm mt-1">{member.role}</p>
+                        <span class="font-nunito text-orange-possacode font-semibold text-xs md:text-sm mt-2 inline-flex items-center gap-1">
+                            Voir plus
+                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+            ))}
+        </div>
+    </section>
+
+    <!-- Section en construction -->
     <section class="px-6 md:px-10 py-16 md:py-24 text-center">
-        <h1 class="text-3xl md:text-5xl font-Phudu font-bold text-blue-possacode">Nos Membres</h1>
+        <h2 class="text-2xl md:text-3xl font-Phudu font-bold text-blue-possacode">L'annuaire complet arrive bientôt</h2>
         <p class="text-gray-500 font-nunito mt-4 max-w-2xl mx-auto">
             Cette page est en construction. Retrouvez bientôt ici les membres qui font la force de PossaCode.
         </p>
