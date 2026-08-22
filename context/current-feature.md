@@ -1,4 +1,4 @@
-# Current Feature: Section héro Nos Membres
+# Current Feature
 
 > Ce fichier décrit la fonctionnalité ou la section en cours de développement.  
 > Mettre à jour à chaque changement de focus.
@@ -7,65 +7,84 @@
 
 ## 🔧 Feature en cours
 
-Section héro "Nos Membres" (recherche de membres), basée sur la maquette `context/screenshot/image.png`
+_Aucune feature active._
 
-**Status:** Complete
+**Status:** Not Started
 
 ---
 
 ## 🎯 Objectif
 
-Implémenter la première section de `src/pages/members.astro` en s'inspirant de la
-maquette fournie (titre accrocheur, sous-titre, barre de recherche à deux champs +
-bouton, bandeau de portraits en bas de section) tout en respectant la charte
-graphique du site (couleurs `blue-possacode`/`orange-possacode`, polices
-Phudu/Nunito Sans, wave-line, rayons de bordure existants) plutôt que de copier le
-style visuel brut (violet/bleu vif) de la maquette source.
+_À définir._
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- La section est la toute première section à l'intérieur de `<Layout>` sur `/members`.
-- Titre en `font-Phudu`, accent `text-orange-possacode`, cohérent avec le reste du site.
-- Barre de recherche avec 2 champs (ex: compétence/rôle + ville) et un bouton d'action
-  utilisant le style de bouton existant (`boutton-standard` ou équivalent), sans backend
-  réel (site statique — comportement visuel uniquement, comme les autres CTA du site).
-- Bandeau de portraits en bas de section utilisant des photos déjà présentes dans
-  `public/assets/`.
-- Au survol d'une carte membre : nom, rôle et lien "Voir plus" affichés en overlay
-  (données fictives temporaires, voir Notes ci-dessous).
-- Responsive vérifié à 375px / 768px / 1440px, pas d'overflow horizontal.
-- Le reste de la page (placeholder "en construction") reste cohérent après l'ajout.
+_À définir._
 
 ---
 
 ## 📍 Fichier concerné
 
-`src/pages/members.astro`
+_À définir._
 
 ---
 
 ## 🗒️ Notes
 
-Maquette source : `context/screenshot/image.png` (fond dégradé violet/bleu clair,
-titre "Showcase Your Mastery. Get Connected", barre de recherche avec icônes
-loupe/localisation + bouton bleu "Search", bandeau de portraits colorés en bas de
-section). Adapter les couleurs à la charte PossaCode (`#1a2251` / `#f14d0e`) plutôt
-que de reprendre le violet/bleu vif de la source.
-
-Effet hover sur les cartes membres (demande utilisateur du 2026-08-22) : au survol,
-overlay dégradé `blue-possacode` + nom/rôle/lien "Voir plus". Nécessite des données
-nom/rôle/lien par carte — question posée à l'utilisateur sur la source de ces
-données (fictif temporaire / vraies infos / pas de nom), réponse : **fictif
-temporaire**. Créé `src/data/members-preview.ts` (même pattern que
-`src/data/experts.ts`) avec 6 entrées de placeholder clairement commentées comme
-temporaires. **À faire avant mise en production : remplacer ces 6 entrées par les
-vraies informations des membres**, comme pour `experts.ts`.
+_Aucune note pour le moment._
 
 ---
 
 ## 📜 History
+
+### Section héro "Nos Membres" — recherche et bandeau de portraits (2026-08-22)
+
+Nouvelle première section sur `src/pages/members.astro`, inspirée de la maquette
+fournie (`context/screenshot/image.png` : fond dégradé violet/bleu, titre
+"Showcase Your Mastery. Get Connected", barre de recherche à deux champs, bandeau
+de portraits colorés). Couleurs adaptées à la charte PossaCode (`blue-possacode`
+`#1a2251` / `orange-possacode` `#f14d0e`) plutôt que reprise du violet/bleu vif de
+la source. Titre en `font-Phudu` + `wave-line`, barre de recherche à deux champs
+(compétence/rôle + ville) et bouton `boutton-standard`, volontairement non
+fonctionnelle (`type="button"`, pas de `<form>`) — site statique, cohérent avec
+les autres CTA du site. L'ancien `<h1>` placeholder "Nos Membres" est repassé en
+`<h2>` pour garder un seul `<h1>` par page (celui du nouveau titre héro).
+
+Bandeau de 6 cartes membres réutilisant des photos déjà présentes dans
+`public/assets/` (homme1-3.png, femme1-3.png), ajustées sur demandes successives
+de l'utilisateur : hauteur augmentée (`h-52`→`h-96` selon breakpoint), marges
+extérieures + espacement entre cartes (`px-6/10` + `gap-3/5`), coins arrondis
+(`rounded-2xl`) et ombre teintée `shadow-blue-possacode/15`.
+
+Effet hover ajouté ensuite : overlay dégradé `blue-possacode` + nom, rôle et lien
+"Voir plus" au survol d'une carte, plus anneau orange et léger zoom sur la photo
+(même pattern que la section "experts" de la homepage). Comme ces 6 photos
+n'avaient aucune identité associée (décoratives), question posée à l'utilisateur
+sur la source des données nom/rôle/lien à afficher — réponse : **placeholders
+fictifs temporaires**. Créé `src/data/members-preview.ts` (même pattern que
+`src/data/experts.ts`, type `{ name, role, image, link }`), 6 entrées clairement
+commentées comme temporaires dans le code. **À faire avant mise en production :
+remplacer ces 6 entrées par les vraies informations des membres** — même limite
+déjà documentée pour `experts.ts`.
+
+Classes Tailwind dynamiques (couleurs de fond, visibilité responsive par carte)
+passées via des tableaux indexés par position plutôt que des template literals
+interpolés, pour éviter de reproduire le bug de scanner JIT déjà rencontré sur la
+section experts (`bg-[url('${...}')]` non résolu). Vérifié dans le CSS compilé
+que les classes dynamiques (`bg-[#fff3ee]`, `bg-[#e9ecf7]`, `group-hover:*`,
+`scale-110`) sont bien générées.
+
+Vérifié via `npm run build` (11 pages, aucune erreur) et captures d'écran à
+768px/1440px (Edge headless, MCP Playwright indisponible dans la session) : rendu
+propre, aucun overflow, overlay hover confirmé visuellement en forçant
+temporairement l'état hover d'une carte avant de revenir à l'état normal. **Limite
+connue** : le mode `--screenshot` d'Edge headless legacy a un artefact de rendu à
+375px qui affecte tout le site (y compris des pages déjà validées comme la
+homepage) — le rendu mobile de cette section n'a donc pas pu être confirmé
+visuellement avec un outil fiable dans cette session, seul le CSS responsive
+(`sm:`/`md:`) a été relu.
 
 ### Section experts avec noms, rôles et liens profil (2026-08-18)
 
