@@ -1,4 +1,4 @@
-# Current Feature: Section "Découvrez nos talents" (annuaire filtrable) — page Nos Membres
+# Current Feature
 
 > Ce fichier décrit la fonctionnalité ou la section en cours de développement.  
 > Mettre à jour à chaque changement de focus.
@@ -7,79 +7,33 @@
 
 ## 🔧 Feature en cours
 
-Nouvelle section annuaire filtrable sur `src/pages/members.astro`, inspirée de
-la maquette `context/screenshot/image.png` ("Discover the Emerging Masters" :
-titre + sous-titre centrés, rangée d'onglets catégories avec icônes, grille de
-8 cartes membres avec photo, badge de statut, note étoilée, nom, rôle et tags
-de compétences, une carte "sélectionnée" en surbrillance, bouton "View All" en
-bas). Remplace la section placeholder "L'annuaire complet arrive bientôt".
+_Aucune feature active._
 
-**Status:** In Progress
+**Status:** Not Started
 
 ---
 
 ## 🎯 Objectif
 
-- Ajouter sous le bandeau héro existant une section titrée (ex. "Découvrez nos
-  talents émergents") avec sous-titre, cohérente avec le reste de la page.
-- Rangée d'onglets de catégories (Développeur, UI Designer, Chef de projet,
-  Designer, Comptable, RH, Marketing ou équivalents pertinents pour
-  PossaCode), un onglet actif visuellement distinct.
-- Filtrage réellement fonctionnel côté client (vanilla JS/Astro, pas de
-  backend) : cliquer un onglet filtre les cartes affichées par catégorie.
-- Grille de cartes membres (photo ronde, pastille de statut, note étoilée,
-  nom, rôle, tags de compétences en pilules), une carte pouvant être mise en
-  avant (style "sélectionné").
-- Bouton "Voir tout" en bas de la grille (cohérent avec `boutton-standard` /
-  liens existants du site, non fonctionnel si aucune page annuaire complète
-  n'existe encore — à statuer pendant l'implémentation).
+_À définir._
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- Couleurs de la maquette (violet/bleu vif) adaptées à la charte PossaCode
-  (`blue-possacode #1a2251`, `orange-possacode #f14d0e`), pas de reprise
-  telle quelle des couleurs de la source.
-- Titres en `font-Phudu`, texte courant en `font-nunito`, cohérent avec le
-  reste de `members.astro` et de la homepage.
-- Le clic sur un onglet catégorie filtre effectivement les cartes affichées
-  (JS côté client, site statique).
-- Aucune régression sur la section héro existante (recherche + bandeau de
-  portraits) ni sur le reste du site.
-- `npm run build` sans erreur ; vérification visuelle desktop + mobile
-  (Playwright si disponible, sinon capture manuelle en le signalant).
-- Pas d'overflow horizontal, cibles tactiles ≥ 44px sur les onglets/boutons.
+_À définir._
 
 ---
 
 ## 📍 Fichier concerné
 
-- `src/pages/members.astro` (nouvelle section, remplace le placeholder
-  "en construction")
-- `src/data/members-preview.ts` ou nouveau fichier de données dédié (les
-  cartes de cette section ont besoin de champs supplémentaires : catégorie,
-  note, tags de compétences — absents du type `MemberPreview` actuel qui ne
-  sert que le bandeau héro). À trancher pendant l'implémentation : étendre
-  `MemberPreview` ou créer `src/data/members-directory.ts`.
+_À définir._
 
 ---
 
 ## 🗒️ Notes
 
-- Comme pour le bandeau héro et la section experts, aucune vraie donnée
-  (rôle réel, compétences, note) n'existe dans le repo pour des membres
-  individuels → probable besoin de données placeholder fictives temporaires,
-  à confirmer avec l'utilisateur pendant `start`/implémentation plutôt que de
-  bloquer le chargement de la feature.
-- Réutiliser les photos déjà présentes dans `public/assets/` (homme1-3.png,
-  femme1-3.png, etc.) plutôt que d'en chercher de nouvelles, sauf indication
-  contraire.
-- Attention au bug JIT Tailwind déjà rencontré deux fois sur ce projet
-  (classes dynamiques via template literal interpolé non résolues par le
-  scanner) : passer par des tableaux indexés ou des attributs `style` inline
-  pour toute valeur dynamique (couleurs de fond, images de fond), jamais
-  `bg-[...${var}...]`.
+_Aucune note pour le moment._
 
 ---
 
@@ -302,3 +256,58 @@ statique au lieu de l'animation `drawLine` continue. Audit du reste du site
 (`.astro` + `global.css`) : `.wave-line` est la seule animation CSS
 décorative always-on, aucun autre garde-fou n'était nécessaire. Vérifié via
 `npm run build` (build réussi, aucune régression).
+
+### Section "Découvrez nos talents" (annuaire filtrable) — page Nos Membres (2026-08-23)
+
+Nouvelle section sur `src/pages/members.astro`, sous le bandeau héro existant,
+inspirée de la maquette "Discover the Emerging Masters" (`context/screenshot/image.png`) :
+titre + sous-titre, onglets de catégories avec icônes (Développeur, Design,
+DevOps, Data, Chef de projet), grille de cartes membres (photo, note étoilée,
+nom, rôle, tags de compétences), une carte mise en avant ("featured"), bouton
+"Voir tout". Remplace le placeholder "L'annuaire complet arrive bientôt".
+Couleurs adaptées à la charte PossaCode plutôt que reprise du violet/bleu vif
+de la source, titres `font-Phudu` + `wave-line`, cohérents avec le reste de la
+page. Filtrage par onglet réellement fonctionnel en JS côté client (vanilla,
+`<script>` Astro, pas de backend) : clic sur un onglet → `classList.toggle('hidden', ...)`
+sur les cartes selon `data-category` ; "Voir tout" retire tous les `hidden`.
+
+Nouveau fichier `src/data/members-directory.ts`, séparé de
+`src/data/members-preview.ts` (qui reste dédié au seul bandeau héro) car les
+cartes de cette section ont besoin de champs supplémentaires (catégorie,
+note, avis, compétences) et d'un volume de données différent — les réutiliser
+dans le même tableau aurait cassé le rendu du bandeau héro (boucle indexée sur
+6 éléments).
+
+Décision utilisateur explicite (2 questions posées en cours de route) :
+1. Vu que le site n'a que 6 photos "génériques" déjà utilisées comme
+   placeholders (`homme1-3.png`, `femme1-3.png` — les autres photos d'assets
+   appartiennent à de vraies personnes identifiées dans la section "experts"),
+   les 6 membres réels du bandeau héro sont repris en tête de chaque
+   catégorie plutôt que de réutiliser leur photo sous un faux nom.
+2. Le reste (12 cartes par catégorie demandées, 60 au total) est généré avec
+   un **avatar aléatoire non-photo** : dégradé aux couleurs PossaCode
+   (`#1a2251`/`#f14d0e`) + initiales, rendu en SVG à la volée par l'API
+   publique DiceBear (`api.dicebear.com`, seed = nom complet → déterministe
+   d'un build à l'autre), pour éviter d'attribuer une photo de stock à une
+   fausse identité. Noms/rôles/compétences générés par pools thématiques par
+   catégorie (voir commentaires dans le fichier) — **données fictives
+   temporaires, à remplacer avant mise en production**, même limite déjà
+   documentée pour `experts.ts` et `members-preview.ts`.
+
+Grille passée de `flex flex-wrap` (essayé avec 6 membres, cartes non centrées
+proprement) à `grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4` une fois le
+volume de 12 cartes/catégorie confirmé — mieux adapté à un nombre de cartes
+constant par onglet. `loading="lazy"` ajouté sur les avatars vu le nombre
+total de `<img>` dans le DOM (60, seules 12 visibles à la fois).
+
+Vérifié via `npm run build` (11 pages, aucune erreur), inspection du HTML/CSS
+compilés (classes Tailwind dynamiques bien générées, aucune classe
+interpolée à risque comme lors des bugs précédents), et lancement réel du
+serveur de dev (`npm run dev`) avec captures d'écran Edge headless à 1440px :
+grille de 12 cartes pour l'onglet par défaut ("Développeur") confirmée
+visuellement, avatars générés + photos réelles cohérents avec la charte,
+carte "featured" (Chloé Bakala) présente une seule fois tous onglets confondus.
+**Limite connue** (déjà documentée sur cette page) : le rendu mobile à 375-390px
+n'a pas pu être confirmé visuellement de façon fiable (artefact Edge headless
+affectant tout le site) — le CSS responsive (`sm:`/`md:`, `overflow-x-auto`
+sur les onglets) a été relu directement à la place.
