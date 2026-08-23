@@ -10,7 +10,9 @@ export type MemberPreview = {
 // placeholders à remplacer par les vraies informations des membres avant
 // mise en production. Les photos elles-mêmes (public/assets/*.png) sont des
 // visuels génériques déjà utilisés ailleurs sur le site, pas des portraits
-// de personnes identifiées.
+// de personnes identifiées. N'alimente que le bandeau du héro de la page
+// Nos Membres — voir `members-directory.ts` pour la section annuaire
+// filtrable, qui reprend ces 6 mêmes personnes en tête de liste.
 export const membersPreview: MemberPreview[] = [
     { name: 'Yannick Mavoungou', role: 'Développeur Full-Stack', image: '/assets/homme2.png', link: 'https://linkedin.com/in/yannick-mavoungou' },
     { name: 'Chloé Bakala', role: 'UI/UX Designer', image: '/assets/femme1.png', link: 'https://linkedin.com/in/chloe-bakala' },

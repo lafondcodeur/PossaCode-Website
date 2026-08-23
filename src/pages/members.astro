@@ -1,9 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { membersPreview } from '../data/members-preview';
+import { membersDirectory, memberCategories } from '../data/members-directory';
 
 const cardBg = ['bg-[#fff3ee]', 'bg-[#e9ecf7]', 'bg-gray-100', 'bg-[#fff3ee]', 'bg-[#e9ecf7]', 'bg-gray-100'];
 const cardVisibility = ['hidden sm:block', '', '', '', 'hidden sm:block', 'hidden md:block'];
+
+const defaultCategory = memberCategories[0].id;
 ---
 
 <Layout>
@@ -87,11 +90,129 @@ const cardVisibility = ['hidden sm:block', '', '', '', 'hidden sm:block', 'hidde
         </div>
     </section>
 
-    <!-- Section en construction -->
-    <section class="px-6 md:px-10 py-16 md:py-24 text-center">
-        <h2 class="text-2xl md:text-3xl font-Phudu font-bold text-blue-possacode">L'annuaire complet arrive bientôt</h2>
-        <p class="text-gray-500 font-nunito mt-4 max-w-2xl mx-auto">
-            Cette page est en construction. Retrouvez bientôt ici les membres qui font la force de PossaCode.
-        </p>
+    <!-- Section annuaire filtrable : "Découvrez nos talents émergents" -->
+    <section class="px-6 md:px-10 py-16 md:py-24">
+        <div class="text-center max-w-2xl mx-auto">
+            <div class="inline-block">
+                <h2 class="text-2xl md:text-4xl font-Phudu font-bold text-blue-possacode leading-tight">
+                    Découvrez nos <span class="text-orange-possacode">talents</span> émergents
+                </h2>
+                <svg class="w-full h-4 mt-2" viewBox="0 0 200 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10" stroke="#f14d0e" stroke-width="2" fill="transparent" class="wave-line"/>
+                </svg>
+            </div>
+            <p class="text-gray-500 font-nunito mt-4 text-base md:text-lg">
+                Trouvez le membre idéal pour votre projet et boostez votre équipe.
+            </p>
+        </div>
+
+        <!-- Onglets catégories -->
+        <div id="category-tabs" class="mt-10 flex gap-3 overflow-x-auto pb-2 px-1 md:justify-center md:flex-wrap md:overflow-visible">
+            {memberCategories.map(({ id, label }, i) => (
+                <button
+                    type="button"
+                    data-category={id}
+                    aria-pressed={i === 0 ? 'true' : 'false'}
+                    class:list={[
+                        'category-tab shrink-0 flex items-center gap-2 rounded-lg border px-4 py-3 font-nunito text-sm font-semibold whitespace-nowrap transition-colors',
+                        i === 0
+                            ? 'bg-blue-possacode border-blue-possacode text-white'
+                            : 'bg-white border-gray-200 text-gray-600 hover:border-blue-possacode/40',
+                    ]}
+                >
+                    <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        {id === 'developpeur' && <><polyline points="9 8 5 12 9 16"/><polyline points="15 8 19 12 15 16"/></>}
+                        {id === 'design' && <path d="M4 20h4l10-10a2.828 2.828 0 10-4-4L4 16v4z"/>}
+                        {id === 'devops' && <><rect x="4" y="5" width="16" height="6" rx="1.5"/><rect x="4" y="13" width="16" height="6" rx="1.5"/><circle cx="7" cy="8" r="0.75" fill="currentColor" stroke="none"/><circle cx="7" cy="16" r="0.75" fill="currentColor" stroke="none"/></>}
+                        {id === 'data' && <><rect x="3" y="12" width="4" height="8" fill="currentColor" stroke="none"/><rect x="10" y="6" width="4" height="14" fill="currentColor" stroke="none"/><rect x="17" y="14" width="4" height="6" fill="currentColor" stroke="none"/></>}
+                        {id === 'chef-de-projet' && <><rect x="6" y="4" width="12" height="16" rx="2"/><polyline points="9 11 11 13 15 9"/></>}
+                    </svg>
+                    {label}
+                </button>
+            ))}
+        </div>
+
+        <!-- Grille de cartes membres -->
+        <div id="members-grid" class="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            {membersDirectory.map((member) => (
+                <div
+                    data-category={member.category}
+                    class:list={[
+                        'member-card rounded-2xl border p-5 flex flex-col items-center text-center transition-shadow',
+                        member.category === defaultCategory ? '' : 'hidden',
+                        member.featured
+                            ? 'bg-[#eef1fa] border-blue-possacode shadow-lg shadow-blue-possacode/10'
+                            : 'bg-white border-gray-200 hover:shadow-lg hover:shadow-blue-possacode/10',
+                    ]}
+                >
+                    <img
+                        class="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover object-top"
+                        src={member.image}
+                        alt={member.name}
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <p class="font-nunito text-sm text-gray-600 mt-3">
+                        <span class="text-orange-possacode">★</span> {member.rating.toFixed(1)} ({member.reviewCount})
+                    </p>
+                    <p class="font-Phudu font-bold text-blue-possacode mt-1">{member.name}</p>
+                    <p class="font-nunito text-gray-500 text-sm">{member.role}</p>
+                    <div class="flex flex-wrap justify-center gap-1.5 mt-3">
+                        {member.skills.map((skill) => (
+                            <span class="font-nunito text-xs text-blue-possacode bg-[#e9ecf7] rounded-full px-2.5 py-1">
+                                {skill}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </div>
+
+        <!-- Voir tout -->
+        <div class="mt-10 flex justify-center">
+            <button
+                type="button"
+                id="view-all-btn"
+                class="flex items-center gap-2 rounded-full border border-blue-possacode text-blue-possacode font-nunito font-semibold text-sm px-6 py-3 transition-colors hover:bg-blue-possacode hover:text-white"
+            >
+                Voir tout
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </button>
+        </div>
     </section>
 </Layout>
+
+<script>
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.category-tab');
+    const cards = document.querySelectorAll<HTMLElement>('.member-card');
+    const viewAllBtn = document.getElementById('view-all-btn');
+
+    const activeTabClasses = ['bg-blue-possacode', 'border-blue-possacode', 'text-white'];
+    const inactiveTabClasses = ['bg-white', 'border-gray-200', 'text-gray-600'];
+
+    const setActiveTab = (activeTab: HTMLButtonElement | null) => {
+        tabs.forEach((tab) => {
+            const isActive = tab === activeTab;
+            tab.classList.remove(...activeTabClasses, ...inactiveTabClasses);
+            tab.classList.add(...(isActive ? activeTabClasses : inactiveTabClasses));
+            tab.setAttribute('aria-pressed', String(isActive));
+        });
+    };
+
+    tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+            const category = tab.dataset.category;
+            setActiveTab(tab);
+            cards.forEach((card) => {
+                card.classList.toggle('hidden', card.dataset.category !== category);
+            });
+        });
+    });
+
+    viewAllBtn?.addEventListener('click', () => {
+        setActiveTab(null);
+        cards.forEach((card) => card.classList.remove('hidden'));
+    });
+</script>
