@@ -66,58 +66,126 @@ import '../styles/global.css';
     </section>
 
     <!-- Vision, Mission, Valeurs Section -->
-    <section class="relative overflow-hidden mt-16 md:mt-24">
-        <div class="relative h-64 md:h-96">
-            <img
-                src="/assets/engroupe.jpg"
-                alt="Membres de la communauté PossaCode réunis lors d'un événement"
-                class="absolute inset-0 w-full h-full object-cover object-center"
-            />
-            <div class="absolute inset-0 bg-linear-to-t from-blue-possacode/60 to-transparent"></div>
-        </div>
+    <section class="relative overflow-hidden mt-16 md:mt-24 px-6 md:px-10 py-12 md:py-20">
+        <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-start">
+            <!-- Colonne texte + accordéon -->
+            <div>
+                <div class="inline-block">
+                    <h2 class="text-3xl md:text-4xl font-Phudu font-bold text-blue-possacode">Notre Vision, Mission &amp; Valeurs</h2>
+                    <svg class="w-full h-3 mt-1" viewBox="0 0 200 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10" stroke="#f14d0e" stroke-width="2" fill="transparent" class="wave-line"/>
+                    </svg>
+                </div>
+                <p class="text-gray-600 font-nunito mt-4 max-w-lg text-sm md:text-base">
+                    De nos convictions à notre façon d'agir, voici ce qui anime PossaCode au quotidien : une communauté de développeurs portée par une vision claire, une mission concrète et des valeurs partagées.
+                </p>
 
-        <div class="relative bg-blue-possacode">
-            <div class="absolute left-1/4 right-0 -top-10 md:-top-16 h-10 md:h-16 bg-blue-possacode [clip-path:polygon(0_100%,100%_0,100%_100%)]"></div>
-
-            <div class="relative grid md:grid-cols-2 gap-10 md:gap-16 px-6 md:px-10 py-12 md:py-16">
-                <div class="space-y-10 md:space-y-12">
-                    <div>
-                        <div class="inline-block">
-                            <h2 class="text-2xl md:text-3xl font-Phudu font-bold text-orange-possacode">Notre vision</h2>
-                            <svg class="w-full h-3 mt-1" viewBox="0 0 200 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10" stroke="white" stroke-width="2" fill="transparent" class="wave-line"/>
-                            </svg>
+                <div class="mt-8 border-t border-gray-200" id="vmv-accordion">
+                    <div class="border-b border-gray-200 py-5" data-item="vision">
+                        <button type="button" class="w-full flex items-center justify-between gap-4 text-left cursor-pointer" data-accordion-trigger aria-expanded="true">
+                            <span class="font-Phudu font-bold text-lg md:text-xl text-blue-possacode">Notre vision</span>
+                            <span class="shrink-0 w-8 h-8 rounded-md bg-orange-possacode text-white flex items-center justify-center text-xl leading-none" data-accordion-icon>−</span>
+                        </button>
+                        <div class="grid grid-rows-[1fr] transition-[grid-template-rows] duration-300" data-accordion-body>
+                            <p class="overflow-hidden text-gray-600 font-nunito text-sm md:text-base pt-3 pr-6 md:pr-10">
+                                Nous aspirons à créer une communauté de développeurs en Afrique qui soit inclusive, collaborative et innovante, où les membres peuvent s'entraider pour atteindre leurs objectifs professionnels et personnels, tout en contribuant au développement de l'écosystème technologique africain.
+                            </p>
                         </div>
-                        <p class="text-white/90 font-nunito mt-3 text-sm md:text-base">
-                            Nous aspirons à créer une communauté de développeurs en Afrique qui soit inclusive, collaborative et innovante, où les membres peuvent s'entraider pour atteindre leurs objectifs professionnels et personnels, tout en contribuant au développement de l'écosystème technologique africain.
-                        </p>
                     </div>
 
-                    <div>
-                        <div class="inline-block">
-                            <h2 class="text-2xl md:text-3xl font-Phudu font-bold text-orange-possacode">Nos valeurs</h2>
-                            <svg class="w-full h-3 mt-1" viewBox="0 0 200 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10" stroke="white" stroke-width="2" fill="transparent" class="wave-line"/>
-                            </svg>
+                    <div class="border-b border-gray-200 py-5" data-item="mission">
+                        <button type="button" class="w-full flex items-center justify-between gap-4 text-left cursor-pointer" data-accordion-trigger aria-expanded="false">
+                            <span class="font-Phudu font-bold text-lg md:text-xl text-blue-possacode">Notre mission</span>
+                            <span class="shrink-0 w-8 h-8 rounded-md bg-blue-possacode text-white flex items-center justify-center text-xl leading-none" data-accordion-icon>+</span>
+                        </button>
+                        <div class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300" data-accordion-body>
+                            <p class="overflow-hidden text-gray-600 font-nunito text-sm md:text-base pt-3 pr-6 md:pr-10">
+                                Notre mission est de fournir une plateforme de formation, d'échange et de collaboration pour les développeurs en Afrique, afin de renforcer leurs compétences techniques, favoriser les opportunités de réseautage et d'échange d'expériences, et contribuer au développement de l'écosystème technologique africain.
+                            </p>
                         </div>
-                        <p class="text-white/90 font-nunito mt-3 text-sm md:text-base">
-                            Nous valorisons l'inclusion, la collaboration, l'innovation, la diversité et l'impact social. Nous croyons que chaque membre de notre communauté a un rôle à jouer dans le développement de l'écosystème technologique africain, et nous nous engageons à créer un environnement où chacun peut s'épanouir et contribuer à la croissance de notre communauté.
-                        </p>
+                    </div>
+
+                    <div class="border-b border-gray-200 py-5" data-item="valeurs">
+                        <button type="button" class="w-full flex items-center justify-between gap-4 text-left cursor-pointer" data-accordion-trigger aria-expanded="false">
+                            <span class="font-Phudu font-bold text-lg md:text-xl text-blue-possacode">Nos valeurs</span>
+                            <span class="shrink-0 w-8 h-8 rounded-md bg-blue-possacode text-white flex items-center justify-center text-xl leading-none" data-accordion-icon>+</span>
+                        </button>
+                        <div class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300" data-accordion-body>
+                            <p class="overflow-hidden text-gray-600 font-nunito text-sm md:text-base pt-3 pr-6 md:pr-10">
+                                Nous valorisons l'inclusion, la collaboration, l'innovation, la diversité et l'impact social. Nous croyons que chaque membre de notre communauté a un rôle à jouer dans le développement de l'écosystème technologique africain, et nous nous engageons à créer un environnement où chacun peut s'épanouir et contribuer à la croissance de notre communauté.
+                            </p>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div>
-                    <div class="inline-block">
-                        <h2 class="text-2xl md:text-3xl font-Phudu font-bold text-orange-possacode">Notre mission</h2>
-                        <svg class="w-full h-3 mt-1" viewBox="0 0 200 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10" stroke="white" stroke-width="2" fill="transparent" class="wave-line"/>
-                        </svg>
-                    </div>
-                    <p class="text-white/90 font-nunito mt-3 text-sm md:text-base">
-                        Notre mission est de fournir une plateforme de formation, d'échange et de collaboration pour les développeurs en Afrique, afin de renforcer leurs compétences techniques, favoriser les opportunités de réseautage et d'échange d'expériences, et contribuer au développement de l'écosystème technologique africain.
+            <!-- Colonne mosaïque photos + panneaux -->
+            <div class="grid grid-cols-2 grid-rows-3 gap-3 md:gap-4 h-[420px] md:h-[520px]" id="vmv-mosaic">
+                <div class="relative rounded-xl overflow-hidden col-start-1 row-start-1">
+                    <img src="/assets/NOUS.jpg" alt="Membres de la communauté PossaCode" class="absolute inset-0 w-full h-full object-cover object-top" />
+                </div>
+
+                <div class="relative rounded-xl overflow-hidden col-start-2 row-start-1 row-span-2">
+                    <img src="/assets/engroupe.jpg" alt="Membres de la communauté PossaCode réunis lors d'un événement" class="absolute inset-0 w-full h-full object-cover" />
+                </div>
+
+                <div class="relative rounded-xl overflow-hidden col-start-1 row-start-2 bg-blue-possacode p-4 md:p-5 flex flex-col justify-end transition-all duration-300 ring-4 ring-orange-possacode scale-[1.02]" data-panel="vision">
+                    <p class="font-Phudu font-bold text-white text-base md:text-lg">Notre vision</p>
+                    <p class="font-nunito text-white/90 text-xs md:text-sm mt-1 overflow-hidden transition-all duration-300 grid grid-rows-[1fr]" data-panel-text>
+                        <span class="overflow-hidden line-clamp-2">Inclusive &amp; innovante</span>
+                    </p>
+                </div>
+
+                <div class="relative rounded-xl overflow-hidden col-start-1 row-start-3 bg-orange-possacode p-4 md:p-5 flex flex-col justify-end transition-all duration-300" data-panel="mission">
+                    <p class="font-Phudu font-bold text-white text-base md:text-lg">Notre mission</p>
+                    <p class="font-nunito text-white/90 text-xs md:text-sm mt-1 overflow-hidden transition-all duration-300 grid grid-rows-[0fr]" data-panel-text>
+                        <span class="overflow-hidden line-clamp-2">Former &amp; connecter</span>
+                    </p>
+                </div>
+
+                <div class="relative rounded-xl overflow-hidden col-start-2 row-start-3 bg-blue-possacode p-4 md:p-5 flex flex-col justify-end transition-all duration-300" data-panel="valeurs">
+                    <p class="font-Phudu font-bold text-white text-base md:text-lg">Nos valeurs</p>
+                    <p class="font-nunito text-white/90 text-xs md:text-sm mt-1 overflow-hidden transition-all duration-300 grid grid-rows-[0fr]" data-panel-text>
+                        <span class="overflow-hidden line-clamp-2">Impact &amp; diversité</span>
                     </p>
                 </div>
             </div>
         </div>
     </section>
 </Layout>
+
+<script>
+    const accordionItems = document.querySelectorAll<HTMLElement>('#vmv-accordion [data-item]');
+    const panels = document.querySelectorAll<HTMLElement>('#vmv-mosaic [data-panel]');
+
+    function setActive(key: string | undefined) {
+        accordionItems.forEach((item) => {
+            const isActive = item.dataset.item === key;
+            const body = item.querySelector<HTMLElement>('[data-accordion-body]');
+            const icon = item.querySelector<HTMLElement>('[data-accordion-icon]');
+            const trigger = item.querySelector<HTMLElement>('[data-accordion-trigger]');
+            body?.classList.toggle('grid-rows-[1fr]', isActive);
+            body?.classList.toggle('grid-rows-[0fr]', !isActive);
+            if (icon) icon.textContent = isActive ? '−' : '+';
+            icon?.classList.toggle('bg-orange-possacode', isActive);
+            icon?.classList.toggle('bg-blue-possacode', !isActive);
+            trigger?.setAttribute('aria-expanded', String(isActive));
+        });
+
+        panels.forEach((panel) => {
+            const isActive = panel.dataset.panel === key;
+            const text = panel.querySelector<HTMLElement>('[data-panel-text]');
+            panel.classList.toggle('ring-4', isActive);
+            panel.classList.toggle('ring-orange-possacode', isActive);
+            panel.classList.toggle('scale-[1.02]', isActive);
+            text?.classList.toggle('grid-rows-[1fr]', isActive);
+            text?.classList.toggle('grid-rows-[0fr]', !isActive);
+        });
+    }
+
+    accordionItems.forEach((item) => {
+        item.querySelector('[data-accordion-trigger]')?.addEventListener('click', () => {
+            setActive(item.dataset.item);
+        });
+    });
+</script>

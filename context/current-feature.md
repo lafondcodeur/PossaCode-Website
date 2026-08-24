@@ -1,4 +1,4 @@
-# Current Feature
+# Current Feature: Refonte section Vision/Mission/Valeurs — style "manifeste" accordéon (page A-propos)
 
 > Ce fichier décrit la fonctionnalité ou la section en cours de développement.  
 > Mettre à jour à chaque changement de focus.
@@ -7,33 +7,84 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Refonte de la section Vision/Mission/Valeurs de `src/pages/about.astro`
+(actuellement : bannière photo `engroupe.jpg` + panneau bleu à coupe
+diagonale, ajoutée le 2026-08-24) pour reprendre la mise en page de l'image
+"Notre manifeste" fournie par l'utilisateur dans le message de commande :
+colonne gauche = titre + intro + liste accordéon, colonne droite = mosaïque
+de photos/panneaux colorés.
 
-**Status:** Not Started
+**Status:** Complete
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+Remplacer entièrement l'implémentation actuelle de la section (pas de
+coexistence des deux versions) par un layout à deux colonnes :
+
+- **Colonne gauche** : titre de section (`font-Phudu` + `wave-line`), court
+  texte d'intro, puis un accordéon de 3 items — Vision / Mission / Valeurs —
+  cliquables pour développer/réduire, un seul ouvert à la fois (comme dans la
+  référence).
+- **Colonne droite** : mosaïque de cases mêlant photos réelles PossaCode et
+  panneaux de couleur pleine affichant le titre de l'item ; la case
+  correspondant à l'item actif de l'accordéon mise en avant.
+- Couleurs adaptées à la charte PossaCode (`blue-possacode` / `orange-possacode`)
+  à la place du bordeaux/magenta de la maquette source.
+- Contenu textuel de Vision/Mission/Valeurs conservé tel quel (juste
+  réorganisé dans le nouveau format), pas de réécriture.
+- Interactivité accordéon en JS vanilla (`<script>` Astro), même pattern que
+  le filtrage par onglets déjà utilisé sur `members.astro`.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- [x] Ancienne bannière + panneau diagonal supprimés, remplacés par le layout
+      accordéon/mosaïque
+- [x] Accordéon fonctionnel : clic sur un item l'ouvre et ferme les autres,
+      un item ouvert par défaut au chargement
+- [x] 3 items (Vision, Mission, Valeurs) avec le texte existant, aucune perte
+      de contenu
+- [x] Mosaïque à droite avec au moins une photo réelle + panneaux colorés
+      titrés, cohérente visuellement avec l'accordéon actif
+- [x] `font-Phudu`/`wave-line` sur le titre de section, `font-nunito` sur le
+      texte, couleurs PossaCode uniquement
+- [x] `npm run build` sans erreur
+- [x] Vérifié en rendu réel (dev server) à 1440px/768px/390px : pas
+      d'overflow, empilement mobile propre
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+`src/pages/about.astro` (section Vision/Mission/Valeurs, actuellement lignes
+~68-122)
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+- Référence visuelle : image jointe directement dans le message de commande
+  (section "Notre manifeste", façon cabinet de conseil : titre + description
+  + accordéon 5 items à gauche, mosaïque de photos/panneaux colorés à droite,
+  item actif en bordeaux foncé) — **pas** dans `context/screenshot/` (à
+  vérifier avant de chercher ailleurs, comme pour les features précédentes
+  de cette page).
+- La maquette source a 5 items propres à un cabinet de conseil (vision
+  stratégique, méthodes tech, éthique, expertises, "bien plus qu'un cabinet
+  de conseil") ; notre contenu n'a que 3 concepts (Vision/Mission/Valeurs) →
+  accordéon à 3 items, ne pas inventer 2 items supplémentaires pour coller
+  au nombre de la source.
+- Photos disponibles dans `public/assets/` pour la mosaïque, non liées à une
+  identité spécifique (contrairement aux photos nominatives utilisées dans
+  `experts.ts`) : `engroupe.jpg` (déjà utilisé sur cette page actuellement),
+  `NOUS.jpg`, `groupe.jpg`, `ca.jpg`, `new1.jpg` — à choisir parmi celles-ci
+  plutôt qu'une photo de stock externe.
+- Le bandeau de statistiques du hero (juste au-dessus, avec la coupe
+  diagonale blanche) n'est pas concerné par cette feature — seule la section
+  Vision/Mission/Valeurs en dessous change.
 
 ---
 
