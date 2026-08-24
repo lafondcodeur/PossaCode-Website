@@ -1,4 +1,4 @@
-# Current Feature: Carrousel du bandeau de portraits membres
+# Current Feature
 
 > Ce fichier décrit la fonctionnalité ou la section en cours de développement.  
 > Mettre à jour à chaque changement de focus.
@@ -7,123 +7,33 @@
 
 ## 🔧 Feature en cours
 
-Transformer le bandeau de portraits de la section héro "Nos Membres"
-(`src/pages/members.astro`, bloc "Bandeau de portraits" juste sous la barre
-de recherche) en un joli carrousel, et ajouter une section équivalente
-(carrousel de portraits membres) sur la page d'accueil (`src/pages/index.astro`).
+_Aucune feature active._
 
-**Status:** In Progress
+**Status:** Not Started
 
 ---
 
 ## 🎯 Objectif
 
-- Remplacer l'actuel bandeau statique `flex` de 6 cartes (photo, overlay
-  hover nom/rôle/"Voir plus") sur `members.astro` par un carrousel : défilement
-  fluide (auto-play doux + navigation manuelle flèches/points), en gardant
-  exactement le même style de carte déjà en place (coins arrondis, ombre
-  teintée, overlay dégradé au hover, anneau orange).
-- Ajouter une nouvelle section carrousel de portraits membres sur la page
-  d'accueil (`index.astro`), avec le même pattern visuel, pour donner un
-  aperçu de la communauté dès la homepage.
+_À définir._
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- Le carrousel fonctionne en JS vanilla uniquement (pas de librairie externe
-  — contrainte du projet, voir `context/ai-interaction.md` : "Astro pur",
-  "Ne pas introduire d'autres librairies d'animation", "Ne pas ajouter de
-  dépendances npm sans discussion préalable").
-- Navigation manuelle (flèches précédent/suivant, et/ou points de pagination)
-  + défilement automatique, en pause au survol/focus.
-- Respect de `prefers-reduced-motion` (déjà un pattern établi sur ce projet
-  pour `.wave-line`, voir History) : pas de défilement automatique forcé si
-  l'utilisateur préfère moins d'animations.
-- Accessible clavier (flèches focusables, `focus-visible` cohérent avec le
-  reste du site) et lisible aux lecteurs d'écran (rôle/aria appropriés).
-- Aucune régression visuelle sur le style de carte existant (photo, overlay
-  hover, anneau orange, nom/rôle/"Voir plus" vers `/members/{slug}`).
-- Responsive : testé à 375px / 768px / 1440px.
-- `npm run build` sans erreur.
+_À définir._
 
 ---
 
 ## 📍 Fichier concerné
 
-- `src/pages/members.astro` (section héro, bloc "Bandeau de portraits")
-- `src/pages/index.astro` (nouvelle section à ajouter)
-- `src/data/members-preview.ts` (source de données déjà existante, réutilisée
-  pour les deux carrousels)
+_À définir._
 
 ---
 
 ## 🗒️ Notes
 
-- Les deux captures d'écran fournies par l'utilisateur montrent le même
-  bandeau de portraits de `members.astro` (photos et données confirmées via
-  `src/data/members-preview.ts` : ex. "Aïcha Moukala / Data Analyst" en 4e
-  position avec anneau orange au hover) — pas une section distincte déjà
-  existante sur la homepage. La demande "de même sur la page d'accueil" est
-  donc bien l'ajout d'une **nouvelle** section carrousel sur `index.astro`,
-  pas la conversion d'une section homepage déjà existante.
-- Emplacement exact de la nouvelle section sur `index.astro` non précisé par
-  l'utilisateur — à proposer/valider en `start` (candidat naturel : à
-  proximité de la section "experts" ou de la section "Qui sommes-nous ?",
-  pour rester dans la thématique communauté).
-- Utiliser `membersPreview` (`src/data/members-preview.ts`) comme source de
-  données pour le carrousel homepage plutôt que d'inventer un nouveau
-  jeu de données — ce sont déjà des placeholders documentés comme temporaires
-  (voir History "Section héro 'Nos Membres'").
-- **Bug corrigé après premier rendu** (signalé par l'utilisateur : "le
-  carrousel doit défiler automatiquement") : l'auto-défilement se bloquait
-  définitivement après 2-3 cycles. Cause réelle, confirmée en direct via CDP
-  (Chrome DevTools Protocol, `scrollLeft` figé pendant 15s+ pendant que
-  l'auto-défilement était censé tourner) — pas un problème de mouvement de
-  souris ni de timing d'observation comme supposé au départ. La dernière
-  carte ne peut pas toujours atteindre le bord gauche du carrousel (le
-  navigateur limite le scroll à `scrollWidth - clientWidth`), donc calculer
-  "la carte suivante" à partir d'un compteur d'index mémorisé pouvait
-  redemander deux fois la même position déjà atteinte : aucun scroll réel,
-  aucun évènement `scroll`, plus aucune progression possible (interverrouillage
-  permanent). Corrigé en supprimant tout compteur mémorisé : la carte "active"
-  est toujours recalculée depuis la position de scroll réelle, et la bascule
-  de fin de course de l'auto-défilement compare `scrollLeft` à
-  `scrollWidth - clientWidth` directement plutôt qu'à un index. Revérifié en
-  direct (pas en `--virtual-time-budget`, qui n'accélère pas fidèlement les
-  animations de scroll fluide pilotées par le compositeur) : cycle complet
-  observé sur 27 secondes réelles via CDP, plus pause au survol et reprise au
-  `mouseleave` confirmées de la même façon.
-- **Taille des cartes corrigée après capture d'écran de l'utilisateur** ("tu
-  as réduis la taille des images et la hauteur, garde la même hauteur et la
-  même largeur d'avant") : les largeurs choisies au départ (`w-[75%]
-  sm:w-[45%] md:w-[32%] lg:w-[23%]`) étaient nettement plus larges que les
-  proportions de l'ancien bandeau (`flex-1` sur 3/5/6 cartes visibles selon
-  breakpoint, soit environ 1/3, 1/5, 1/6 de la largeur) — même hauteur fixe
-  (`h-52 sm:h-64 md:h-96`) mais carte bien plus large donnait une silhouette
-  aplatie/plus courte visuellement. Corrigé en `w-1/3 sm:w-1/5 md:w-1/6`, qui
-  reproduit exactement les proportions d'origine à chaque palier.
-- Avec seulement 6 membres et des cartes remises à leur taille d'origine (6
-  visibles dès 768px), il n'y avait plus rien à faire défiler — l'utilisateur
-  a explicitement demandé d'ajouter des images fictives supplémentaires
-  ("que tu vas prendre sur internet" si besoin). Récupérer et intégrer de
-  vraies photos depuis internet n'est pas possible avec les outils
-  disponibles (pas de téléchargement de fichier binaire) et attribuerait de
-  toute façon le visage d'inconnus réels à une identité fictive PossaCode —
-  risque déjà évité partout ailleurs sur ce projet. À la place, réutilisation
-  du même procédé déjà établi dans `members-directory.ts` (avatar généré
-  DiceBear, dégradé + initiales) : nouvel export `membersCarousel` dans
-  `members-preview.ts` = les 6 membres réels + 6 membres déjà générés dans
-  `membersDirectory` (donc déjà dotés d'une page de profil valide via
-  `getStaticPaths()`, aucune route cassée). `members.astro` et `index.astro`
-  utilisent désormais `membersCarousel` (12 cartes) au lieu de `membersPreview`
-  (6) pour alimenter `<MemberCarousel>` uniquement — `membersPreview` reste
-  inchangé pour tout autre usage éventuel.
-  Revérifié en direct via CDP sur 36 secondes réelles avec les 12 cartes :
-  progression continue à travers tout le jeu puis retour à 0, aucun blocage.
-  Captures d'écran à 1440px et 768px confirmant les proportions de carte
-  identiques à l'ancien bandeau (portrait, pas aplati), avec un léger aperçu
-  de la carte suivante indiquant qu'il y a plus à faire défiler.
+_Aucune note pour le moment._
 
 ---
 
@@ -600,4 +510,66 @@ propre à cette section. **Limite déjà documentée sur ce projet** : la captur
 à 390px reste affectée par l'artefact de rendu Edge headless qui coupe le bord
 droit sur tout le site (visible sur le hero existant, pas propre à la nouvelle
 section).
+
+### Carrousel du bandeau de portraits membres (2026-08-24)
+
+Transformation du bandeau statique de portraits de la section héro "Nos
+Membres" (`src/pages/members.astro`) en carrousel, plus ajout d'une section
+équivalente sur la page d'accueil — nouveau composant réutilisable
+`src/components/MemberCarousel.astro` (scroll-snap horizontal, flèches
+précédent/suivant, points de pagination, auto-play doux avec pause au
+survol/focus/tactile, `prefers-reduced-motion` respecté), en JS vanilla
+uniquement (pas de librairie de carrousel, conforme aux contraintes du
+projet). Les deux captures d'écran fournies par l'utilisateur au départ
+montraient en fait le même bandeau déjà existant sur `members.astro` (photos
+et données confirmées via `members-preview.ts`) — pas une section homepage
+déjà là — donc la demande "de même sur la page d'accueil" a été traitée comme
+l'ajout d'une nouvelle section, placée après la section "experts".
+
+Deux bugs réels trouvés et corrigés après premiers rendus, tous deux
+introuvables par simple lecture du code ou capture d'écran statique :
+
+1. **Auto-défilement qui se bloquait après 2-3 cycles** (signalé par
+   l'utilisateur : "le carrousel doit défiler automatiquement"). Cause :
+   l'auto-play calculait "la carte suivante" via un compteur d'index
+   mémorisé, mais la dernière carte ne peut pas toujours atteindre le bord
+   gauche du carrousel (le navigateur limite le scroll à
+   `scrollWidth - clientWidth`) — deux appels consécutifs pouvaient donc
+   redemander la même position déjà atteinte : aucun scroll réel, aucun
+   évènement `scroll`, plus aucune progression (interverrouillage
+   permanent). Confirmé en observant `scrollLeft` figé pendant 15s+ en
+   direct via le Chrome DevTools Protocol (CDP) plutôt que par supposition
+   (mouvement de souris, timing d'observation). Corrigé en supprimant tout
+   compteur mémorisé : la carte "active" est toujours recalculée depuis la
+   position de scroll réelle, et la bascule de fin de course compare
+   `scrollLeft` à `scrollWidth - clientWidth` directement. **Méthode de
+   vérification notable pour ce projet** : `--virtual-time-budget` d'Edge
+   headless n'accélère pas fidèlement les animations de scroll fluide
+   pilotées par le compositeur (résultats trompeurs) — la vérification
+   fiable d'un comportement qui dépend du temps réel (auto-play, timers)
+   nécessite une session CDP persistante avec de vraies attentes en temps
+   réel, pas des captures d'écran horodatées.
+2. **Taille de carte réduite par rapport à l'original** (signalé par
+   l'utilisateur avec capture d'écran : "tu as réduis la taille des images
+   et la hauteur"). Les largeurs choisies au départ étaient nettement plus
+   larges que les proportions de l'ancien bandeau (`flex-1` sur 3/5/6 cartes
+   visibles selon breakpoint), ce qui aplatissait visuellement la même
+   hauteur fixe. Corrigé en `w-1/3 sm:w-1/5 md:w-1/6`, qui reproduit les
+   proportions d'origine à chaque palier. Avec les cartes remises à leur
+   taille d'origine, les 6 membres réels ne laissaient plus rien à faire
+   défiler (6 visibles dès 768px) — complété avec 6 membres déjà générés
+   dans `members-directory.ts` (avatar DiceBear, déjà dotés d'une page de
+   profil valide) plutôt que de vraies photos internet (demandées par
+   l'utilisateur en solution de repli) : ni faisable avec les outils
+   disponibles (pas de téléchargement de fichier binaire), ni souhaitable
+   (attribuerait le visage de vraies personnes à une identité fictive,
+   risque déjà évité partout ailleurs sur ce projet). Nouvel export
+   `membersCarousel` (12 membres) dans `members-preview.ts`, utilisé par les
+   deux carrousels à la place de `membersPreview` (6, inchangé pour tout
+   autre usage).
+
+Revérifié après les deux correctifs sur 36 secondes réelles via CDP (12
+cartes, progression continue puis retour à 0, aucun blocage), et captures
+d'écran à 1440px/768px confirmant les proportions de carte identiques à
+l'ancien bandeau. `npm run build` : 71 pages, aucune erreur à chaque étape.
 </content>
