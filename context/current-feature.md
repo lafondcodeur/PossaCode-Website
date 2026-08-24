@@ -7,33 +7,78 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Page profil complet d'un membre (fiche membre détaillée)
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+Permettre de voir les informations complètes d'un membre (photo, bio, compétences,
+réseaux sociaux, CV téléchargeable) sur une page dédiée, accessible depuis les
+cartes membres déjà présentes sur `src/pages/members.astro` (bandeau héro +
+annuaire filtrable), en respectant la charte graphique PossaCode.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- Nouvelle page de profil membre (route dynamique par membre, ex. par slug/id),
+  distincte des pages statiques existantes.
+- Reprend la structure de la maquette de référence : photo à gauche, bio/texte
+  de présentation à droite (avec quelques mots-clés en accent couleur), bouton
+  "Télécharger le CV", bloc "Compétences" avec icônes technologiques, bloc
+  réseaux sociaux (icônes) à côté du bouton CV.
+- Couleurs et typographies conformes à la charte PossaCode (`blue-possacode`
+  `#1a2251` / `orange-possacode` `#f14d0e`, `font-Phudu` pour les titres,
+  `font-nunito` pour le texte courant) — pas de reprise du fond sombre /
+  accents jaune-vert de la maquette source.
+- Les liens "Voir plus" du bandeau héro et les cartes de l'annuaire filtrable
+  (`src/pages/members.astro`) pointent vers cette nouvelle page au lieu de
+  liens externes factices.
+- Fonctionne pour au moins les 6 membres réels (`members-preview.ts`) et un
+  exemple de membre généré (`members-directory.ts`).
+- Responsive mobile / tablette / desktop, cohérent avec le reste du site.
+- Accessible clavier (focus visible), pas de régression sur les pages
+  existantes.
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+- Nouveau : page(s) de profil membre sous `src/pages/members/` (route dynamique).
+- `src/data/members-preview.ts` et `src/data/members-directory.ts` : extension
+  probable des types (bio, compétences détaillées/icônes, réseaux sociaux,
+  lien CV) pour alimenter la fiche détaillée.
+- `src/pages/members.astro` : mise à jour des liens "Voir plus" / cartes pour
+  pointer vers la nouvelle page de profil.
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+- **Image de référence** : fournie en pièce jointe directe dans le message de
+  la commande, PAS trouvée dans `context/screenshot/` (ce dossier ne contient
+  que `hero.png` et `image.png`, déjà utilisées comme maquettes pour les
+  sections héro et annuaire de la page Nos Membres — voir History). L'image
+  jointe (mockup "ABOUT") est donc la référence à utiliser pour cette feature,
+  malgré l'énoncé de la commande qui la situe par erreur dans ce dossier.
+- **Contenu de la maquette** : titre "ABOUT" centré en haut ; carte sur fond
+  sombre avec photo à gauche et paragraphe de présentation à droite (quelques
+  mots-clés colorés inline : école, technologies, projets, type de profil
+  recherché) ; bouton "Download Resume" ; bloc "Skills" avec grille d'icônes
+  technologiques (React, Figma, Photoshop, Premiere Pro, HTML/CSS/Sass, C,
+  MongoDB/Node, Qt, etc.) ; bloc icônes réseaux sociaux (Instagram, YouTube,
+  Behance, LinkedIn, GitHub) aligné à droite du bloc Skills.
+- Aucune vraie bio, CV ou lien réseau social n'existe actuellement dans les
+  données membres (`members-preview.ts` / `members-directory.ts`) — prévoir
+  des champs optionnels et du contenu placeholder clairement marqué comme
+  temporaire dans le code, même limite déjà documentée pour `experts.ts` et
+  ces deux fichiers de données membres.
+- Couleurs de la maquette (fond sombre, accents jaune/vert) à adapter à la
+  charte PossaCode, comme déjà fait pour les sections héro/annuaire de
+  `members.astro` plutôt que reprise telle quelle.
 
 ---
 
@@ -311,3 +356,4 @@ carte "featured" (Chloé Bakala) présente une seule fois tous onglets confondus
 n'a pas pu être confirmé visuellement de façon fiable (artefact Edge headless
 affectant tout le site) — le CSS responsive (`sm:`/`md:`, `overflow-x-auto`
 sur les onglets) a été relu directement à la place.
+</content>

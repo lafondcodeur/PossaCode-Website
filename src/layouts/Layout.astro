@@ -2,7 +2,15 @@
 import Header from "../components/header.astro";
 import Footer from "../components/Footer.astro";
 
+interface Props {
+	title?: string;
+	description?: string;
+}
 
+const {
+	title = "PossaCode — Communauté de développeurs",
+	description = "PossaCode est une communauté de développeurs qui se rassemble pour apprendre, coder et grandir ensemble à travers des événements, des rencontres et des projets collaboratifs.",
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -10,10 +18,10 @@ import Footer from "../components/Footer.astro";
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>PossaCode — Communauté de développeurs</title>
-	<meta name="description" content="PossaCode est une communauté de développeurs qui se rassemble pour apprendre, coder et grandir ensemble à travers des événements, des rencontres et des projets collaboratifs.">
-	<meta property="og:title" content="PossaCode — Communauté de développeurs">
-	<meta property="og:description" content="PossaCode est une communauté de développeurs qui se rassemble pour apprendre, coder et grandir ensemble à travers des événements, des rencontres et des projets collaboratifs.">
+	<title>{title}</title>
+	<meta name="description" content={description}>
+	<meta property="og:title" content={title}>
+	<meta property="og:description" content={description}>
 	<meta property="og:image" content="/assets/possacodebb.jpg">
 </head>
 <body>
