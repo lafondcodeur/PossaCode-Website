@@ -1,11 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { membersPreview } from '../data/members-preview';
+import MemberCarousel from '../components/MemberCarousel.astro';
+import { membersCarousel } from '../data/members-preview';
 import { membersDirectory, memberCategories } from '../data/members-directory';
 import { getSkillIcon } from '../data/skill-icons';
-
-const cardBg = ['bg-[#fff3ee]', 'bg-[#e9ecf7]', 'bg-gray-100', 'bg-[#fff3ee]', 'bg-[#e9ecf7]', 'bg-gray-100'];
-const cardVisibility = ['hidden sm:block', '', '', '', 'hidden sm:block', 'hidden md:block'];
 
 const defaultCategory = memberCategories[0].id;
 ---
@@ -59,33 +57,8 @@ const defaultCategory = memberCategories[0].id;
         </div>
 
         <!-- Bandeau de portraits -->
-        <div class="flex w-full gap-3 md:gap-5 px-6 md:px-10 pb-12 md:pb-16">
-            {membersPreview.map((member, i) => (
-                <a
-                    href={`/members/${member.slug}`}
-                    class:list={[
-                        'group relative flex-1 min-w-0 h-52 sm:h-64 md:h-96 rounded-2xl overflow-hidden shadow-lg shadow-blue-possacode/15 ring-0 ring-orange-possacode transition-all duration-300 hover:ring-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-possacode',
-                        cardBg[i],
-                        cardVisibility[i],
-                    ]}
-                >
-                    <img
-                        class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-110"
-                        src={member.image}
-                        alt={member.name}
-                    />
-                    <div class="absolute inset-0 flex flex-col justify-end p-4 bg-linear-to-t from-blue-possacode/95 via-blue-possacode/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <p class="font-Phudu font-bold text-white text-base md:text-lg leading-tight">{member.name}</p>
-                        <p class="font-nunito text-white/80 text-xs md:text-sm mt-1">{member.role}</p>
-                        <span class="font-nunito text-orange-possacode font-semibold text-xs md:text-sm mt-2 inline-flex items-center gap-1">
-                            Voir plus
-                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                        </span>
-                    </div>
-                </a>
-            ))}
+        <div class="pb-12 md:pb-16">
+            <MemberCarousel members={membersCarousel} label="Portraits des membres à l'honneur" />
         </div>
     </section>
 
