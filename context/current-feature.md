@@ -39,6 +39,67 @@ _Aucune note pour le moment._
 
 ## 📜 History
 
+### Section héro — page A-propos (2026-08-24)
+
+Nouvelle première section sur `src/pages/about.astro` (jusque-là une page
+placeholder `<h1>About Page</h1>`), inspirée d'une maquette "cabinet de
+conseil Produit & IA" fournie en pièce jointe directe dans le message de la
+commande — pas dans `context/screenshot/` (qui ne contient que `hero.png`/
+`image.png`, déjà utilisées pour d'autres sections). Structure reprise (bannière
+sombre avec photo, titre + sous-titre, deux CTA, bandeau de statistiques) mais
+contenu et couleurs adaptés à PossaCode plutôt que repris tels quels : le
+texte source ("Le cabinet de conseil Produit & IA...") décrit un tout autre
+positionnement (conseil produit/IA) que celui de l'association, donc titre et
+sous-titre réécrits autour de la mission réelle de PossaCode (formation,
+meetups, hackathons), en gardant `font-Phudu` + `wave-line` et les couleurs
+`blue-possacode`/`orange-possacode` du reste du site. Overlay dégradé
+`blue-possacode` sur la photo (au lieu du noir de la source) pour rester
+cohérent avec la charte.
+
+Photo de fond : `public/assets/A3.jpg` (trois membres de PossaCode collaborant
+autour d'une tablette), choisie parmi les photos déjà existantes du repo pour
+sa composition proche de la référence (plusieurs personnes engagées, tons
+chauds) plutôt qu'une photo de stock externe.
+
+CTA "Nous contacter" → `/contact` (bouton `boutton-standard`, cohérent avec le
+reste du site) et "Nos événements" → `/event` (bouton blanc), remplaçant "Nos
+réalisations" de la maquette par une vraie page existante du site plutôt qu'un
+lien inventé.
+
+Bandeau de 3 statistiques en bas de section : "80+ membres" et "1000+
+personnes impactées" repris tels quels de la section "Qui sommes-nous ?" de la
+page d'accueil (`src/pages/index.astro`) pour rester cohérent avec les chiffres
+déjà communiqués ailleurs sur le site, plutôt que d'inventer de nouveaux
+chiffres comme dans la maquette source (200+/300+/11 000+, propres à un cabinet
+de conseil). Troisième statistique ("5 domaines d'expertise") dérivée du nombre
+réel de catégories dans `memberCategories` (`src/data/members-directory.ts`)
+plutôt qu'un chiffre fictif.
+
+Vérifié via `npm run build` (71 pages, aucune erreur) et captures d'écran Edge
+headless à 1440px/768px : rendu propre, CTA et bandeau de stats bien alignés,
+aucun overflow visible. **Limite connue** (déjà documentée sur ce projet) :
+capture à 390px affectée par l'artefact de rendu Edge headless qui coupe le
+bord droit sur tout le site — confirmé en comparant avec une capture de la
+homepage (page déjà validée) au même viewport, montrant le même artefact.
+CSS responsive (`md:`, `flex-wrap` sur les CTA) relu directement pour combler
+cette limite.
+
+Retouche demandée par l'utilisateur après premier rendu (captures de la
+maquette source à l'appui) : le bandeau de statistiques n'avait à l'origine
+qu'un simple fond blanc plat sous la photo, alors que la référence montre un
+pan blanc diagonal qui remonte sur la photo. Ajouté un triangle blanc
+(`clip-path: polygon(0_100%,100%_0,100%_100%)`) positionné en négatif
+au-dessus du bandeau de stats (`left-1/4` à `right-0`), qui crée l'effet de
+découpe diagonale remontant sur la photo à partir d'environ 25% de la largeur
+jusqu'au bord droit — sans toucher au texte des statistiques lui-même (qui
+reste dans un bloc rectangulaire classique en dessous, non clippé, pour éviter
+tout risque de texte coupé). Revérifié à 1440px et 768px : découpe diagonale
+propre, aucun chevauchement avec le texte du hero.
+
+---
+
+## 📜 History
+
 ### Section héro "Nos Membres" — recherche et bandeau de portraits (2026-08-22)
 
 Nouvelle première section sur `src/pages/members.astro`, inspirée de la maquette

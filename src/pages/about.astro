@@ -3,6 +3,65 @@ import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 ---
 
-<Layout>
-    <h1>About Page</h1>
+<Layout title="A propos — PossaCode" description="PossaCode est la communauté qui met la technologie au service de la jeunesse africaine : formations, meetups et hackathons pour des développeurs qui apprennent et créent ensemble.">
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden">
+        <div class="relative min-h-140 md:min-h-160 flex items-center">
+            <img
+                src="/assets/A3.jpg"
+                alt="Membres de la communauté PossaCode collaborant ensemble"
+                class="absolute inset-0 w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-linear-to-r from-blue-possacode via-blue-possacode/85 to-blue-possacode/30"></div>
+
+            <div class="relative z-10 px-6 md:px-10 py-20 md:py-28 max-w-3xl">
+                <div class="inline-block">
+                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-Phudu font-bold text-white leading-tight">
+                        La communauté qui met la <span class="text-orange-possacode">technologie</span> au service de la jeunesse africaine.
+                    </h1>
+                    <svg class="w-full h-4 mt-2" viewBox="0 0 200 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10" stroke="#f14d0e" stroke-width="2" fill="transparent" class="wave-line"/>
+                    </svg>
+                </div>
+
+                <p class="text-white/85 font-nunito mt-5 max-w-xl text-base md:text-lg">
+                    Nos formateurs et bénévoles apportent une culture tech accessible aux développeurs que nous accompagnons, à travers meetups, hackathons et formations, et grandissent avec la communauté.
+                </p>
+
+                <div class="flex flex-wrap gap-4 mt-8 md:mt-10">
+                    <a href="/contact" class="boutton-standard text-white font-nunito text-sm md:text-base inline-flex items-center gap-2">
+                        Nous contacter
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                    <a href="/event" class="bg-white text-blue-possacode font-nunito font-bold px-4 py-3 rounded-lg text-sm md:text-base inline-flex items-center gap-2 hover:bg-white/90 transition-colors">
+                        Nos événements
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bandeau de statistiques : pan diagonal blanc remontant sur la photo -->
+        <div class="relative bg-white">
+            <div class="absolute left-1/4 right-0 -top-10 md:-top-16 h-10 md:h-16 bg-white [clip-path:polygon(0_100%,100%_0,100%_100%)]"></div>
+            <div class="relative grid grid-cols-3 divide-x divide-gray-200 px-6 md:px-10 py-8 md:py-12 text-center">
+                <div>
+                    <p class="text-2xl md:text-4xl font-Phudu font-bold text-orange-possacode">80+</p>
+                    <p class="text-gray-500 font-nunito text-xs md:text-base mt-1">membres</p>
+                </div>
+                <div>
+                    <p class="text-2xl md:text-4xl font-Phudu font-bold text-orange-possacode">1000+</p>
+                    <p class="text-gray-500 font-nunito text-xs md:text-base mt-1">personnes impactées</p>
+                </div>
+                <div>
+                    <p class="text-2xl md:text-4xl font-Phudu font-bold text-orange-possacode">5</p>
+                    <p class="text-gray-500 font-nunito text-xs md:text-base mt-1">domaines d'expertise</p>
+                </div>
+            </div>
+        </div>
+    </section>
 </Layout>
