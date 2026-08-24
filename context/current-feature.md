@@ -7,78 +7,33 @@
 
 ## 🔧 Feature en cours
 
-Page profil complet d'un membre (fiche membre détaillée)
+_Aucune feature active._
 
-**Status:** In Progress
+**Status:** Not Started
 
 ---
 
 ## 🎯 Objectif
 
-Permettre de voir les informations complètes d'un membre (photo, bio, compétences,
-réseaux sociaux, CV téléchargeable) sur une page dédiée, accessible depuis les
-cartes membres déjà présentes sur `src/pages/members.astro` (bandeau héro +
-annuaire filtrable), en respectant la charte graphique PossaCode.
+_À définir._
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- Nouvelle page de profil membre (route dynamique par membre, ex. par slug/id),
-  distincte des pages statiques existantes.
-- Reprend la structure de la maquette de référence : photo à gauche, bio/texte
-  de présentation à droite (avec quelques mots-clés en accent couleur), bouton
-  "Télécharger le CV", bloc "Compétences" avec icônes technologiques, bloc
-  réseaux sociaux (icônes) à côté du bouton CV.
-- Couleurs et typographies conformes à la charte PossaCode (`blue-possacode`
-  `#1a2251` / `orange-possacode` `#f14d0e`, `font-Phudu` pour les titres,
-  `font-nunito` pour le texte courant) — pas de reprise du fond sombre /
-  accents jaune-vert de la maquette source.
-- Les liens "Voir plus" du bandeau héro et les cartes de l'annuaire filtrable
-  (`src/pages/members.astro`) pointent vers cette nouvelle page au lieu de
-  liens externes factices.
-- Fonctionne pour au moins les 6 membres réels (`members-preview.ts`) et un
-  exemple de membre généré (`members-directory.ts`).
-- Responsive mobile / tablette / desktop, cohérent avec le reste du site.
-- Accessible clavier (focus visible), pas de régression sur les pages
-  existantes.
+_À définir._
 
 ---
 
 ## 📍 Fichier concerné
 
-- Nouveau : page(s) de profil membre sous `src/pages/members/` (route dynamique).
-- `src/data/members-preview.ts` et `src/data/members-directory.ts` : extension
-  probable des types (bio, compétences détaillées/icônes, réseaux sociaux,
-  lien CV) pour alimenter la fiche détaillée.
-- `src/pages/members.astro` : mise à jour des liens "Voir plus" / cartes pour
-  pointer vers la nouvelle page de profil.
+_À définir._
 
 ---
 
 ## 🗒️ Notes
 
-- **Image de référence** : fournie en pièce jointe directe dans le message de
-  la commande, PAS trouvée dans `context/screenshot/` (ce dossier ne contient
-  que `hero.png` et `image.png`, déjà utilisées comme maquettes pour les
-  sections héro et annuaire de la page Nos Membres — voir History). L'image
-  jointe (mockup "ABOUT") est donc la référence à utiliser pour cette feature,
-  malgré l'énoncé de la commande qui la situe par erreur dans ce dossier.
-- **Contenu de la maquette** : titre "ABOUT" centré en haut ; carte sur fond
-  sombre avec photo à gauche et paragraphe de présentation à droite (quelques
-  mots-clés colorés inline : école, technologies, projets, type de profil
-  recherché) ; bouton "Download Resume" ; bloc "Skills" avec grille d'icônes
-  technologiques (React, Figma, Photoshop, Premiere Pro, HTML/CSS/Sass, C,
-  MongoDB/Node, Qt, etc.) ; bloc icônes réseaux sociaux (Instagram, YouTube,
-  Behance, LinkedIn, GitHub) aligné à droite du bloc Skills.
-- Aucune vraie bio, CV ou lien réseau social n'existe actuellement dans les
-  données membres (`members-preview.ts` / `members-directory.ts`) — prévoir
-  des champs optionnels et du contenu placeholder clairement marqué comme
-  temporaire dans le code, même limite déjà documentée pour `experts.ts` et
-  ces deux fichiers de données membres.
-- Couleurs de la maquette (fond sombre, accents jaune/vert) à adapter à la
-  charte PossaCode, comme déjà fait pour les sections héro/annuaire de
-  `members.astro` plutôt que reprise telle quelle.
+_Aucune note pour le moment._
 
 ---
 
@@ -356,4 +311,61 @@ carte "featured" (Chloé Bakala) présente une seule fois tous onglets confondus
 n'a pas pu être confirmé visuellement de façon fiable (artefact Edge headless
 affectant tout le site) — le CSS responsive (`sm:`/`md:`, `overflow-x-auto`
 sur les onglets) a été relu directement à la place.
+
+### Page de profil complet d'un membre (2026-08-24)
+
+Nouvelle route dynamique `src/pages/members/[slug].astro` (une page statique
+générée par membre via `getStaticPaths()`, 60 au total) inspirée d'une
+maquette "ABOUT" fournie en pièce jointe directe dans le message de la
+commande — pas trouvée dans `context/screenshot/` comme l'énoncé le laissait
+penser (ce dossier ne contient que `hero.png`/`image.png`, déjà utilisées
+pour d'autres sections de cette page). Structure adaptée à la charte
+PossaCode plutôt que reprise du fond sombre/accents jaune-vert de la source :
+carte claire avec photo + note à gauche, badge de catégorie, nom, rôle, bio,
+bouton CV, réseaux sociaux et compétences à droite.
+
+`src/data/members-directory.ts` et `members-preview.ts` étendus avec un
+`slug` calculé (fonction `slugify` extraite dans `src/utils/slug.ts`,
+partagée entre les deux fichiers pour garantir des slugs identiques pour les
+6 membres réels communs aux deux) et un champ `github` fictif (même limite
+que le `link` LinkedIn déjà documenté). Les liens "Voir plus" du bandeau héro
+et les cartes de l'annuaire filtrable de `members.astro` pointent désormais
+vers `/members/{slug}` au lieu de liens externes.
+
+Bio générée via un template (`src/utils/member-bio.ts`, à partir du rôle, de
+la catégorie et des compétences du membre) plutôt que rédigée à la main pour
+chacun des ~60 profils. `Layout.astro` reçoit désormais des props `title`/
+`description` optionnelles (rétrocompatibles, valeurs par défaut = les
+anciennes constantes en dur) pour permettre des métadonnées par page.
+
+Deux décisions pour rester cohérent avec les conventions déjà établies sur ce
+projet plutôt que d'introduire un lien mort ou un faux document :
+- **CV** : aucun fichier réel n'existe pour aucun membre. Le bouton
+  "Télécharger le CV" est rendu `disabled` (avec tooltip), sur le même
+  principe que la barre de recherche non fonctionnelle du bandeau héro
+  (`type="button"`, pas de vrai comportement) plutôt que de fabriquer un faux
+  PDF ou un lien mort.
+- **Compétences** : à la demande explicite de l'utilisateur (suite à un
+  premier rendu en tags texte simples), remplacées par de vraies icônes de
+  marque. Générées une seule fois via le paquet npm `simple-icons` (CC0),
+  figées dans `src/data/skill-icons.ts` (39 logos), puis le paquet a été
+  désinstallé — seul le fichier de données statique reste, sans dépendance
+  runtime. Adobe, Amazon/AWS, Microsoft, Canva, InVision et Tableau sont
+  volontairement absents (Simple Icons a retiré ces marques de son catalogue
+  à la demande de leurs propriétaires) : plutôt que de contourner ce retrait
+  via une autre source, ces compétences ainsi que les méthodologies sans
+  marque (Agile, CI/CD, Scrum au sens générique, etc.) utilisent une icône
+  générique neutre (badge bouclier, couleurs PossaCode).
+
+Vérifié via `npm run build` (71 pages, aucune erreur), inspection du HTML
+généré (`curl` : 60 liens `/members/{slug}` uniques présents sur la page
+Nos Membres) et captures d'écran Edge headless à 1440px/768px de plusieurs
+fiches (colonne photo/infos qui s'empile bien sous `md`, icônes de
+compétences aux bonnes couleurs de marque, icône générique de repli rendue
+isolément pour confirmer qu'elle ne ressemble pas à une icône cassée). Agent
+`responsive-auditor` sollicité mais sans MCP Playwright connecté dans cette
+session (limite déjà documentée sur ce projet) — vérification manuelle via
+Edge headless à la place. **Limite connue** : rendu mobile strict à 375px non
+reconfirmé visuellement de façon fiable ; CSS responsive relu directement
+(grid `md:grid-cols-[240px_1fr]`, `flex-wrap` sur les tags de compétences).
 </content>
