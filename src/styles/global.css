@@ -52,6 +52,37 @@
   }
 }
 
+.logo-marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+.logo-marquee-track {
+  width: max-content;
+  animation: logoMarquee 28s linear infinite;
+}
+
+.logo-marquee:hover .logo-marquee-track,
+.logo-marquee:focus-within .logo-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes logoMarquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee-track {
+    animation: none;
+  }
+  .logo-marquee-track [aria-hidden="true"] {
+    display: none;
+  }
+}
+
 .carousel-track {
   scrollbar-width: none;
   -ms-overflow-style: none;

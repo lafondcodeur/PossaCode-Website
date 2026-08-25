@@ -1,6 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import congoDevOpsLogo from '../assets/par/Congo DevOps.jpg';
 import '../styles/global.css';
+
+const partnerLogos = [
+    { src: '/assets/par/cgdt.jpg', alt: 'Logo partenaire CGDT', class: 'w-24 md:w-35 h-14 md:h-20 object-cover' },
+    { src: "/assets/par/Logo de l'ACDN.png", alt: 'Logo partenaire ACDN', class: 'w-40 md:w-65 h-14 md:h-20 object-contain' },
+    { src: '/assets/par/galsendev.jpg', alt: 'Logo partenaire GalsenDev', class: 'w-24 md:w-35 h-14 md:h-20 object-contain' },
+    { src: '/assets/par/unionlab.jpg', alt: 'Logo partenaire UnionLab', class: 'w-24 md:w-35 h-16 md:h-25 object-cover' },
+    { src: '/assets/par/logo.webp', alt: 'Logo partenaire Miabé Hackathon', class: 'w-36 md:w-55 h-14 md:h-20 object-contain' },
+    { src: '/assets/par/logo-asso-10000codeurs.png', alt: 'Logo partenaire 10000 Codeurs', class: 'w-24 md:w-35 h-14 md:h-20 object-contain' },
+];
 ---
 
 <Layout title="A propos — PossaCode" description="PossaCode est la communauté qui met la technologie au service de la jeunesse africaine : formations, meetups et hackathons pour des développeurs qui apprennent et créent ensemble.">
@@ -60,6 +71,43 @@ import '../styles/global.css';
                 <div>
                     <p class="text-2xl md:text-4xl font-Phudu font-bold text-orange-possacode">5</p>
                     <p class="text-gray-500 font-nunito text-xs md:text-base mt-1">domaines d'expertise</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bandeau photo communauté -->
+    <section class="w-full h-40 sm:h-52 md:h-64 lg:h-72 overflow-hidden">
+        <img
+            src="/assets/coworking.webp"
+            alt="Jeunes de la communauté PossaCode travaillant ensemble autour d'un ordinateur portable"
+            class="w-full h-full object-cover object-center"
+        />
+    </section>
+
+    <!-- Partenaires Section -->
+    <section class="px-6 md:px-10 py-16 md:py-24">
+        <div class="flex justify-center">
+            <div class="inline-block">
+                <h2 class="text-3xl md:text-4xl font-Phudu font-bold text-blue-possacode text-center">Ces partenaires qui croient en nous</h2>
+                <svg class="w-full h-3 mt-1" viewBox="0 0 200 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10" stroke="#f14d0e" stroke-width="2" fill="transparent" class="wave-line"/>
+                </svg>
+            </div>
+        </div>
+        <div class="logo-marquee mt-10 md:mt-16">
+            <div class="logo-marquee-track flex items-center">
+                <div class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10 shrink-0">
+                    {partnerLogos.map((logo) => (
+                        <img class={`${logo.class} shrink-0`} src={logo.src} alt={logo.alt} />
+                    ))}
+                    <Image class="w-24 md:w-35 h-14 md:h-20 object-cover shrink-0" src={congoDevOpsLogo} width={140} densities={[1, 2]} format="webp" alt="Logo partenaire Congo DevOps" />
+                </div>
+                <div class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10 shrink-0" aria-hidden="true">
+                    {partnerLogos.map((logo) => (
+                        <img class={`${logo.class} shrink-0`} src={logo.src} alt="" />
+                    ))}
+                    <Image class="w-24 md:w-35 h-14 md:h-20 object-cover shrink-0" src={congoDevOpsLogo} width={140} densities={[1, 2]} format="webp" alt="" />
                 </div>
             </div>
         </div>

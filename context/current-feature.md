@@ -39,6 +39,226 @@ _Aucune note pour le moment._
 
 ## 📜 History
 
+### Remplacement de la photo du bandeau communauté (2026-08-25)
+
+Suite : l'utilisateur a fourni une troisième image (groupe de 4 jeunes
+souriants autour d'un ordinateur portable, en extérieur) pour remplacer
+`groupe.jpg` dans le bandeau ajouté juste avant. Cette fois déposée dans
+`context/screenshot/a1-youth-skills_0.webp` — vérifiée avant utilisation
+(contrairement au fichier Vecteezy précédent) : aucun filigrane visible,
+nom de fichier sans indice de photo stock non payée. Copiée vers
+`public/assets/coworking.webp` (nouveau nom, l'original de
+`context/screenshot/` n'étant pas destiné à être servi tel quel) et
+référencée dans `about.astro` à la place de `groupe.jpg`. Format déjà
+proche d'une bannière large (1300×535, ratio ~2.4:1) donc `object-center`
+plutôt que `object-top` (utilisé pour `groupe.jpg`, où les visages étaient
+groupés en haut du cadre) suffit à garder les visages visibles au
+recadrage.
+
+Vérifié via `npm run build` (71 pages, aucune erreur) et une vraie session
+Playwright (MCP connecté) sur `localhost:4321/about` à 1440px et 390px :
+image chargée (`naturalWidth`/`naturalHeight` non nuls), aucun overflow
+horizontal aux deux largeurs, captures d'écran confirmant le rendu (visages
+et ordinateur portable bien visibles, aucun recadrage disgracieux).
+
+### Bandeau photo communauté — entre hero et partenaires, page A-propos (2026-08-24)
+
+Demande utilisateur : ajouter une bande photo large (façon bannière
+horizontale courte) entre le hero et la section partenaires
+d'`about.astro`, sur le modèle d'une image de référence fournie en pièce
+jointe (groupe de lycéennes souriantes faisant des signes de victoire).
+
+Deux images candidates proposées par l'utilisateur en cours de route
+n'étaient pas exploitables :
+1. Une image collée directement dans le chat — pas de mécanisme
+   disponible pour récupérer un fichier binaire collé en conversation et
+   l'enregistrer sur disque (vérifié : aucun fichier récent trouvé dans
+   les dossiers temporaires courants). Question posée à l'utilisateur.
+2. Un fichier ensuite déposé dans `context/screenshot/` — repéré comme
+   une photo stock Vecteezy non achetée (nom de fichier avec ID Vecteezy
+   `10418142...`, filigrane "Vecteezy" visible sur toute l'image). Publier
+   ce fichier tel quel sur le vrai site aurait laissé le filigrane visible
+   partout et posé un problème de droit d'usage — signalé à l'utilisateur
+   plutôt qu'utilisé silencieusement.
+
+Décision finale de l'utilisateur (question posée) : garder `groupe.jpg`
+(déjà dans `public/assets/`, vraie photo de membres PossaCode réunis,
+utilisée par ailleurs sur la homepage) plutôt que d'attendre une image
+sous licence. Nouvelle section `<section class="w-full h-40 sm:h-52
+md:h-64 lg:h-72 overflow-hidden">` avec `object-cover object-top` pour
+obtenir l'effet bannière large et courte de la maquette (photo 6000×4000
+recadrée en bande horizontale, visages en haut de l'image conservés
+visibles). Placée entre le bandeau de statistiques du hero et la section
+partenaires.
+
+Vérifié via `npm run build` (71 pages, aucune erreur) et une vraie
+session Playwright (MCP connecté) sur `localhost:4321/about` :
+`naturalWidth`/`naturalHeight` de l'image confirmés non nuls (chargement
+réussi), section pleine largeur (`x: 0`, largeur ≈ largeur de la
+fenêtre), aucun overflow horizontal (`scrollWidth` ≤ `innerWidth`),
+capture d'écran (`animations: 'disabled'` pour contourner l'attente
+infinie de Playwright sur le marquee de la section suivante) confirmant
+le rendu bannière.
+
+### Marquee auto-défilant appliqué à la section partenaires — homepage (2026-08-24)
+
+Demande utilisateur : appliquer à la section "Ils nous font confiance" de
+la homepage (`src/pages/index.astro`) le même traitement que la section
+partenaires d'`about.astro` (marquee auto-défilant), avec les mêmes
+partenaires — les deux sections listaient déjà exactement les 7 mêmes
+logos avant ce changement (suite à l'alignement fait juste avant sur
+`about.astro`), donc le travail portait uniquement sur le comportement
+(ligne statique en grille → une seule ligne qui défile).
+
+Repris tel quel le pattern `.logo-marquee`/`.logo-marquee-track` +
+tableau `partnerLogos` déjà en place sur `about.astro` (deux groupes flex
+dupliqués, le second `aria-hidden`, animation `translateX(-50%)` en
+boucle, pause au survol/focus, `prefers-reduced-motion` respecté) —
+copié dans le frontmatter et le markup d'`index.astro` sans dupliquer la
+logique CSS (déjà globale dans `src/styles/global.css`, réutilisée par les
+deux pages). Titre "Ils nous font confiance" (orange, centré, sans
+wave-line) laissé inchangé — seule la ligne de logos en dessous a été
+convertie, hors périmètre de la demande de retoucher le titre.
+
+Vérifié via `npm run build` (71 pages, aucune erreur) et une vraie session
+Playwright (MCP connecté, pas de captures ponctuelles) sur
+`localhost:4321/` : 7 logos dans le groupe visible (identiques à
+`about.astro`), deux groupes dupliqués de largeur égale (boucle sans
+saut), `transform: translateX(...)` progressant sur 2,5s réelles
+(`-1269px` → `-1401px`), pause confirmée au survol réel
+(`animation-play-state: paused`), `prefers-reduced-motion: reduce`
+émulé (animation à `none`, groupe dupliqué à `display: none`), aucun
+overflow horizontal à 390px, capture d'écran (`animations: 'disabled'`
+pour contourner l'attente infinie de Playwright sur une animation en
+boucle) confirmant la même ligne de 7 logos que sur `about.astro`.
+
+### Alignement des logos partenaires sur la homepage — page A-propos (2026-08-24)
+
+Demande utilisateur : la section partenaires d'`about.astro` ne doit
+afficher que les mêmes logos que la section "Ils nous font confiance" de
+la homepage (`src/pages/index.astro`), pas les 4 logos supplémentaires
+(`devcast.png`, `j2code.png`, `possatech_solutions_logo_couleur.png`,
+`sfa.jpg`) ajoutés lors de la création de la section — retirés du tableau
+`partnerLogos` dans `about.astro`, qui contient maintenant exactement les
+7 mêmes partenaires que la homepage (CGDT, ACDN, GalsenDev, UnionLab,
+Miabé Hackathon, 10000 Codeurs, Congo DevOps).
+
+Revérifié via `npm run build` (71 pages, aucune erreur) et une vraie
+session Playwright (MCP connecté) : `logoCount` = 7 dans le groupe visible
+du marquee, largeurs des deux groupes dupliqués toujours identiques (donc
+la boucle à 50% reste sans saut après suppression des 4 logos), animation
+toujours `running`, aucun overflow horizontal (`scrollWidth` ≤
+`innerWidth`), capture d'écran confirmant les 7 logos sur une seule ligne.
+**Point technique noté en cours de vérification** : la méthode
+`page.screenshot()` de Playwright attend par défaut la fin de toute
+animation CSS avant de capturer, ce qui bloque indéfiniment sur un
+marquee en boucle infinie (`animation-iteration-count: infinite`) — capture
+refaite avec l'option `animations: 'disabled'` pour contourner ce blocage.
+
+### Marquee auto-défilant — section partenaires page A-propos (2026-08-24)
+
+Suite à la section précédente (logos en grille `flex-wrap` sur 2 lignes),
+demande utilisateur de repasser sur une seule ligne qui défile
+horizontalement en continu — plus proche de la maquette d'origine "Brands
+that believe in our vision" que le rendu en grille statique. Implémenté en
+CSS pur (`src/styles/global.css`, classes `.logo-marquee`/
+`.logo-marquee-track` + `@keyframes logoMarquee`), pas de librairie de
+carrousel, cohérent avec les contraintes du projet ("Ne pas introduire
+d'autres librairies d'animation").
+
+Technique du marquee sans saut visible : les 11 logos sont dupliqués dans
+deux groupes flex identiques (le deuxième `aria-hidden="true"`, `alt=""`,
+pour ne pas dupliquer l'annonce aux lecteurs d'écran), animation
+`translateX(-50%)` en boucle infinie — comme les deux groupes ont
+exactement la même largeur, le décalage de 50% ramène le deuxième groupe
+pile à la position de départ du premier, sans saut. Pause au survol/focus
+clavier (`:hover`/`:focus-within`) pour laisser le temps de lire un logo.
+`prefers-reduced-motion: reduce` coupe l'animation et masque le groupe
+dupliqué (même garde-fou déjà en place pour `.wave-line`), pour ne pas
+laisser un utilisateur avec cette préférence face à deux jeux de logos
+figés côte à côte. Dégradé de masquage (`mask-image`) sur les bords gauche/
+droit du conteneur pour un fondu propre à l'entrée/sortie plutôt qu'une
+coupe nette.
+
+Logos extraits en tableau `partnerLogos` dans le frontmatter d'`about.astro`
+(classes de taille par logo dans le tableau, même pattern déjà utilisé pour
+`members-preview.ts` — vérifié que le scanner JIT Tailwind résout bien ces
+classes littérales dans un tableau JS, contrairement au bug déjà rencontré
+avec des template literals interpolés) pour éviter de dupliquer 11 balises
+`<img>` à la main dans les deux groupes.
+
+Vérifié via `npm run build` (71 pages, aucune erreur), inspection du CSS
+compilé (`logoMarquee`, classes de taille dynamiques bien générées), et
+captures d'écran Edge headless sur serveur de dev réel confirmant une seule
+ligne de logos avec effet de fondu aux bords et position de défilement déjà
+avancée au moment de la capture (preuve que l'animation tourne).
+
+MCP Playwright s'est reconnecté plus tard dans la session : revérifié avec
+une vraie session CDP persistante (pas des captures ponctuelles) sur
+`localhost:4321/about`, ce qui a permis de confirmer, cette fois par
+interaction réelle en navigateur plutôt que par lecture de code :
+- `transform: translateX(...)` relevé deux fois à 3s d'intervalle réel
+  (`-2127px` → `-146px`) : progression continue à la vitesse attendue
+  (largeur d'un groupe ÷ durée = 2220px ÷ 28s ≈ 79px/s), avec un
+  rebouclage cohérent (`-2127 - 3·79 ≈ -2365`, ramené à `-145` après un
+  tour de boucle) — la technique de duplication à 50% fonctionne
+  réellement, pas seulement sur le papier.
+- Survol réel (`locator.hover()`, pas un événement de souris synthétique
+  — un premier essai avec `dispatchEvent(MouseEvent)` ne déclenchait pas
+  `:hover`, seul un vrai déplacement de curseur Playwright le fait) :
+  `animation-play-state` passe à `paused` pendant le survol du conteneur,
+  revient à `running` une fois le curseur déplacé ailleurs.
+- `prefers-reduced-motion: reduce` émulé via `page.emulateMedia()` :
+  `animationName` devient `none`, le second groupe (dupliqué,
+  `aria-hidden`) passe à `display: none`, largeur du track = largeur d'un
+  seul groupe (aucun résidu de largeur ni logo coupé).
+- 390px (mobile réel, pas Edge headless) : `document.documentElement.
+  scrollWidth` (375px) ≤ `window.innerWidth` (390px), aucun overflow
+  horizontal ; capture d'écran confirmant une seule ligne, aucun retour à
+  la ligne.
+
+**Ancienne limite de ce projet levée pour cette vérification** (MCP
+Playwright était indisponible dans les sessions précédentes ayant travaillé
+sur cette page) : la méthode de vérification par captures d'écran
+ponctuelles décrite plus haut est donc remplacée ici par une vérification
+en temps réel, plus fiable pour ce type de comportement (animation
+continue, pause au survol).
+
+### Section "Ces partenaires qui croient en nous" — page A-propos (2026-08-24)
+
+Nouvelle section sur `src/pages/about.astro`, insérée entre le hero et la
+section Vision/Mission/Valeurs, inspirée d'une maquette "Brands that believe
+in our vision" fournie en pièce jointe directe dans le message de la commande
+(bandeau défilant de logos de marques : Give Internet, Microsoft, nguvu,
+Treford, TUNGA, Google, Zendesk, etc.). Ces marques ne sont pas de vrais
+partenaires de PossaCode — la maquette ne servait que de référence de mise
+en page — donc plutôt que de fabriquer une fausse liste de partenaires,
+réutilisé le même titre `font-Phudu` + `wave-line` et le même pattern de
+rangée de logos (`flex flex-wrap justify-center`, `object-contain`) déjà
+utilisé et vérifié pour la section "Ils nous font confiance" de la homepage
+(`src/pages/index.astro`).
+
+Audit de `public/assets/par/` : 11 logos réels au total, dont seulement 7
+déjà affichés sur la homepage (`cgdt`, ACDN, galsendev, unionlab, Congo
+DevOps, Miabé Hackathon, 10000 Codeurs). 4 logos existaient dans le repo
+sans être utilisés nulle part (`devcast.png`, `j2code.png`,
+`possatech_solutions_logo_couleur.png`, `sfa.jpg`) — vérifié via recherche
+dans tout `src/` avant de les considérer disponibles. Les 11 sont utilisés
+ici, donnant à cette section un contenu réel plus complet que la homepage
+plutôt qu'une simple duplication. Logo Congo DevOps réutilisé via le même
+composant `<Image>` optimisé (`astro:assets`, `densities={[1,2]}`,
+`format="webp"`) déjà en place sur la homepage, pas de nouvelle image
+statique ajoutée. Alt text descriptif ajouté sur chaque logo (nom du
+partenaire) — la homepage avait des `alt=""` vides, corrigé ici sans
+toucher à la homepage (hors périmètre de la demande).
+
+Vérifié via `npm run build` (71 pages, aucune erreur) et captures d'écran
+Edge headless à 1440px/768px sur serveur de dev réel (MCP Playwright
+indisponible dans la session, limite déjà documentée sur ce projet) :
+section bien positionnée avant Vision/Mission/Valeurs, titre et wave-line
+cohérents avec le reste de la page, logos wrap proprement sans overflow aux
+deux largeurs.
+
 ### Refonte section Vision/Mission/Valeurs en accordéon + mosaïque — page A-propos (2026-08-24)
 
 Remplacement complet de la section Vision/Mission/Valeurs de
