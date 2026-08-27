@@ -7,45 +7,57 @@
 
 ## 🔧 Feature en cours
 
-Corriger les liens morts href="" des CTA principaux
+_Aucune feature active._
 
-**Status:** In Progress
+**Status:** Not Started
 
 ---
 
 ## 🎯 Objectif
 
-Les 3 CTA principaux "Nous Rejoindre" / "Faire un don" de la homepage ont
-`href=""` (rechargement de la page courante au lieu d'une vraie
-navigation). Les pointer vers de vraies routes existantes.
+_À définir._
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- Ligne 36 (`"Nous Rejoindre"`, header/CTA du haut) : `href="/join"`
-- Ligne 276 (`"Nous Rejoindre"`, CTA final) : `href="/join"`
-- Ligne 277 (`"Faire un don"`, CTA final) : `href="/donate"`
-- Mêmes routes que celles déjà utilisées dans `src/components/Footer.astro`
-- Vérification : scan DOM confirmant qu'aucun `<a>` n'a plus `href=""` sur
-  la page
+_À définir._
 
 ---
 
 ## 📍 Fichier concerné
 
-`src/pages/index.astro` (lignes 36, 276, 277)
+_À définir._
 
 ---
 
 ## 🗒️ Notes
 
-- `/join` et `/donate` existent déjà comme routes du site (stubs `<Layout>`
-  créés pour le footer, voir History "Footer site-wide").
+_Aucune note pour le moment._
 
 ---
 
 ## 📜 History
+
+### Fix liens morts href="" des CTA principaux — homepage (2026-08-27)
+
+Les 3 CTA "Nous Rejoindre"/"Faire un don" de la homepage
+(`src/pages/index.astro`, lignes 36, 276, 277) avaient `href=""`
+(rechargement de la page courante au lieu d'une vraie navigation) — repérés
+directement par l'utilisateur, pas via un audit. Pointés vers `/join` et
+`/donate`, mêmes routes déjà utilisées pour ces mêmes libellés dans
+`src/components/Footer.astro` ; les deux routes existaient déjà comme
+stubs `<Layout>` (voir History "Footer site-wide"), aucune nouvelle page
+créée.
+
+Vérifié via `npm run build` (71 pages, aucune erreur) et une vraie session
+Playwright (`playwright-core` installé temporairement en local avec
+`--no-save`, piloté via Edge installé sur la machine — MCP Playwright non
+connecté dans cette session, désinstallé après vérification, aucune trace
+dans `package.json`/`git status`) : scan DOM de la homepage confirmant 0
+`<a>` avec `href=""` restant (54 liens au total) et que les 6 CTA
+"Nous Rejoindre"/"Faire un don" de la page (dont ceux déjà présents dans
+le header et le footer) résolvent bien vers `/join`/`/donate`.
 
 ### Animation d'apparition au scroll — section "Notre histoire" (2026-08-27)
 
