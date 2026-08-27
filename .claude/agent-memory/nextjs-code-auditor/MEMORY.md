@@ -1,0 +1,1 @@
+- [Project Architecture](project_architecture.md) — Current (2026-07-28) server/client split, DB ownership-check pattern, cache()/rate-limit fixes applied, remaining flagged items (decomposition, dead code, no-Bash-tool caveat)

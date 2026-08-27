@@ -4,6 +4,38 @@ import { Image } from 'astro:assets';
 import congoDevOpsLogo from '../assets/par/Congo DevOps.jpg';
 import '../styles/global.css';
 
+// Jalons temporaires (fictifs) — à remplacer par les vraies dates et événements de PossaCode avant mise en production.
+const historyMilestones = [
+    {
+        year: '2023',
+        title: 'Naissance de PossaCode',
+        description: "Un noyau de développeurs passionnés se réunit pour donner vie à une communauté tech pensée pour et par la jeunesse africaine.",
+        image: '/assets/heri.jpg',
+        alt: 'Membre de PossaCode animant une session de formation devant un poster de présentation',
+    },
+    {
+        year: '2024',
+        title: 'Premier hackathon communautaire',
+        description: 'PossaCode organise son tout premier hackathon, réunissant développeurs et porteurs de projets autour de défis techniques.',
+        image: '/assets/A3.jpg',
+        alt: 'Membres de la communauté PossaCode collaborant ensemble autour d\'une tablette',
+    },
+    {
+        year: '2025',
+        title: '1000 personnes impactées',
+        description: 'Le cap symbolique des 1000 personnes accompagnées est franchi grâce aux formations et événements organisés.',
+        image: '/assets/engroupe.jpg',
+        alt: "Membres de la communauté PossaCode réunis lors d'un événement",
+    },
+    {
+        year: '2026',
+        title: "PossaCode aujourd'hui",
+        description: "Plus de 80 membres actifs et une communauté toujours grandissante, portée par une vision claire pour l'avenir.",
+        image: '/assets/groupe.jpg',
+        alt: 'Grand groupe de membres de la communauté PossaCode réunis',
+    },
+];
+
 const partnerLogos = [
     { src: '/assets/par/cgdt.jpg', alt: 'Logo partenaire CGDT', class: 'w-24 md:w-35 h-14 md:h-20 object-cover' },
     { src: "/assets/par/Logo de l'ACDN.png", alt: 'Logo partenaire ACDN', class: 'w-40 md:w-65 h-14 md:h-20 object-contain' },
@@ -89,7 +121,7 @@ const partnerLogos = [
     <section class="px-6 md:px-10 py-16 md:py-24">
         <div class="flex justify-center">
             <div class="inline-block">
-                <h2 class="text-3xl md:text-4xl font-Phudu font-bold text-blue-possacode text-center">Ces partenaires qui croient en nous</h2>
+                <h2 class="text-3xl md:text-5xl font-Phudu font-bold text-blue-possacode text-center">Ces partenaires qui croient en nous</h2>
                 <svg class="w-full h-3 mt-1" viewBox="0 0 200 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10" stroke="#f14d0e" stroke-width="2" fill="transparent" class="wave-line"/>
                 </svg>
@@ -119,7 +151,7 @@ const partnerLogos = [
             <!-- Colonne texte + accordéon -->
             <div>
                 <div class="inline-block">
-                    <h2 class="text-3xl md:text-4xl font-Phudu font-bold text-blue-possacode">Notre Vision, Mission &amp; Valeurs</h2>
+                    <h2 class="text-3xl md:text-5xl font-Phudu font-bold text-blue-possacode">Notre Vision, Mission &amp; Valeurs</h2>
                     <svg class="w-full h-3 mt-1" viewBox="0 0 200 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10" stroke="#f14d0e" stroke-width="2" fill="transparent" class="wave-line"/>
                     </svg>
@@ -200,9 +232,82 @@ const partnerLogos = [
             </div>
         </div>
     </section>
+
+    <!-- Notre Histoire Section -->
+    <section class="px-6 md:px-10 py-16 md:py-24">
+        <div class="flex justify-center">
+            <div class="inline-block">
+                <h2 class="text-3xl md:text-5xl font-Phudu font-bold text-blue-possacode text-center">Notre histoire</h2>
+                <svg class="w-full h-3 mt-1" viewBox="0 0 200 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10" stroke="#f14d0e" stroke-width="2" fill="transparent" class="wave-line"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="mt-10 md:mt-16 grid md:grid-cols-[1fr_2fr_1fr] gap-x-6 md:gap-x-10">
+            {historyMilestones.map((milestone, index) => (
+                <>
+                    <!-- Photo à gauche (jalons pairs) -->
+                    <div class="hidden md:flex items-start">
+                        {index % 2 === 0 && (
+                            <div class="history-reveal relative w-full rounded-2xl overflow-hidden shadow-blue-possacode/15 shadow-xl aspect-4/3">
+                                <img src={milestone.image} alt={milestone.alt} class="w-full h-full object-cover" />
+                                <span class="absolute top-3 left-3 bg-white/90 text-blue-possacode font-Phudu font-bold text-xs px-3 py-1 rounded-full">{milestone.year}</span>
+                                <div class="absolute inset-x-0 bottom-0 bg-linear-to-t from-blue-possacode/90 to-transparent px-4 pt-8 pb-3">
+                                    <p class="text-white font-Phudu font-bold text-sm md:text-base">{milestone.title}</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    <!-- Jalon : puce, ligne verticale, année, titre, description -->
+                    <div class={`history-reveal relative pl-14 md:pl-16 ${index === historyMilestones.length - 1 ? 'pb-0' : 'pb-10 md:pb-14'}`}>
+                        {index !== historyMilestones.length - 1 && (
+                            <span class="absolute left-10 md:left-12 top-1 bottom-0 w-0.5 bg-blue-possacode/15"></span>
+                        )}
+                        <span class="absolute left-0 top-0 w-10 md:w-12 pr-3 text-right font-Phudu font-bold text-orange-possacode text-base md:text-lg">{milestone.year}</span>
+                        <span class="history-dot-reveal absolute left-[calc(2.5rem-5px)] md:left-[calc(3rem-5px)] top-0.5 w-2.5 h-2.5 rounded-full bg-orange-possacode ring-4 ring-orange-possacode/20"></span>
+                        <p class="font-Phudu font-bold text-blue-possacode text-lg md:text-xl">{milestone.title}</p>
+                        <p class="text-gray-600 font-nunito text-sm md:text-base mt-2 max-w-md">{milestone.description}</p>
+                    </div>
+
+                    <!-- Photo à droite (jalons impairs) -->
+                    <div class="hidden md:flex items-start">
+                        {index % 2 === 1 && (
+                            <div class="history-reveal relative w-full rounded-2xl overflow-hidden shadow-blue-possacode/15 shadow-xl aspect-4/3">
+                                <img src={milestone.image} alt={milestone.alt} class="w-full h-full object-cover" />
+                                <span class="absolute top-3 left-3 bg-white/90 text-blue-possacode font-Phudu font-bold text-xs px-3 py-1 rounded-full">{milestone.year}</span>
+                                <div class="absolute inset-x-0 bottom-0 bg-linear-to-t from-blue-possacode/90 to-transparent px-4 pt-8 pb-3">
+                                    <p class="text-white font-Phudu font-bold text-sm md:text-base">{milestone.title}</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </>
+            ))}
+        </div>
+    </section>
 </Layout>
 
 <script>
+    const historyRevealTargets = document.querySelectorAll<HTMLElement>('.history-reveal, .history-dot-reveal');
+    if ('IntersectionObserver' in window) {
+        const historyRevealObserver = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.2, rootMargin: '0px 0px -10% 0px' }
+        );
+        historyRevealTargets.forEach((el) => historyRevealObserver.observe(el));
+    } else {
+        historyRevealTargets.forEach((el) => el.classList.add('is-visible'));
+    }
+
     const accordionItems = document.querySelectorAll<HTMLElement>('#vmv-accordion [data-item]');
     const panels = document.querySelectorAll<HTMLElement>('#vmv-mosaic [data-panel]');
 

@@ -39,6 +39,236 @@ _Aucune note pour le moment._
 
 ## 📜 History
 
+### Animation d'apparition au scroll — section "Notre histoire" (2026-08-27)
+
+Demande utilisateur : ajouter une animation à la section "Notre histoire".
+Choix fait sans autre précision de l'utilisateur : une révélation
+progressive au scroll (fade + léger slide-up) sur chaque jalon (photo et
+bloc texte) et un effet de "pop" (scale 0→1) sur la puce orange, plutôt
+qu'une ligne de progression continue synchronisée au scroll (rejetée :
+nécessite `animation-timeline: scroll()`, encore mal supporté, ou du JS de
+calcul de scroll continu, plus complexe pour un gain visuel marginal ici).
+Cohérent avec la contrainte du projet ("ne pas introduire d'autre librairie
+d'animation") : IntersectionObserver natif + transitions CSS uniquement,
+même philosophie que le marquee/l'accordéon déjà en place sur cette page.
+
+Deux classes ajoutées dans `global.css` (`.history-reveal` : opacity 0 +
+translateY(28px) → opacity 1 + translateY(0) ; `.history-dot-reveal` : scale
+0 → 1 avec un léger délai pour que la puce apparaisse juste après le texte),
+toutes deux avec leur propre bloc `@media (prefers-reduced-motion: reduce)`
+juste en dessous (même pattern que `.wave-line`/`.logo-marquee`) qui les
+affiche immédiatement sans transition sous cette préférence. Un seul
+`IntersectionObserver` (`threshold: 0.2`, `rootMargin: '0px 0px -10% 0px'`)
+observe tous les éléments `.history-reveal`/`.history-dot-reveal` et ajoute
+`is-visible` au premier passage dans le viewport (`unobserve` ensuite —
+révélation une seule fois, pas de va-et-vient en scrollant vers le haut) ;
+repli (`classList.add` immédiat sur tous) si `IntersectionObserver`
+n'existe pas dans le navigateur.
+
+**Difficulté de vérification rencontrée et résolue** : `getComputedStyle`
+et `page.screenshot()` de Playwright (piloté via Edge local, MCP Playwright
+indisponible dans la session) se sont montrés incapables de refléter une
+mutation `classList.add()` faite **après le chargement de la page** sur
+cette page précise — l'opacité restait mesurée à "0" même en forçant
+`el.style.setProperty('opacity', '1', 'important')` en ligne (ce qui, en
+CSS standard, gagne toujours face à n'importe quelle règle de feuille de
+style, layers ou non) et même après plusieurs secondes d'attente réelle et
+un `IntersectionObserver`/`waitForFunction` en poll actif. Plusieurs
+hypothèses éliminées une à une avant de conclure à un artefact de l'outil
+d'automatisation plutôt qu'à un bug réel :
+- Pas un problème de cascade Tailwind v4 (`CSS.getMatchedStylesForNode` via
+  CDP confirme que la règle `.history-reveal.is-visible` est bien celle qui
+  matche avec la spécificité la plus haute).
+- Pas `prefers-reduced-motion` actif par défaut en headless
+  (`window.matchMedia(...).matches` confirmé `false`).
+- Pas un souci de chargement des polices Google Fonts en sandbox sans accès
+  réseau (`document.fonts.status` confirmé `"loaded"` même avec les
+  requêtes vers `fonts.googleapis.com` explicitement bloquées).
+- Un cas isolé minimal (juste `<div class="box">` + 2 règles CSS + un
+  script qui ajoute la classe) reproduit exactement le même pattern et
+  fonctionne correctement dans le même environnement — donc le mécanisme
+  CSS lui-même n'est pas en cause.
+- **Test décisif** : injecter la classe `is-visible` directement dans le
+  HTML généré par `npm run build` (donc présente dès le chargement, sans
+  aucune mutation JS après coup) donne `getComputedStyle(...).opacity ===
+  "1"` de façon fiable. Ceci prouve que la règle CSS et sa spécificité sont
+  correctes ; seule la lecture d'un style **après une mutation DOM en
+  cours de session** semble se figer sur cette page précise dans cet
+  environnement Playwright + Edge headless (`--no-sandbox`) — un problème
+  d'outillage de vérification, pas du code livré. La mutation elle-même
+  (l'ajout réel de la classe par le script) a été confirmée correcte à
+  chaque test (`el.className` contenait bien `is-visible` après coup).
+
+Étant donné cette limite d'outillage (déjà dans l'esprit des limites Edge
+headless déjà documentées sur ce projet, mais plus profonde ici), le
+comportement au scroll dans un vrai navigateur n'a **pas pu être confirmé
+visuellement en session** — seule la mécanique CSS/JS a été validée
+indirectement (cascade confirmée par CDP, mutation de classe confirmée,
+repli `prefers-reduced-motion` confirmé à 100% fiable sur les mêmes
+éléments). Revérifié via `npm run build` (71 pages, aucune erreur) après
+nettoyage des fichiers de test temporaires et d'une installation temporaire
+de `playwright-core` (`--no-save`, désinstallée après coup).
+
+### Refonte "Notre histoire" en timeline verticale zigzag (2026-08-27)
+
+Remplacement complet de la mise en page interactive (liste d'années
+cliquable + un seul jalon affiché à la fois) par une timeline verticale
+statique où les 4 jalons sont visibles simultanément, sur le modèle d'une
+maquette "She Code Africa" fournie en pièce jointe directe dans le message
+de la commande : ligne verticale continue au centre avec puce ronde par
+jalon, année + titre + description alignés sur la puce, et des cartes photo
+(badge année + légende en overlay bas) disposées en zigzag gauche/droite de
+part et d'autre de la ligne.
+
+Implémentation en grille CSS 3 colonnes (`grid-cols-[1fr_2fr_1fr]`) : à
+chaque itération sur `historyMilestones`, 3 cellules sont émises dans
+l'ordre (photo gauche, jalon central, photo droite) — seule la cellule
+correspondant à la parité de l'index contient réellement une carte photo
+(pairs à gauche, impairs à droite), l'autre reste vide, ce qui garantit
+l'alignement vertical photo/texte sans JS ni mesure manuelle (les 3 cellules
+d'une même itération partagent la même ligne de grille). La ligne verticale
+et la puce sont positionnées en absolu dans le conteneur du jalon central
+(`position: relative`), `bottom-0` sur la ligne s'étend automatiquement
+jusqu'au bas de la ligne de grille — donc jusqu'à la puce suivante — même
+quand une rangée est étirée en hauteur par une photo plus grande que le
+texte (comportement par défaut `align-items: stretch` de CSS Grid).
+
+Les photos et leur alt sont réutilisées telles quelles depuis l'ancienne
+version interactive (aucune nouvelle image, toujours les 4 mêmes photos
+réelles de membres PossaCode). Sur mobile (`<md`), les colonnes photo sont
+masquées (`hidden md:flex`) et seule la timeline texte reste affichée — pas
+d'équivalent mobile dans la maquette source, traitement choisi pour éviter
+une mise en page à 3 colonnes illisible sur petit écran plutôt que de
+forcer un empilement complexe. Ancien script d'interactivité (clic sur une
+année/un point de pagination pour changer le jalon affiché) entièrement
+supprimé du bloc `<script>` d'`about.astro`, devenu obsolète puisque tous
+les jalons sont maintenant visibles en permanence.
+
+Vérifié via `npm run build` (71 pages, aucune erreur) et une vraie session
+Playwright (`playwright-core` temporaire, `--no-save`, désinstallé après
+coup) : aucun overflow horizontal (`scrollWidth` === `innerWidth`) à
+390/768/1440px, cartes photo bien masquées sous 768px (`offsetParent` nul)
+et bien visibles à 768px/1440px. Captures d'écran Edge headless confirmant
+visuellement le rendu en zigzag (2023/2025 à gauche, 2024/2026 à droite)
+fidèle à la maquette de référence, ligne de connexion continue entre les 4
+puces.
+
+### Harmonisation taille des titres de section — page A-propos (2026-08-26)
+
+Demande utilisateur (capture d'écran de la homepage à l'appui, titres "Ils
+nous font confiance" et "Qui sommes-nous ?") : tous les titres de section de
+`about.astro` doivent avoir la même taille et le même style que ceux de la
+homepage. Audit : la homepage utilise `text-3xl md:text-5xl font-Phudu
+font-bold` pour ses titres de section, alors que les 3 titres de section
+d'`about.astro` ("Ces partenaires qui croient en nous", "Notre Vision,
+Mission & Valeurs", "Notre histoire") étaient restés à `md:text-4xl` — un
+cran en dessous — depuis leur création. Uniformisé les 3 en `md:text-5xl`
+(remplacement global de la classe, texte/couleur/wave-line inchangés). Le
+`<h1>` du hero de la page (bannière photo pleine largeur, structure
+différente des titres de section) volontairement laissé à sa taille propre
+(`lg:text-6xl`) — la demande et la capture fournie visaient les titres de
+section, pas ce hero distinct.
+
+Effet secondaire accepté : à 768px, le titre "Notre Vision, Mission &
+Valeurs" passe de 1 à 3 lignes dans sa colonne (plus étroite qu'un titre
+centré pleine largeur) — pas d'overflow ni de rendu cassé, juste plus de
+hauteur, tradeoff direct de l'agrandissement demandé.
+
+Vérifié via `npm run build` (71 pages, aucune erreur), captures d'écran Edge
+headless à 390/768/1440px, et une vraie session Playwright
+(`playwright-core` temporaire, `--no-save`, désinstallé après coup) confirmant
+`scrollWidth` === `innerWidth` aux 3 largeurs (aucun overflow horizontal
+introduit par l'agrandissement des titres).
+
+### Ajustements section "Notre histoire" (2026-08-26)
+
+Deux retouches demandées par l'utilisateur juste après l'implémentation
+initiale (voir entrée suivante) :
+1. **Position** : la section a été déplacée après "Notre Vision, Mission &
+   Valeurs" (initialement placée juste après le bandeau photo communauté,
+   avant la section partenaires). Simple déplacement du bloc `<section>`
+   dans `about.astro`, aucune donnée modifiée.
+2. **Plage d'années** : réduite de 7 jalons (2020-2026) à 4 (2023-2026), sur
+   demande explicite ("Notre histoire démarre à partir de 2023"). Les
+   jalons 2020-2022 (naissance, ateliers de formation, partenariats) ont
+   été retirés ; celui de 2023 reprend le texte "Naissance de PossaCode"
+   initialement associé à 2020. Les jalons 2024 (premier hackathon) et 2025
+   (1000 personnes impactées, aligné sur le stat du hero) ont été décalés
+   d'un an ; 2026 ("PossaCode aujourd'hui") inchangé. Toujours des
+   **placeholders temporaires** (voir décision utilisateur documentée dans
+   l'entrée suivante) — seule la chronologie a changé, pas le principe.
+
+Revérifié via `npm run build` (71 pages, aucune erreur) et capture d'écran
+Edge headless à 1440px confirmant le nouvel ordre des sections (Vision/
+Mission/Valeurs puis Notre histoire) et les 4 années affichées (2023 à
+2026, 2026 actif par défaut).
+
+### Section "Notre histoire" — timeline page A-propos (2026-08-26)
+
+Nouvelle section sur `src/pages/about.astro`, entre le bandeau photo
+communauté et la section partenaires, inspirée d'une maquette "Notre
+histoire" (timeline façon Thiga : liste d'années à gauche, année active en
+grand + titre + description au centre, photo à droite avec pagination en
+points) fournie en pièce jointe directe dans le message de la commande —
+pas trouvée dans `context/screenshot/` (qui ne contient que
+`a1-youth-skills_0.webp`/`hero.png`/`image.png`, déjà utilisées ailleurs,
+vérifié avant implémentation, même schéma déjà rencontré sur cette page).
+
+Contrairement aux données de membres (où des placeholders fictifs sont déjà
+utilisés ailleurs sur ce projet pour des identités décoratives), une section
+"Notre histoire" présente des faits organisationnels réels (dates, jalons de
+l'association) — question posée à l'utilisateur avant d'inventer quoi que ce
+soit. Réponse : utiliser des **jalons placeholder temporaires**, clairement
+marqués comme tels. Tableau `historyMilestones` (7 entrées, 2020-2026) créé
+dans le frontmatter d'`about.astro` avec un commentaire "à remplacer avant
+mise en production" — même limite déjà documentée pour `experts.ts` et
+`members-directory.ts`. Les deux derniers jalons (2024 "1000 personnes
+impactées", 2026 "80+ membres actifs") réutilisent volontairement les
+chiffres déjà affichés dans le bandeau de stats du hero de cette page, pour
+rester cohérent avec les données déjà communiquées ailleurs sur le site
+plutôt que d'inventer des chiffres contradictoires.
+
+Photo par jalon : les 7 images utilisées (`heri.jpg`, `ca.jpg`, `A3.jpg`,
+`NOUS.jpg`, `engroupe.jpg`, `coworking.webp`, `groupe.jpg`) sont toutes de
+vraies photos de membres PossaCode (t-shirts/logo de l'association visibles
+sur plusieurs) déjà présentes dans `public/assets/` — `heri.jpg` et `ca.jpg`
+n'étaient utilisées nulle part ailleurs sur le site (vérifié par recherche
+dans tout `src/`), les 5 autres sont réutilisées depuis d'autres sections
+déjà vérifiées. Plusieurs fichiers inutilisés du dossier `assets/` ont été
+écartés après inspection visuelle : `webi.png` (capture d'écran d'un appel
+Google Meet, hors sujet), `new2.png` (photo à fond transparent au style
+stock/catalogue, provenance non vérifiée), `femmecode - Copie.jpg` et
+`maxresdefault - Copie.jpg` (le nom "maxresdefault" trahit une miniature
+YouTube récupérée en ligne, pas une photo PossaCode — même type de risque
+que l'incident Vecteezy déjà rencontré sur cette page) et
+`POSSACODE DEVDAY JUIN.png` (affiche promotionnelle d'événement, pas une
+photo brute, même principe déjà appliqué à `IMG_1379.JPG` sur la section
+Vision/Mission/Valeurs).
+
+Interaction (changement de jalon au clic sur une année ou un point de
+pagination) en JS vanilla, même pattern que l'accordéon Vision/Mission/
+Valeurs de cette page : chaque bouton d'année porte les données du jalon en
+attributs `data-*` (`data-year`, `data-title`, `data-description`,
+`data-image`, `data-alt`), un seul script met à jour le grand chiffre
+d'année, le titre, la description, la source/alt de la photo, et l'état actif
+des boutons d'année et des points de pagination — pas de scan JIT Tailwind à
+risque (aucune classe interpolée par template literal, retoggle de classes
+littérales déjà présentes dans le bundle CSS).
+
+Vérifié via `npm run build` (71 pages, aucune erreur) et une vraie session
+Playwright (`playwright-core` installé temporairement en local avec
+`--no-save`, piloté via Edge installé sur la machine — MCP Playwright non
+connecté dans cette session ; package désinstallé après vérification, aucune
+trace dans `package.json`/`git status`) : aucun overflow horizontal
+(`scrollWidth` === `innerWidth`) à 390px/768px/1440px, clic sur l'année 2020
+met à jour correctement l'année/titre/photo affichés et l'état actif (année
++ point de pagination), clic sur un point de pagination (index 3 → 2023)
+fait de même, `naturalWidth`/`naturalHeight` de la photo affichée confirmés
+non nuls (chargement réussi). L'artefact de rendu Edge headless legacy qui
+coupe le bord droit à 390px (déjà documenté sur ce projet) était visible sur
+une capture ponctuelle mais écarté comme faux positif grâce à cette mesure
+réelle en session Playwright.
+
 ### Remplacement de la photo du bandeau communauté (2026-08-25)
 
 Suite : l'utilisateur a fourni une troisième image (groupe de 4 jeunes
