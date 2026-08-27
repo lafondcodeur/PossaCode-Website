@@ -7,36 +7,27 @@
 
 ## 🔧 Feature en cours
 
-Corriger la hiérarchie de titres de la page d'accueil (`src/pages/index.astro`)
+_Aucune feature active._
 
-**Status:** In Progress
+**Status:** Not Started
 
 ---
 
 ## 🎯 Objectif
 
-La page compte actuellement 14 balises `<h1>` (mesuré via
-`document.querySelectorAll('h1').length === 14`), ce qui casse la
-hiérarchie de titres (accessibilité + SEO). Il ne doit y avoir qu'un seul
-`<h1>` par page : celui du titre du hero.
+_À définir._
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- Un seul `<h1>` sur la page : le titre du hero (ligne 23), inchangé.
-- Tous les autres titres de section convertis de `<h1>` en `<h2>` :
-  lignes 48, 71, 127, 139, 151, 167, 177, 192, 201, 210, 223, 254, 265.
-- Classes visuelles conservées à l'identique sur chaque titre converti
-  (taille, `font-Phudu`, `wave-line`, etc.) — seul le tag change.
-- Vérifié avec `document.querySelectorAll('h1').length === 1`.
-- Vérifié avec un audit axe `heading-order` (aucune violation).
+_À définir._
 
 ---
 
 ## 📍 Fichier concerné
 
-`src/pages/index.astro`
+_À définir._
 
 ---
 
@@ -1101,3 +1092,35 @@ colonne), 768px (grille desktop non affichée, `hidden lg:grid`, aucun
 overflow), 1280px (paragraphe à 452px, dans sa colonne) et 1440px
 (paragraphe à sa pleine largeur maximale de 480px). `npm run build` : 71
 pages, aucune erreur.
+
+### Fix hiérarchie de titres — page d'accueil (2026-08-27)
+
+La page comptait 14 balises `<h1>` (`document.querySelectorAll('h1').length
+=== 14`) : le titre du hero plus un `<h1>` par titre de section, cassant la
+hiérarchie de titres attendue par les lecteurs d'écran et les moteurs de
+recherche (un seul `<h1>` par page). Converti les 13 titres de section de
+`src/pages/index.astro` (lignes 48, 71, 127, 139, 151, 167, 177, 192, 201,
+210, 223, 254, 265) en `<h2>`, en ne touchant qu'au nom de la balise —
+classes visuelles (taille, `font-Phudu`, couleur, `wave-line` associée)
+inchangées sur chacun. Seul le titre du hero (ligne 23) reste en `<h1>`.
+
+Trois de ces titres ("Comment utiliser tailwindcss dans un projet Astro ?",
+répété pour chaque carte d'événement de la colonne de droite) étaient des
+`<h1>` strictement identiques (même texte, mêmes classes) : désambiguïsés
+lors de l'édition via l'image `<img>` précédente de chaque carte
+(`maxresdefault - Copie.jpg`, `new1.jpg`, `femmecode - Copie.jpg`) plutôt
+que par une modification en masse, pour ne convertir que l'occurrence
+voulue à chaque fois.
+
+Vérifié via une vraie session Playwright (`playwright-core` installé
+temporairement en local avec `--no-save`, piloté via Edge installé sur la
+machine — MCP Playwright non connecté dans cette session, désinstallé après
+vérification, aucune trace dans `package.json`/`git status`) sur le serveur
+de dev réel : `document.querySelectorAll('h1').length === 1` confirmé,
+relevé de l'intégralité de la structure de titres de la page (`h1` à `h6`,
+17 titres au total en comptant ceux du `Footer.astro` déjà en `<h2>`) et
+audit programmatique de l'ordre des niveaux (logique de la règle axe-core
+`heading-order` : aucun saut de niveau) — aucune violation. Capture d'écran
+à 1440px confirmant l'absence de régression visuelle sur le hero et le
+titre "Ils nous font confiance", et `scrollWidth === innerWidth` (aucun
+overflow introduit). `npm run build` : 71 pages, aucune erreur.
