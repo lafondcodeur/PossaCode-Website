@@ -7,33 +7,41 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Corriger les liens morts href="" des CTA principaux
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+Les 3 CTA principaux "Nous Rejoindre" / "Faire un don" de la homepage ont
+`href=""` (rechargement de la page courante au lieu d'une vraie
+navigation). Les pointer vers de vraies routes existantes.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- Ligne 36 (`"Nous Rejoindre"`, header/CTA du haut) : `href="/join"`
+- Ligne 276 (`"Nous Rejoindre"`, CTA final) : `href="/join"`
+- Ligne 277 (`"Faire un don"`, CTA final) : `href="/donate"`
+- Mêmes routes que celles déjà utilisées dans `src/components/Footer.astro`
+- Vérification : scan DOM confirmant qu'aucun `<a>` n'a plus `href=""` sur
+  la page
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+`src/pages/index.astro` (lignes 36, 276, 277)
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+- `/join` et `/donate` existent déjà comme routes du site (stubs `<Layout>`
+  créés pour le footer, voir History "Footer site-wide").
 
 ---
 
