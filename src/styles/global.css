@@ -11,6 +11,8 @@
   --font-Elsie-Swash-Caps: "Elsie Swash Caps", serif;
   --color-blue-possacode: #1a2251;
   --color-orange-possacode: #f14d0e;
+  /* Texte foncé lisible (AA >= 4.5:1) sur fond orange-possacode ou clair — remplace text-white/text-orange-possacode/text-blue-possacode qui tombent à 3.3-4.2:1 dans ces contextes */
+  --color-orange-possacode-ink: #2a0e00;
 }
 
 /* Classes utilitaires personnalisées */

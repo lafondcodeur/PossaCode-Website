@@ -7,33 +7,106 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Fix contraste texte-sur-orange-possacode (WCAG AA)
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+Corriger le motif récurrent de contraste insuffisant "texte sur fond
+`orange-possacode`" détecté par un audit axe-core : 14 nœuds
+`color-contrast` (impact `serious`), ratios mesurés entre 3.32:1 et 4.17:1,
+tous sous le seuil AA 4.5:1 (texte normal). Au lieu de rustines au cas par
+cas, ajouter dans `src/styles/global.css` un token de texte foncé dédié aux
+fonds `orange-possacode` (ex. `--color-orange-possacode-ink`, une teinte
+assombrie de la couleur de texte actuelle) et l'appliquer aux boutons/
+paragraphes concernés à la place de `text-white`/`text-orange-possacode`
+utilisés à tort sur fond clair.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- Nouveau token de couleur ajouté dans `@theme` (`global.css`) pour un texte
+  foncé lisible sur fond `orange-possacode`.
+- Les 14 nœuds concernés utilisent ce token (ou une classe Tailwind qui le
+  référence) au lieu de `text-white`/`text-orange-possacode` sur fond clair.
+- `axe.run()` sur les pages concernées (au minimum la homepage et le header,
+  communs à tout le site) ne remonte plus aucune violation `color-contrast`
+  sur ces 14 nœuds.
+- Aucune régression visuelle non justifiée (cohérence avec les couleurs
+  `orange-possacode`/`blue-possacode` du design system, pas de nouvelle
+  couleur hors thème).
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+- `src/styles/global.css` (nouveau token de couleur)
+- `src/pages/index.astro` (lignes 35, 36, 88, 132, 144, 156, 176, 185, 191,
+  200, 209, 276 — à revérifier au moment du fix, les lignes ont pu bouger
+  depuis l'audit)
+- `src/components/header.astro` (ligne 20)
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+- Origine : audit axe-core, 14 nœuds `color-contrast` (impact `serious`),
+  ratios entre 3.32:1 et 4.17:1, tous sous le seuil AA 4.5:1 texte normal.
+- Motif récurrent plutôt que 14 cas isolés → traiter à la racine via un
+  token de thème dédié, pas des overrides ponctuels par élément.
+
+**Implémenté** : token `--color-orange-possacode-ink` (`#2a0e00`) ajouté
+dans `@theme` (`global.css`), appliqué aux 12 nœuds `index.astro` + 1 nœud
+`header.astro:20` listés ci-dessus (13 au total), plus le duplicata mobile
+du bouton "Faire un don" (`header.astro:41`, même composant, même bug, pas
+listé séparément dans l'audit mais visible dès qu'on ouvre le menu mobile).
+
+**Écart avec le compte de "14 nœuds"** : le tableau détaillé de l'audit
+(`doc/audit-home-2026-08-27.md`, finding S1) inclut en réalité un 14ᵉ nœud
+— `src/layouts/Layout.astro:29` (span "PossaCode Dev Girsl", orange sur
+fond `blue-possacode`, 4.17:1) — absent du `Fichier concerné` de cette
+feature et de la liste de lignes du `/feature load` d'origine. Ce nœud est
+d'une nature différente (texte orange trop *foncé* pour un fond **bleu**
+foncé — a besoin d'un orange plus **clair**, pas du token `-ink` qui va
+dans le sens inverse) : non corrigé ici, laissé pour une feature séparée
+plutôt que d'élargir le scope ou de forcer un token dans la mauvaise
+direction. `axe.run()` confirme que c'est désormais la SEULE violation
+`color-contrast` restante sur la homepage, à 390/768/1024/1440px et avec le
+menu mobile ouvert.
+
+**Trouvé en vérifiant (hors liste initiale, corrigé quand même car même
+fichier/même motif)** : à 390-767px, 5 nœuds supplémentaires en
+`text-orange-possacode` (gras, 16px) sur fond `blue-possacode` échouaient
+aussi à 4.17:1 — invisibles à l'audit initial car son scan ne semble avoir
+tourné qu'à un seul viewport desktop. Concerné : le span "PossaCode" de
+l'intro (`index.astro` ~l.78) et les 4 mots-clés en gras du paragraphe
+"Nous sommes convaincus..." dans le bloc mobile/tablette dupliqué
+(`index.astro` ~l.106). Corrigés en `text-white md:text-orange-possacode`
+(le bloc desktop équivalent, l.87, n'était pas concerné : texte déjà à
+20px gras dès `lg:`, donc "grand texte", seuil 3:1 déjà respecté à 4.17:1)
+plutôt qu'avec le token `-ink` (mauvaise direction ici aussi, même
+raisonnement que pour `Layout.astro:29`).
+
+**Vérification** : `npm run build` (71 pages, 0 erreur) puis une vraie
+session Playwright (`playwright-core`+`axe-core` installés temporairement
+en local avec `--no-save`, pilotés via Edge installé sur la machine — MCP
+Playwright non connecté dans cette session, désinstallés après
+vérification, aucune trace dans `package.json`/`git status`) :
+`axe.run({runOnly:['color-contrast']})` sur la homepage à 390/768/1024/
+1440px + menu mobile ouvert → 0 violation sur tous les nœuds dans le scope
+de cette feature (1 seule violation restante à chaque fois : le nœud
+`Layout.astro:29` documenté ci-dessus comme hors scope).
+- Ne pas introduire de couleur hors thème (`orange-possacode`/
+  `blue-possacode` uniquement, cf. `context/ai-interaction.md`) — le
+  nouveau token doit rester une variante assombrie de `orange-possacode`,
+  pas une couleur Tailwind générique.
+- Vérification finale attendue via `axe.run()` (pas seulement `npm run
+  build`), cohérent avec la pratique de vérification déjà établie sur ce
+  projet (voir History).
 
 ---
 
