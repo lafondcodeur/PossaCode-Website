@@ -7,33 +7,49 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Rendre le bouton "Faire un don" du header réellement interactif.
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+Le bouton "Faire un don" du header (`src/components/header.astro`, versions
+desktop et mobile) est actuellement un `<div>` sans `href`, sans `role`, sans
+`tabindex` : il n'est ni focusable au clavier, ni navigable, ni reconnu comme
+un lien par les technologies d'assistance. Le transformer en vrai lien
+`<a href="/donate">`, cohérent avec le lien "Faire un don" déjà présent dans
+le footer.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- Les deux `<div class="...">Faire un don</div>` (desktop ligne ~20, mobile
+  ligne ~41) sont remplacés par `<a href="/donate" class="...">Faire un
+  don</a>`, classes visuelles existantes conservées à l'identique.
+- `/donate` est la même route que le lien "Faire un don" déjà utilisé dans le
+  footer (`Footer.astro`) — pas de nouvelle route inventée.
+- Test Tab : le focus clavier atteint bien l'élément (bouton desktop visible
+  ≥768px, bouton mobile visible dans le menu ouvert <768px).
+- `getComputedStyle`/rôle implicite : l'élément expose le rôle "link" (donc
+  un vrai `<a href>`, pas un `<div>` avec `role="link"` ajouté manuellement).
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+`src/components/header.astro` (lignes ~20 et ~41)
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+Aucune classe visuelle à changer, uniquement la balise (`div` → `a`) et
+l'ajout de `href="/donate"`. Vérifier après coup qu'aucun style du site ne
+dépendait spécifiquement du fait que cet élément soit un `div` (ex: sélecteur
+CSS ciblant `div` plutôt que la classe).
 
 ---
 
