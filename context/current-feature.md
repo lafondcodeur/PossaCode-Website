@@ -1,4 +1,4 @@
-# Current Feature
+# Current Feature: Fix débordement horizontal "Qui sommes-nous ?" (1024px)
 
 > Ce fichier décrit la fonctionnalité ou la section en cours de développement.  
 > Mettre à jour à chaque changement de focus.
@@ -7,33 +7,50 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Corriger le débordement horizontal à 1024px de la section "Qui sommes-nous ?" (homepage).
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+Le paragraphe `<p class="w-120">` (src/pages/index.astro:87, dans la grille
+desktop `grid-cols-[350px_350px_1fr]`) impose une largeur fixe de 480px, ce
+qui fait déborder la page horizontalement à 1024px : `scrollWidth` mesuré à
+1268px contre `innerWidth` 1024px (244px de dépassement). Le paragraphe doit
+pouvoir rétrécir dans sa colonne au lieu d'imposer une largeur fixe.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- `w-120` remplacé par `max-w-120` (ou une largeur fluide équivalente type
+  `w-full lg:max-w-md`) sur le `<p>` concerné, pour que le texte se
+  redimensionne selon l'espace disponible dans sa colonne plutôt que
+  d'imposer 480px fixes.
+- Vérifié en navigateur réel à 1024px : `document.documentElement.scrollWidth
+  <= window.innerWidth`.
+- Aucune régression visuelle à d'autres largeurs (768px, 1440px) ni sur le
+  reste de la section (grille desktop `[350px_350px_1fr]`, cartes stats,
+  image `groupe.jpg`).
+- `npm run build` sans erreur.
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+`src/pages/index.astro` — ligne 87 (`<p class="... w-120">` dans la section
+"Qui sommes-nous ?", grille desktop).
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+Bug de débordement horizontal, pas une nouvelle section — correction ciblée
+d'une seule classe Tailwind. Contrainte projet : rester dans le design
+system existant (`orange-possacode`/`blue-possacode`, `font-nunito`), pas de
+nouvelle dépendance.
 
 ---
 
