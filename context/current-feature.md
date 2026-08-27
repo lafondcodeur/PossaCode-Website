@@ -7,49 +7,33 @@
 
 ## 🔧 Feature en cours
 
-Rendre le bouton "Faire un don" du header réellement interactif.
+_Aucune feature active._
 
-**Status:** In Progress
+**Status:** Not Started
 
 ---
 
 ## 🎯 Objectif
 
-Le bouton "Faire un don" du header (`src/components/header.astro`, versions
-desktop et mobile) est actuellement un `<div>` sans `href`, sans `role`, sans
-`tabindex` : il n'est ni focusable au clavier, ni navigable, ni reconnu comme
-un lien par les technologies d'assistance. Le transformer en vrai lien
-`<a href="/donate">`, cohérent avec le lien "Faire un don" déjà présent dans
-le footer.
+_À définir._
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- Les deux `<div class="...">Faire un don</div>` (desktop ligne ~20, mobile
-  ligne ~41) sont remplacés par `<a href="/donate" class="...">Faire un
-  don</a>`, classes visuelles existantes conservées à l'identique.
-- `/donate` est la même route que le lien "Faire un don" déjà utilisé dans le
-  footer (`Footer.astro`) — pas de nouvelle route inventée.
-- Test Tab : le focus clavier atteint bien l'élément (bouton desktop visible
-  ≥768px, bouton mobile visible dans le menu ouvert <768px).
-- `getComputedStyle`/rôle implicite : l'élément expose le rôle "link" (donc
-  un vrai `<a href>`, pas un `<div>` avec `role="link"` ajouté manuellement).
+_À définir._
 
 ---
 
 ## 📍 Fichier concerné
 
-`src/components/header.astro` (lignes ~20 et ~41)
+_À définir._
 
 ---
 
 ## 🗒️ Notes
 
-Aucune classe visuelle à changer, uniquement la balise (`div` → `a`) et
-l'ajout de `href="/donate"`. Vérifier après coup qu'aucun style du site ne
-dépendait spécifiquement du fait que cet élément soit un `div` (ex: sélecteur
-CSS ciblant `div` plutôt que la classe).
+_Aucune note pour le moment._
 
 ---
 
@@ -1038,4 +1022,48 @@ Revérifié après les deux correctifs sur 36 secondes réelles via CDP (12
 cartes, progression continue puis retour à 0, aucun blocage), et captures
 d'écran à 1440px/768px confirmant les proportions de carte identiques à
 l'ancien bandeau. `npm run build` : 71 pages, aucune erreur à chaque étape.
-</content>
+
+### Bouton "Faire un don" du header rendu interactif (2026-08-27)
+
+Le bouton "Faire un don" du header (`src/components/header.astro`), en
+versions desktop et mobile, était un `<div>` sans `href`, sans `role`, sans
+`tabindex` — ni focusable au clavier, ni reconnu comme lien par les
+technologies d'assistance. Remplacé par un vrai `<a href="/donate">` aux deux
+endroits (ligne ~20 desktop, ligne ~41 mobile), même route que le lien
+"Faire un don" déjà utilisé dans `Footer.astro`, classes visuelles
+existantes conservées à l'identique. Sur la version mobile, ajout de la
+classe `block` en plus des classes existantes : un `<a>` est inline par
+défaut (contrairement à l'ancien `<div>`, block par défaut), donc sans ce
+changement `text-center` n'aurait centré le texte que dans la largeur
+réduite du lien (shrink-to-fit) au lieu de toute la largeur du `<li>`.
+
+Vérifié via une vraie session Playwright (`playwright-core` installé
+temporairement en local avec `--no-save`, piloté via Edge installé sur la
+machine — MCP Playwright non connecté dans cette session, désinstallé après
+vérification, aucune trace dans `package.json`/`git status`) : test Tab
+confirmant que le focus clavier atteint bien le lien desktop (6e appui sur
+Tab depuis le haut de page), rôle accessible "link" confirmé via
+`getByRole('link', { name: 'Faire un don' })` sur desktop (1440px) et mobile
+(390px, menu ouvert), taille de la cible tactile mobile mesurée à 342×48px
+(bien au-dessus du minimum de 44px déjà appliqué ailleurs sur ce projet).
+`npm run build` : 71 pages, aucune erreur.
+
+**Point technique noté en cours de vérification** : `page.goto(...,
+{ waitUntil: 'networkidle' })` bloque indéfiniment sur le serveur de dev
+Astro (le WebSocket HMR de Vite maintient une connexion réseau active en
+permanence, donc l'état "réseau inactif" n'est jamais atteint) — remplacé
+par `waitUntil: 'load'` pour toutes les navigations de vérification. De
+même, `locator.click('#menu-toggle')` (qui attend que l'élément soit
+visible/stable) a bloqué 30s sur une page où le bouton hamburger est
+`md:hidden` (viewport desktop) ou lorsque plusieurs instances headless
+tournaient déjà en parallèle (dizaines de processus `msedge.exe` résiduels
+d'exécutions précédentes constatés via `tasklist`) — contourné avec un clic
+déclenché directement en JS via `page.evaluate(() =>
+document.getElementById('menu-toggle').click())`, qui n'attend aucune
+condition de visibilité/stabilité.
+
+Repéré au passage (hors périmètre de cette feature) : ce fichier
+`context/current-feature.md` se terminait par une balise `</content>`
+orpheline en toute fin de fichier — probablement un résidu d'un collage
+antérieur, sans rapport avec le contenu réel — retirée à l'occasion de
+cette mise à jour.
