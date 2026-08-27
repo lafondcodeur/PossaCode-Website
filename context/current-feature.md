@@ -1,4 +1,4 @@
-# Current Feature: Fix débordement horizontal "Qui sommes-nous ?" (1024px)
+# Current Feature
 
 > Ce fichier décrit la fonctionnalité ou la section en cours de développement.  
 > Mettre à jour à chaque changement de focus.
@@ -7,50 +7,33 @@
 
 ## 🔧 Feature en cours
 
-Corriger le débordement horizontal à 1024px de la section "Qui sommes-nous ?" (homepage).
+_Aucune feature active._
 
-**Status:** In Progress
+**Status:** Not Started
 
 ---
 
 ## 🎯 Objectif
 
-Le paragraphe `<p class="w-120">` (src/pages/index.astro:87, dans la grille
-desktop `grid-cols-[350px_350px_1fr]`) impose une largeur fixe de 480px, ce
-qui fait déborder la page horizontalement à 1024px : `scrollWidth` mesuré à
-1268px contre `innerWidth` 1024px (244px de dépassement). Le paragraphe doit
-pouvoir rétrécir dans sa colonne au lieu d'imposer une largeur fixe.
+_À définir._
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- `w-120` remplacé par `max-w-120` (ou une largeur fluide équivalente type
-  `w-full lg:max-w-md`) sur le `<p>` concerné, pour que le texte se
-  redimensionne selon l'espace disponible dans sa colonne plutôt que
-  d'imposer 480px fixes.
-- Vérifié en navigateur réel à 1024px : `document.documentElement.scrollWidth
-  <= window.innerWidth`.
-- Aucune régression visuelle à d'autres largeurs (768px, 1440px) ni sur le
-  reste de la section (grille desktop `[350px_350px_1fr]`, cartes stats,
-  image `groupe.jpg`).
-- `npm run build` sans erreur.
+_À définir._
 
 ---
 
 ## 📍 Fichier concerné
 
-`src/pages/index.astro` — ligne 87 (`<p class="... w-120">` dans la section
-"Qui sommes-nous ?", grille desktop).
+_À définir._
 
 ---
 
 ## 🗒️ Notes
 
-Bug de débordement horizontal, pas une nouvelle section — correction ciblée
-d'une seule classe Tailwind. Contrainte projet : rester dans le design
-system existant (`orange-possacode`/`blue-possacode`, `font-nunito`), pas de
-nouvelle dépendance.
+_Aucune note pour le moment._
 
 ---
 
@@ -1084,3 +1067,28 @@ Repéré au passage (hors périmètre de cette feature) : ce fichier
 orpheline en toute fin de fichier — probablement un résidu d'un collage
 antérieur, sans rapport avec le contenu réel — retirée à l'occasion de
 cette mise à jour.
+
+### Fix débordement horizontal 1024px — section "Qui sommes-nous ?" (2026-08-27)
+
+Le paragraphe `<p class="w-120">` (`src/pages/index.astro:87`, dans la
+grille desktop `grid-cols-[350px_350px_1fr]` de la section "Qui
+sommes-nous ?") imposait une largeur fixe de 480px alors que sa colonne de
+grille (le 1fr restant après les deux colonnes fixes de 350px et les gaps)
+ne fait qu'environ 196-200px à 1024px (premier palier où cette grille
+desktop devient visible, `hidden lg:grid`) : `scrollWidth` mesuré à 1268px
+contre `innerWidth` 1024px avant correction. Remplacé `w-120` par
+`max-w-120`, qui laisse le texte se redimensionner selon l'espace
+disponible dans sa colonne au lieu d'imposer 480px fixes, tout en
+conservant cette largeur maximale de 480px dès que la colonne est assez
+large (≥1440px).
+
+Vérifié via une vraie session Playwright (`playwright-core` installé
+temporairement en local avec `--no-save`, piloté via Edge installé sur la
+machine — MCP Playwright non connecté dans cette session, désinstallé
+après vérification, aucune trace dans `package.json`/`git status`) à 4
+largeurs : 1024px (`scrollWidth` = `innerWidth` = 1024, contre 1268 avant
+le correctif ; paragraphe mesuré à 200px de large, contraint par sa
+colonne), 768px (grille desktop non affichée, `hidden lg:grid`, aucun
+overflow), 1280px (paragraphe à 452px, dans sa colonne) et 1440px
+(paragraphe à sa pleine largeur maximale de 480px). `npm run build` : 71
+pages, aucune erreur.
