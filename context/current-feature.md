@@ -7,27 +7,36 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Corriger la hiérarchie de titres de la page d'accueil (`src/pages/index.astro`)
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+La page compte actuellement 14 balises `<h1>` (mesuré via
+`document.querySelectorAll('h1').length === 14`), ce qui casse la
+hiérarchie de titres (accessibilité + SEO). Il ne doit y avoir qu'un seul
+`<h1>` par page : celui du titre du hero.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- Un seul `<h1>` sur la page : le titre du hero (ligne 23), inchangé.
+- Tous les autres titres de section convertis de `<h1>` en `<h2>` :
+  lignes 48, 71, 127, 139, 151, 167, 177, 192, 201, 210, 223, 254, 265.
+- Classes visuelles conservées à l'identique sur chaque titre converti
+  (taille, `font-Phudu`, `wave-line`, etc.) — seul le tag change.
+- Vérifié avec `document.querySelectorAll('h1').length === 1`.
+- Vérifié avec un audit axe `heading-order` (aucune violation).
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+`src/pages/index.astro`
 
 ---
 
