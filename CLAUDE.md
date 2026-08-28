@@ -10,3 +10,5 @@ Read the following to get the full context of the project
 - @context/coding-standard.md
 - @context/ai-interaction.md
 - @context/current-feature.md
+
+**IMPORTANT:** Do not add Claude to any commit messages
