@@ -1,0 +1,3 @@
+- [Project setup](project_setup.md) — how to run browser audits on PossaCode-Website (no MCP browser tool, use playwright-core temp install, Edge path, dev server port)
+- [Playwright screenshot hangs](playwright-screenshot-hangs.md) — page.screenshot() hangs on this site's animated pages unless using a fresh context per breakpoint with reducedMotion:'reduce'
+- [PossaCode recurring findings](possacode-recurring-findings.md) — defect patterns tied to shared components/tokens (header.astro, Layout.astro, MemberCarousel, orange-possacode contrast) likely to recur on other routes
