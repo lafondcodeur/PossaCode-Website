@@ -66,8 +66,10 @@ const { members, label = 'Portraits de membres' } = Astro.props;
                 type="button"
                 data-carousel-dot={i}
                 aria-label={`Aller au portrait de ${member.name}`}
-                class="w-2.5 h-2.5 rounded-full bg-gray-300 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-possacode"
-            ></button>
+                class="min-w-6 min-h-6 flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-possacode"
+            >
+                <span class="w-2.5 h-2.5 rounded-full bg-gray-300 transition-colors" data-carousel-dot-visual></span>
+            </button>
         ))}
     </div>
 </div>
@@ -108,8 +110,9 @@ const { members, label = 'Portraits de membres' } = Astro.props;
 
         const highlightDot = (index: number) => {
             dots.forEach((dot, i) => {
-                dot.classList.toggle('bg-orange-possacode', i === index);
-                dot.classList.toggle('bg-gray-300', i !== index);
+                const visual = dot.querySelector<HTMLElement>('[data-carousel-dot-visual]') ?? dot;
+                visual.classList.toggle('bg-orange-possacode', i === index);
+                visual.classList.toggle('bg-gray-300', i !== index);
             });
         };
         highlightDot(0);
