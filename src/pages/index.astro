@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import congoDevOpsLogo from '../assets/par/Congo DevOps.jpg';
 import { experts } from '../data/experts';
+import { featuredEvent } from '../data/events';
 import { membersCarousel } from '../data/members-preview';
 import MemberCarousel from '../components/MemberCarousel.astro';
 
@@ -172,15 +173,13 @@ const partnerLogos = [
         </div>
         <div class="flex flex-col lg:flex-row justify-between items-start gap-8">
             <div class="w-full lg:w-1/2 p-2 flex flex-col gap-4">
-                <img class="w-full rounded-lg object-cover object-top h-56 md:h-72 lg:h-auto" src="/assets/NOUS.jpg" alt="">
-                <p class="text-orange-possacode-ink text-lg font-nunito font-light">25 Mars 2026</p>
+                <img class="w-full rounded-lg object-cover object-top h-56 md:h-72 lg:h-auto" src={featuredEvent.image} alt="">
+                <p class="text-orange-possacode-ink text-lg font-nunito font-light">{featuredEvent.date}</p>
                 <h2 class="text-xl md:text-2xl font-bold font-Phudu text-blue-possacode">
-                    Comment utiliser tailwindcss dans un projet Astro ?
+                    {featuredEvent.title}
                 </h2>
                 <p class="text-gray-500 text-base md:text-lg text-justify font-nunito font-light">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta, consectetur vel.
-                    Voluptatem, expedita architecto eligendi laborum fugiat illo molestias ullam,
-                    molestiae repellendus consectetur, ad culpa animi cupiditate provident quae non.
+                    {featuredEvent.excerpt}
                 </p>
                 <div class="boutton-standard text-orange-possacode-ink font-nunito text-center text-base md:text-lg">Participer</div>
             </div>
