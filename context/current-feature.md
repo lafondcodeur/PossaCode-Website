@@ -35,26 +35,42 @@ _À définir._
 
 _Aucune note pour le moment._
 
-**Vérification** : `npm run build` (71 pages, 0 erreur) puis une vraie
-session Playwright (`playwright-core`+`axe-core` installés temporairement
-en local avec `--no-save`, pilotés via Edge installé sur la machine — MCP
-Playwright non connecté dans cette session, désinstallés après
-vérification, aucune trace dans `package.json`/`git status`) :
-`axe.run({runOnly:['color-contrast']})` sur la homepage à 390/768/1024/
-1440px + menu mobile ouvert → 0 violation sur tous les nœuds dans le scope
-de cette feature (1 seule violation restante à chaque fois : le nœud
-`Layout.astro:29` documenté ci-dessus comme hors scope).
-- Ne pas introduire de couleur hors thème (`orange-possacode`/
-  `blue-possacode` uniquement, cf. `context/ai-interaction.md`) — le
-  nouveau token doit rester une variante assombrie de `orange-possacode`,
-  pas une couleur Tailwind générique.
-- Vérification finale attendue via `axe.run()` (pas seulement `npm run
-  build`), cohérent avec la pratique de vérification déjà établie sur ce
-  projet (voir History).
-
 ---
 
 ## 📜 History
+
+### Agrandir les puces de pagination du carrousel de membres (cible tactile WCAG 2.2) (2026-08-28)
+
+Les puces `[data-carousel-dot]` de `src/components/MemberCarousel.astro`
+(ligne ~69) mesuraient 10×10px (`w-2.5 h-2.5`), sous le seuil de 24×24px
+requis par WCAG 2.2 SC 2.5.8 Target Size Minimum. Le point visuel a été
+gardé strictement identique (`w-2.5 h-2.5`, aucun changement visuel) mais
+déplacé dans un `<span data-carousel-dot-visual>` interne au `<button>`,
+lequel devient lui-même la zone cliquable via `min-w-6 min-h-6 flex
+items-center justify-center` (24×24px). Le script de surbrillance
+(`highlightDot`, qui bascule `bg-orange-possacode`/`bg-gray-300` selon la
+carte active) a dû être mis à jour pour cibler ce `<span>` interne au lieu
+du bouton lui-même — sinon la couleur active se serait appliquée à toute la
+zone de 24×24px agrandie plutôt qu'au seul point visuel de 10×10px.
+
+Composant partagé entre `members.astro` et la homepage (voir History
+"Carrousel du bandeau de portraits membres") — vérifié sur les deux pages.
+
+Vérifié via `npm run build` (71 pages, aucune erreur) et une vraie session
+Playwright avec `axe-core` (`playwright-core`+`axe-core` installés
+temporairement en local avec `--no-save`, pilotés via Edge installé sur la
+machine — MCP Playwright indisponible/déconnecté dans cette session,
+désinstallés après vérification, aucune trace dans
+`package.json`/`git status`) : `axe.run({runOnly:['target-size']})` sur
+`/members` et la homepage à 390px → 0 violation totale, 0 violation sur
+`[data-carousel-dot]` sur les deux pages ; mesures réelles
+(`getBoundingClientRect`) confirmant le bouton à 24×24px et le point visuel
+interne toujours à 10×10px. Comportement vérifié sans régression par
+interaction réelle (pas seulement lecture du code) : clic sur la 3ᵉ puce →
+seul le `<span>` interne de cette puce reçoit `bg-orange-possacode` (aucune
+des 12 autres, et jamais le bouton lui-même) ; focus clavier (`Tab`)
+atteint bien le `<button>` (donc `focus-visible:outline` fonctionne
+toujours dessus).
 
 ### Fix contraste texte-sur-orange-possacode (WCAG AA) (2026-08-28)
 
