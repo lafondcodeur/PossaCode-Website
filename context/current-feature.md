@@ -39,6 +39,34 @@ _Aucune note pour le moment._
 
 ## 📜 History
 
+### Fix extrait Lorem ipsum — carte événement homepage (2026-08-28)
+
+`src/pages/index.astro` (section "Nos événements", carte mise en avant)
+affichait du texte de remplissage latin ("Lorem ipsum dolor sit amet...")
+visible en production, sous le titre "Comment utiliser tailwindcss dans un
+projet Astro ?". Aucun fichier de données événements n'existait dans le
+repo (contrairement à `experts.ts`/`members-preview.ts`), et les 4 cartes
+de la section partagent le même titre et la même date placeholder future
+("25 Mars 2026") — question posée à l'utilisateur (réel événement à
+décrire, ou masquer la section comme "experts") avant d'inventer un texte
+qui aurait l'air réel.
+
+Réponse de l'utilisateur : utiliser des **données fictives temporaires**,
+mais structurées dans un fichier à part pour faciliter leur remplacement
+plus tard — nouveau `src/data/events.ts` (type `Event { title, date,
+image, excerpt }`, export `featuredEvent`), même pattern que
+`experts.ts`, commentaire "à remplacer avant mise en production". La carte
+mise en avant d'`index.astro` (titre, date, image, extrait) lit désormais
+ce fichier au lieu de valeurs codées en dur ; l'extrait Lorem ipsum est
+remplacé par 2-3 phrases décrivant l'atelier TailwindCSS/Astro. Les 3
+autres cartes de la section (même titre/date répétés) restent hors scope,
+non modifiées.
+
+Vérifié via `npm run build` (71 pages, aucune erreur) et une recherche
+`grep` sur le HTML généré (`dist/index.html`) : plus aucune occurrence de
+"Lorem ipsum", nouvel extrait bien présent avec le titre/date/image
+inchangés.
+
 ### Agrandir les puces de pagination du carrousel de membres (cible tactile WCAG 2.2) (2026-08-28)
 
 Les puces `[data-carousel-dot]` de `src/components/MemberCarousel.astro`
