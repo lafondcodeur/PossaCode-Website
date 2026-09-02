@@ -119,7 +119,23 @@ const partnerLogos = [
             </svg>
         </div>
         <MemberCarousel members={membersCarousel} label="Portraits de membres de la communauté" />
-        <a href="/members#annuaire" class="boutton-standard text-orange-possacode-ink font-nunito text-center text-base md:text-lg mt-4">Voir plus</a>
+        <a
+            href="/members#annuaire"
+            class="group mt-4 inline-flex items-center gap-2 rounded-lg bg-orange-possacode px-8 py-2 font-nunito text-base font-bold text-orange-possacode-ink shadow-lg shadow-orange-possacode/30 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-xl hover:shadow-orange-possacode/50 hover:brightness-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-possacode active:translate-y-0 active:shadow-md md:text-lg"
+        >
+            Voir plus
+            <svg
+                class="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-1"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+        </a>
     </section>
 
     <!-- Mission, Valeur, Vision Section -->
@@ -158,7 +174,6 @@ const partnerLogos = [
             <p class="text-sm md:text-base font-nunito text-justify text-orange-possacode-ink font-semibold mt-2">
                 Nous valorisons l'inclusion, la collaboration, l'innovation, la diversité et l'impact social. Nous croyons que chaque membre de notre communauté a un rôle à jouer dans le développement de l'écosystème technologique africain, et nous nous engageons à créer un environnement où chacun peut s'épanouir et contribuer à la croissance de notre communauté.
             </p>
-            <img src="/assets/icones/arrow new.png" alt="">
         </div>
     </section>
 
@@ -174,7 +189,7 @@ const partnerLogos = [
         </div>
         <div class="flex flex-col lg:flex-row justify-between items-start gap-8">
             <div class="w-full lg:w-1/2 p-2 flex flex-col gap-4">
-                <img class="w-full rounded-lg object-cover object-top h-56 md:h-72 lg:h-auto" src={featuredEvent.image} alt="">
+                <img class="w-full rounded-lg object-cover object-top h-56 md:h-72 lg:h-auto" src={featuredEvent.image} alt={`Affiche de l'événement : ${featuredEvent.title}`}>
                 <p class="text-orange-possacode-ink text-lg font-nunito font-light">{featuredEvent.date}</p>
                 <h2 class="text-xl md:text-2xl font-bold font-Phudu text-blue-possacode">
                     {featuredEvent.title}
@@ -186,29 +201,29 @@ const partnerLogos = [
             </div>
             <div class="w-full lg:w-1/2 flex flex-col gap-6">
                 <div class="border-b border-gray-300 pb-4 flex gap-4">
-                    <img class="h-32 md:h-48 lg:h-60 w-36 md:w-56 lg:w-80 object-cover rounded-lg shrink-0" src="/assets/maxresdefault - Copie.jpg" alt="">
+                    <img class="h-32 md:h-48 lg:h-60 w-36 md:w-56 lg:w-80 object-cover object-top rounded-lg shrink-0" src="/assets/Developpeur_a_lere_de_lia.jpeg" alt="Affiche de la mégaconférence en ligne PossaCode : Développeur à l'ère de l'IA, s'adapter ou disparaître ?">
                     <div class="content-center space-y-2 md:space-y-3">
-                        <p class="text-orange-possacode-ink text-sm md:text-lg font-nunito font-light">25 Mars 2026</p>
+                        <p class="text-orange-possacode-ink text-sm md:text-lg font-nunito font-light">22 au 24 Mai 2025</p>
                         <h2 class="text-base md:text-2xl font-bold font-Phudu">
-                            Comment utiliser tailwindcss dans un projet Astro ?
+                            Développeur à l'ère de l'IA : s'adapter ou disparaître ?
                         </h2>
                     </div>
                 </div>
                 <div class="border-b border-gray-300 pb-4 flex gap-4">
-                    <img class="h-32 md:h-48 lg:h-60 w-36 md:w-56 lg:w-80 object-cover rounded-lg shrink-0" src="/assets/new1.jpg" alt="">
+                    <img class="h-32 md:h-48 lg:h-60 w-36 md:w-56 lg:w-80 object-cover object-top rounded-lg shrink-0" src="/assets/PossaCode_Birthday.jpeg" alt="Affiche de la mégaconférence en ligne PossaCode Birthday">
                     <div class="content-center space-y-2 md:space-y-3">
-                        <p class="text-orange-possacode-ink text-sm md:text-lg font-nunito font-light">25 Mars 2026</p>
+                        <p class="text-orange-possacode-ink text-sm md:text-lg font-nunito font-light">07 Septembre 2024</p>
                         <h2 class="text-base md:text-2xl font-bold font-Phudu">
-                            Comment utiliser tailwindcss dans un projet Astro ?
+                            PossaCode Birthday : comment accompagner les développeurs juniors en Afrique ?
                         </h2>
                     </div>
                 </div>
                 <div class="border-b border-gray-300 pb-4 flex gap-4">
-                    <img class="h-32 md:h-48 lg:h-60 w-36 md:w-56 lg:w-80 object-cover rounded-lg shrink-0" src="/assets/femmecode - Copie.jpg" alt="">
+                    <img class="h-32 md:h-48 lg:h-60 w-36 md:w-56 lg:w-80 object-cover object-top rounded-lg shrink-0" src="/assets/Letat_actuelle_des_developpeurs.jpeg" alt="Affiche de la 1ère édition de la conférence PossaCode : L'état actuel des développeurs au Congo-Brazzaville (problèmes et solutions)">
                     <div class="content-center space-y-2 md:space-y-3">
-                        <p class="text-orange-possacode-ink text-sm md:text-lg font-nunito font-light">25 Mars 2026</p>
+                        <p class="text-orange-possacode-ink text-sm md:text-lg font-nunito font-light">01 Juillet 2023</p>
                         <h2 class="text-base md:text-2xl font-bold font-Phudu">
-                            Comment utiliser tailwindcss dans un projet Astro ?
+                            L'état actuel des développeurs au Congo-Brazzaville (problèmes et solutions)
                         </h2>
                     </div>
                 </div>
