@@ -2,6 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import congoDevOpsLogo from '../assets/par/Congo DevOps.jpg';
+import a3Photo from '../assets/A3.jpg';
+import nousPhoto from '../assets/NOUS.jpg';
+import engroupePhoto from '../assets/engroupe.jpg';
 import '../styles/global.css';
 import { historyMilestones } from '../data/history-milestones';
 import { partnerLogos } from '../data/partner-logos';
@@ -11,10 +14,14 @@ import { partnerLogos } from '../data/partner-logos';
     <!-- Hero Section -->
     <section class="relative overflow-hidden">
         <div class="relative min-h-140 md:min-h-160 flex items-center">
-            <img
-                src="/assets/A3.jpg"
+            <Image
+                src={a3Photo}
                 alt="Membres de la communauté PossaCode collaborant ensemble"
                 class="absolute inset-0 w-full h-full object-cover object-center"
+                width={1280}
+                densities={[1, 2]}
+                format="webp"
+                loading="eager"
             />
             <div class="absolute inset-0 bg-linear-to-r from-blue-possacode via-blue-possacode/85 to-blue-possacode/30"></div>
 
@@ -163,11 +170,11 @@ import { partnerLogos } from '../data/partner-logos';
             <!-- Colonne mosaïque photos + panneaux -->
             <div class="grid grid-cols-2 grid-rows-3 gap-3 md:gap-4 h-[420px] md:h-[520px]" id="vmv-mosaic">
                 <div class="relative rounded-xl overflow-hidden col-start-1 row-start-1">
-                    <img src="/assets/NOUS.jpg" alt="Membres de la communauté PossaCode" class="absolute inset-0 w-full h-full object-cover object-top" />
+                    <Image src={nousPhoto} alt="Membres de la communauté PossaCode" class="absolute inset-0 w-full h-full object-cover object-top" width={500} densities={[1, 2]} format="webp" loading="lazy" />
                 </div>
 
                 <div class="relative rounded-xl overflow-hidden col-start-2 row-start-1 row-span-2">
-                    <img src="/assets/engroupe.jpg" alt="Membres de la communauté PossaCode réunis lors d'un événement" class="absolute inset-0 w-full h-full object-cover" />
+                    <Image src={engroupePhoto} alt="Membres de la communauté PossaCode réunis lors d'un événement" class="absolute inset-0 w-full h-full object-cover" width={500} densities={[1, 2]} format="webp" loading="lazy" />
                 </div>
 
                 <div class="relative rounded-xl overflow-hidden col-start-1 row-start-2 bg-blue-possacode p-4 md:p-5 flex flex-col justify-end transition-all duration-300 ring-4 ring-orange-possacode scale-[1.02]" data-panel="vision">
@@ -212,7 +219,7 @@ import { partnerLogos } from '../data/partner-logos';
                     <div class="hidden md:flex items-start">
                         {index % 2 === 0 && (
                             <div class="history-reveal relative w-full rounded-2xl overflow-hidden shadow-blue-possacode/15 shadow-xl aspect-4/3">
-                                <img src={milestone.image} alt={milestone.alt} class="w-full h-full object-cover" />
+                                <Image src={milestone.image} alt={milestone.alt} class="w-full h-full object-cover" width={640} densities={[1, 2]} format="webp" loading="lazy" />
                                 <span class="absolute top-3 left-3 bg-white/90 text-blue-possacode font-Phudu font-bold text-xs px-3 py-1 rounded-full">{milestone.year}</span>
                                 <div class="absolute inset-x-0 bottom-0 bg-linear-to-t from-blue-possacode/90 to-transparent px-4 pt-8 pb-3">
                                     <p class="text-white font-Phudu font-bold text-sm md:text-base">{milestone.title}</p>
@@ -236,7 +243,7 @@ import { partnerLogos } from '../data/partner-logos';
                     <div class="hidden md:flex items-start">
                         {index % 2 === 1 && (
                             <div class="history-reveal relative w-full rounded-2xl overflow-hidden shadow-blue-possacode/15 shadow-xl aspect-4/3">
-                                <img src={milestone.image} alt={milestone.alt} class="w-full h-full object-cover" />
+                                <Image src={milestone.image} alt={milestone.alt} class="w-full h-full object-cover" width={640} densities={[1, 2]} format="webp" loading="lazy" />
                                 <span class="absolute top-3 left-3 bg-white/90 text-blue-possacode font-Phudu font-bold text-xs px-3 py-1 rounded-full">{milestone.year}</span>
                                 <div class="absolute inset-x-0 bottom-0 bg-linear-to-t from-blue-possacode/90 to-transparent px-4 pt-8 pb-3">
                                     <p class="text-white font-Phudu font-bold text-sm md:text-base">{milestone.title}</p>
