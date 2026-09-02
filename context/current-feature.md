@@ -39,6 +39,54 @@ _Aucune note pour le moment._
 
 ## 📜 History
 
+### Fix contraste span "PossaCode Dev Girls" — bandeau d'annonce (2026-09-02)
+
+`src/layouts/Layout.astro` ligne 29, span `text-[#F14D0E]` ("PossaCode Dev
+Girsl") sur fond `bg-[#1A2251]` du bandeau d'annonce partagé (rendu par
+`Layout.astro`, donc visible sur les 71 pages du site, dont `/about`) :
+contraste mesuré à 4.17:1, sous le seuil WCAG AA 4.5:1 (texte 14px, pas
+"large text"). Contrairement au token `--color-orange-possacode-ink`
+(assombrit l'orange pour les fonds clairs), ce nœud avait besoin du sens
+inverse — un orange plus *clair* pour rester lisible sur un fond bleu
+foncé — déjà repéré et explicitement laissé hors scope par deux features
+précédentes de ce projet ("Fix contraste texte-sur-orange-possacode" et
+"Fix contraste CTA 'Nous contacter'", toutes deux dans l'historique de ce
+fichier) qui documentaient ce nœud précis (`Layout.astro:29`) comme
+nécessitant un correctif séparé.
+
+Nouveau token `--color-orange-possacode-light: #ff5f28` ajouté dans
+`src/styles/global.css` (bloc `@theme`, juste après `-ink`, même style de
+commentaire explicatif), appliqué au span via `text-orange-possacode-light`.
+Valeur choisie par calcul direct du ratio de contraste WCAG (luminance
+relative, formule officielle) plutôt qu'un choix visuel approximatif :
+`#FF5F28` atteint 4.97:1 sur `#1A2251` — marge de sécurité confortable
+au-dessus du seuil 4.5:1 (comme le token `-ink` existant, qui vise aussi une
+marge plutôt qu'un seuil pile) tout en restant proche de la teinte orange de
+marque d'origine (`#F14D0E`) pour ne pas trop délaver le bandeau.
+
+Vérifié via `npm run build` (71 pages, aucune erreur), inspection du CSS
+compilé (`text-orange-possacode-light{color:var(--color-orange-possacode-light)}`
+bien généré) et présence de la classe confirmée dans le HTML de `/about`
+et `/index.html`. Vérifié aussi via une vraie session Playwright
+(`playwright-core`+`axe-core` installés temporairement en local avec
+`--no-save`, pilotés via Edge installé sur la machine — MCP Playwright
+indisponible dans cette session, CONNECT_TIMEOUT, désinstallés après
+vérification, aucune trace dans `package.json`/`git status`) :
+`axe.run({runOnly:['color-contrast']})` sur `/about` et `/` (deux routes
+distinctes utilisant `Layout.astro`) → 0 violation sur les deux pages,
+couleur calculée du span confirmée `rgb(255, 95, 40)` (`#ff5f28`) sur fond
+`rgb(26, 34, 81)` (`#1a2251`) sur les deux routes.
+
+---
+
+## 🗒️ Notes
+
+_Aucune note pour le moment._
+
+---
+
+## 📜 History
+
 ### Fix contraste années timeline "Notre histoire" — page A-propos (2026-09-02)
 
 `src/pages/about.astro` ligne 229, span `text-orange-possacode` (année du
