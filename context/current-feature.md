@@ -1,4 +1,4 @@
-# Current Feature
+# Current Feature: Fix contraste années timeline "Notre histoire"
 
 > Ce fichier décrit la fonctionnalité ou la section en cours de développement.  
 > Mettre à jour à chaque changement de focus.
@@ -7,33 +7,53 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Corriger le contraste des années de la timeline "Notre histoire" (page
+A-propos).
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+`src/pages/about.astro` ligne 229, span `text-orange-possacode` (année du
+jalon, ex. "2023") sur fond blanc, dans la timeline verticale "Notre
+histoire" : contraste mesuré à 3.61:1 sur chacun des 4 nœuds (années
+2023-2026), sous le seuil WCAG AA 4.5:1 (texte 18px gras — pas assez grand
+pour le seuil "large text" 3:1). Remplacer `text-orange-possacode` par
+`text-orange-possacode-ink` sur ce span : le token est déjà conçu et
+documenté (commentaire dans `src/styles/global.css` ligne 14) pour
+remplacer `text-orange-possacode`/`text-white`/`text-blue-possacode` dans
+ce type de contexte (fond orange ou fond clair) et atteindre AA.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- Le span des années (`about.astro:229`) utilise `text-orange-possacode-ink`
+  au lieu de `text-orange-possacode`.
+- Aucun autre changement visuel/structurel sur la section.
+- `npm run build` : aucune erreur.
+- Vérifié avec axe-core (`color-contrast`) : 0 violation sur les 4 nœuds
+  (années 2023, 2024, 2025, 2026) à 375px, 768px, 1024px et 1440px.
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+`src/pages/about.astro` (ligne 229, section "Notre histoire")
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+- Même token déjà utilisé sur cette page pour un problème de contraste
+  analogue (voir History "Fix contraste panneau 'Notre mission'").
+- MCP Playwright indisponible dans les sessions précédentes de ce projet
+  (CONNECT_TIMEOUT dans la session courante) — vérifier la disponibilité au
+  moment du test ; à défaut, repli documenté sur ce projet :
+  `playwright-core` installé temporairement en local (`--no-save`), piloté
+  via Edge installé sur la machine, désinstallé après vérification.
 
 ---
 
@@ -614,21 +634,19 @@ that believe in our vision" que le rendu en grille statique. Implémenté en
 CSS pur (`src/styles/global.css`, classes `.logo-marquee`/
 `.logo-marquee-track` + `@keyframes logoMarquee`), pas de librairie de
 carrousel, cohérent avec les contraintes du projet ("Ne pas introduire
-d'autres librairies d'animation").
-
-Technique du marquee sans saut visible : les 11 logos sont dupliqués dans
-deux groupes flex identiques (le deuxième `aria-hidden="true"`, `alt=""`,
-pour ne pas dupliquer l'annonce aux lecteurs d'écran), animation
-`translateX(-50%)` en boucle infinie — comme les deux groupes ont
-exactement la même largeur, le décalage de 50% ramène le deuxième groupe
-pile à la position de départ du premier, sans saut. Pause au survol/focus
-clavier (`:hover`/`:focus-within`) pour laisser le temps de lire un logo.
-`prefers-reduced-motion: reduce` coupe l'animation et masque le groupe
-dupliqué (même garde-fou déjà en place pour `.wave-line`), pour ne pas
-laisser un utilisateur avec cette préférence face à deux jeux de logos
-figés côte à côte. Dégradé de masquage (`mask-image`) sur les bords gauche/
-droit du conteneur pour un fondu propre à l'entrée/sortie plutôt qu'une
-coupe nette.
+d'autres librairies d'animation"). Technique du marquee sans saut visible :
+les 11 logos sont dupliqués dans deux groupes flex identiques (le deuxième
+`aria-hidden="true"`, `alt=""`, pour ne pas dupliquer l'annonce aux
+lecteurs d'écran), animation `translateX(-50%)` en boucle infinie — comme
+les deux groupes ont exactement la même largeur, le décalage de 50% ramène
+le deuxième groupe pile à la position de départ du premier, sans saut.
+Pause au survol/focus clavier (`:hover`/`:focus-within`) pour laisser le
+temps de lire un logo. `prefers-reduced-motion: reduce` coupe l'animation
+et masque le groupe dupliqué (même garde-fou déjà en place pour
+`.wave-line`), pour ne pas laisser un utilisateur avec cette préférence
+face à deux jeux de logos figés côte à côte. Dégradé de masquage
+(`mask-image`) sur les bords gauche/droit du conteneur pour un fondu propre
+à l'entrée/sortie plutôt qu'une coupe nette.
 
 Logos extraits en tableau `partnerLogos` dans le frontmatter d'`about.astro`
 (classes de taille par logo dans le tableau, même pattern déjà utilisé pour
@@ -815,7 +833,7 @@ propre, aucun chevauchement avec le texte du hero.
 
 ---
 
-## 📜 History
+## 📜 History (suite — sections antérieures)
 
 ### Section héro "Nos Membres" — recherche et bandeau de portraits (2026-08-22)
 
