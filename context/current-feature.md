@@ -7,50 +7,63 @@
 
 ## 🔧 Feature en cours
 
-Fix contraste CTA hero "Nous contacter" — page A-propos
+_Aucune feature active._
 
-**Status:** In Progress
+**Status:** Not Started
 
 ---
 
 ## 🎯 Objectif
 
-Corriger un contraste texte insuffisant sur le CTA "Nous contacter" du hero
-de la page A-propos : `text-white` sur fond `bg-orange-possacode`
-(`.boutton-standard`) mesure 3.61:1, sous le seuil WCAG AA 4.5:1 pour du
-texte normal (16px gras).
+_À définir._
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- `text-white` remplacé par `text-orange-possacode-ink` (token déjà défini
-  dans `src/styles/global.css`, même motif déjà appliqué sur d'autres
-  boutons du site — voir History "Fix contraste texte-sur-orange-possacode
-  (WCAG AA)")
-- Vérifié avec axe `color-contrast` : 0 violation sur ce nœud, à
-  375/768/1024/1440px
+_À définir._
 
 ---
 
 ## 📍 Fichier concerné
 
-`src/pages/about.astro` ligne 75 (lien `.boutton-standard` "Nous
-contacter")
+_À définir._
 
 ---
 
 ## 🗒️ Notes
 
-Ce bug fait partie de la liste "à faire avant mise en production" laissée
-par la feature précédente (voir History "Fix contraste
-texte-sur-orange-possacode (WCAG AA)") : le même motif
-`boutton-standard text-white` existe aussi sur `members.astro:53`, non
-inclus dans le scope de cette feature.
+_Aucune note pour le moment._
 
 ---
 
 ## 📜 History
+
+### Fix contraste CTA "Nous contacter" — page A-propos (2026-09-02)
+
+`src/pages/about.astro` ligne 75, CTA hero "Nous contacter"
+(`.boutton-standard`) : `text-white` sur fond `bg-orange-possacode`
+mesurait 3.61:1, sous le seuil WCAG AA 4.5:1 pour du texte normal (16px
+gras). Remplacé par le token `text-orange-possacode-ink`, déjà défini dans
+`src/styles/global.css` et déjà appliqué sur d'autres boutons du site (voir
+History "Fix contraste texte-sur-orange-possacode (WCAG AA)", qui avait
+laissé ce nœud précis dans sa liste "à faire avant mise en production").
+
+Vérifié via `npm run build` (71 pages, aucune erreur) et une vraie session
+Playwright avec `axe-core` (`playwright-core`+`axe-core` installés
+temporairement en local avec `--no-save`, pilotés via Edge installé sur la
+machine — MCP Playwright indisponible/déconnecté dans cette session,
+désinstallés après vérification, aucune trace dans
+`package.json`/`git status`) : `axe.run({runOnly:['color-contrast']})` sur
+`/about` à 375/768/1024/1440px → 0 violation sur ce nœud à chaque largeur,
+couleur calculée confirmée `rgb(42, 14, 0)` (`#2a0e00`) sur fond
+`rgb(241, 77, 14)` (`#f14d0e`). Les 2 violations `color-contrast`
+restantes sur la page (le nœud `Layout.astro:29` déjà documenté, plus un
+texte `text-white` du panneau "Notre mission" de la section
+Vision/Mission/Valeurs) sont préexistantes et hors périmètre de cette
+feature (aucune n'a été introduite ni aggravée par ce changement). Même
+bug encore non corrigé sur `members.astro:53`, laissé hors scope comme
+prévu au chargement.
 
 ### Fix extrait Lorem ipsum — carte événement homepage (2026-08-28)
 
