@@ -3,47 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import congoDevOpsLogo from '../assets/par/Congo DevOps.jpg';
 import '../styles/global.css';
-
-// Jalons temporaires (fictifs) — à remplacer par les vraies dates et événements de PossaCode avant mise en production.
-const historyMilestones = [
-    {
-        year: '2023',
-        title: 'Naissance de PossaCode',
-        description: "Un noyau de développeurs passionnés se réunit pour donner vie à une communauté tech pensée pour et par la jeunesse africaine.",
-        image: '/assets/heri.jpg',
-        alt: 'Membre de PossaCode animant une session de formation devant un poster de présentation',
-    },
-    {
-        year: '2024',
-        title: 'Premier hackathon communautaire',
-        description: 'PossaCode organise son tout premier hackathon, réunissant développeurs et porteurs de projets autour de défis techniques.',
-        image: '/assets/A3.jpg',
-        alt: 'Membres de la communauté PossaCode collaborant ensemble autour d\'une tablette',
-    },
-    {
-        year: '2025',
-        title: '1000 personnes impactées',
-        description: 'Le cap symbolique des 1000 personnes accompagnées est franchi grâce aux formations et événements organisés.',
-        image: '/assets/engroupe.jpg',
-        alt: "Membres de la communauté PossaCode réunis lors d'un événement",
-    },
-    {
-        year: '2026',
-        title: "PossaCode aujourd'hui",
-        description: "Plus de 80 membres actifs et une communauté toujours grandissante, portée par une vision claire pour l'avenir.",
-        image: '/assets/groupe.jpg',
-        alt: 'Grand groupe de membres de la communauté PossaCode réunis',
-    },
-];
-
-const partnerLogos = [
-    { src: '/assets/par/cgdt.jpg', alt: 'Logo partenaire CGDT', class: 'w-24 md:w-35 h-14 md:h-20 object-cover' },
-    { src: "/assets/par/Logo de l'ACDN.png", alt: 'Logo partenaire ACDN', class: 'w-40 md:w-65 h-14 md:h-20 object-contain' },
-    { src: '/assets/par/galsendev.jpg', alt: 'Logo partenaire GalsenDev', class: 'w-24 md:w-35 h-14 md:h-20 object-contain' },
-    { src: '/assets/par/unionlab.jpg', alt: 'Logo partenaire UnionLab', class: 'w-24 md:w-35 h-16 md:h-25 object-cover' },
-    { src: '/assets/par/logo.webp', alt: 'Logo partenaire Miabé Hackathon', class: 'w-36 md:w-55 h-14 md:h-20 object-contain' },
-    { src: '/assets/par/logo-asso-10000codeurs.png', alt: 'Logo partenaire 10000 Codeurs', class: 'w-24 md:w-35 h-14 md:h-20 object-contain' },
-];
+import { historyMilestones } from '../data/history-milestones';
+import { partnerLogos } from '../data/partner-logos';
 ---
 
 <Layout title="A propos — PossaCode" description="PossaCode est la communauté qui met la technologie au service de la jeunesse africaine : formations, meetups et hackathons pour des développeurs qui apprennent et créent ensemble.">
