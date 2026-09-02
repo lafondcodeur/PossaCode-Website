@@ -39,6 +39,74 @@ _Aucune note pour le moment._
 
 ## 📜 History
 
+### Optimisation des photos non compressées — page A-propos (2026-09-02)
+
+`src/pages/about.astro` chargeait 5 photos (`A3.jpg`, `NOUS.jpg`,
+`engroupe.jpg`, `heri.jpg`, `groupe.jpg` — 16,0 Mo cumulés, aucune avec
+`width`/`height` ni passant par `astro:assets`) en `<img src="/assets/...">`
+brut. Migrées vers `<Image>` d'`astro:assets` (`format="webp"`, `width`
+explicite, `height` laissé au calcul automatique d'Astro à partir des
+dimensions réelles de la source plutôt que recalculé à la main, pour éviter
+tout risque de déformation par une erreur d'arrondi manuelle) : hero
+(`A3.jpg`, 1280px), mosaïque Vision/Mission/Valeurs (`NOUS.jpg`/
+`engroupe.jpg`, 500px), timeline "Notre histoire" (les 4 jalons via
+`historyMilestones`, 640px).
+
+`loading="lazy"` ajouté sur les instances mosaïque et timeline (sous la
+ligne de flottaison). Le hero (`A3.jpg`) a explicitement reçu
+`loading="eager"` malgré le principe "différer sous la ligne de flottaison"
+— nécessaire car `<Image>` d'astro:assets applique `loading="lazy"` par
+défaut, ce qui aurait dégradé le LCP d'un élément visible immédiatement au
+chargement ; écart volontaire par rapport à une lecture littérale du
+critère, qui ne visait explicitement que la mosaïque et la timeline.
+
+`historyMilestones` (`src/data/history-milestones.ts`) stockait le champ
+`image` en chemin `string` (`/assets/...`) — passé en `ImageMetadata`
+(import ESM direct des 4 photos) pour que le composant `<Image>` puisse les
+optimiser, tout en gardant les données séparées de l'UI (même pattern déjà
+en place sur ce fichier, voir History "Extraction des données hors de la
+page A-propos").
+
+**Chevauchement d'usage découvert en cours d'implémentation** (absent du
+scope initial tel que décrit) : `A3.jpg` et `engroupe.jpg` sont chacune
+utilisées deux fois dans `about.astro` (hero + jalon timeline pour `A3.jpg` ;
+mosaïque + jalon timeline pour `engroupe.jpg`) — les deux usages de chaque
+fichier ont été migrés avec des tailles différentes adaptées à leur
+contexte d'affichage, sans dupliquer le fichier source. Plus important :
+`groupe.jpg` (jalon timeline 2026) est aussi utilisé deux fois dans
+`src/pages/index.astro` (hors scope de cette feature, non touché) — déplacer
+le fichier aurait cassé la homepage. Copié (plutôt que déplacé comme les 4
+autres) vers `src/assets/groupe.jpg` pour l'usage optimisé dans `about.astro`,
+en conservant `public/assets/groupe.jpg` intact pour `index.astro`. **Dette
+restante notée pour une prochaine feature** : `groupe.jpg` existe maintenant
+en double (copie brute 3,25 Mo dans `public/assets`, copie optimisée dans
+`src/assets`) — migrer aussi les 2 usages d'`index.astro` permettrait de
+supprimer la copie brute.
+
+Vérifié via `npm run build` (71 pages, aucune erreur, logs de génération
+confirmant chaque variante webp : ex. `engroupe.jpg` 4052 Ko → 32-167 Ko
+selon la densité/le contexte, `A3.jpg` 2324 Ko → 31-387 Ko) et une vraie
+session Playwright (`playwright-core` installé temporairement en local avec
+`--no-save`, piloté via Edge installé sur la machine — MCP Playwright
+indisponible dans cette session, CONNECT_TIMEOUT, désinstallé après
+vérification, aucune trace dans `package.json`/`git status`) : poids réseau
+réel mesuré par interception des réponses HTTP sur `/about` à 1440px (pas
+seulement la taille des fichiers sources) — les 7 instances des 5 images
+migrées totalisent environ 314 Ko transférés (contre 16,0 Mo de sources et
+40,4 Mo de transfert mesurés avant cette feature), très en dessous de la
+cible "nettement sous la moitié". `width`/`height` confirmés présents et
+corrects dans le DOM généré (aspect ratio de chaque source respecté, ex.
+`heri.jpg` portrait 4000×6000 rendu 640×960). Aucun overflow horizontal à
+390/768/1440px. Les 4 photos de la timeline vérifiées comme réellement
+chargées et révélées (`naturalWidth`/`naturalHeight` non nuls,
+`is-visible` ajouté) via un vrai défilement incrémental de la page plutôt
+qu'un solo scroll-to-bottom — un premier essai avec captures d'écran
+pleine page avait laissé croire que la photo du jalon 2023 ne s'affichait
+pas, artefact déjà documenté sur ce projet (interaction entre capture
+pleine page et l'`IntersectionObserver` du scroll-reveal de cette même
+section, voir History "Animation d'apparition au scroll — section 'Notre
+histoire'"), pas un bug réel.
+
 ### Fix contraste span "PossaCode Dev Girls" — bandeau d'annonce (2026-09-02)
 
 `src/layouts/Layout.astro` ligne 29, span `text-[#F14D0E]` ("PossaCode Dev
