@@ -39,6 +39,40 @@ _Aucune note pour le moment._
 
 ## 📜 History
 
+### Fix contraste panneau "Notre mission" — mosaïque Vision/Mission/Valeurs, page A-propos (2026-09-02)
+
+`src/pages/about.astro` lignes 220-221, panneau `data-panel="mission"` de la
+mosaïque Vision/Mission/Valeurs : `text-white` sur fond `bg-orange-possacode`
+mesurait 3.61:1 (titre 18px gras) et `text-white/90` mesurait 3.62:1
+(sous-texte 14px), tous deux sous le seuil WCAG AA 4.5:1 — nœud déjà repéré
+et laissé hors scope par l'entrée précédente ("Fix contraste CTA 'Nous
+contacter' — page A-propos"). Titre remplacé par le token
+`text-orange-possacode-ink`, déjà utilisé ailleurs sur le projet pour ce
+motif texte-sur-`bg-orange-possacode`.
+
+**Écart par rapport au spec initial** : la demande précisait de remplacer le
+sous-texte par `text-orange-possacode-ink/90` (même token, opacité 90%
+conservée). Vérification réelle : cette variante mesurait encore 4.44:1,
+sous le seuil AA — `/90` n'était par ailleurs utilisé nulle part ailleurs
+dans le projet avec ce token (vérifié par recherche dans tout `src/`).
+Opacité retirée, sous-texte passé à `text-orange-possacode-ink` (pleine
+opacité, comme le titre), qui atteint la conformité.
+
+Vérifié via `npm run build` (71 pages, aucune erreur) et une vraie session
+Playwright avec `axe-core` (`playwright-core`+`axe-core` installés
+temporairement en local avec `--no-save`, pilotés via Edge installé sur la
+machine — MCP Playwright indisponible/déconnecté dans cette session,
+désinstallés après vérification, aucune trace dans
+`package.json`/`git status`) : `axe.run({runOnly:['color-contrast']})` sur
+`/about` à 375/768/1440px après clic sur le déclencheur d'accordéon "Notre
+mission" (nécessaire pour rendre le sous-texte visible/mesurable) → 0
+violation sur le panneau à chaque largeur, couleurs calculées confirmées
+`rgb(42, 14, 0)` pour le titre et le sous-texte sur fond `rgb(241, 77, 14)`.
+Seule violation `color-contrast` restante sur la page : le nœud
+`Layout.astro:29` déjà documenté (préexistant, hors scope, direction inverse
+— orange plus clair nécessaire, pas le token `-ink`). Même bug encore non
+corrigé sur `members.astro:53`, toujours laissé hors scope.
+
 ### Fix contraste CTA "Nous contacter" — page A-propos (2026-09-02)
 
 `src/pages/about.astro` ligne 75, CTA hero "Nous contacter"
