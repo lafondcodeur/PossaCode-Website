@@ -7,33 +7,46 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Fix contraste CTA hero "Nous contacter" — page A-propos
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+Corriger un contraste texte insuffisant sur le CTA "Nous contacter" du hero
+de la page A-propos : `text-white` sur fond `bg-orange-possacode`
+(`.boutton-standard`) mesure 3.61:1, sous le seuil WCAG AA 4.5:1 pour du
+texte normal (16px gras).
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- `text-white` remplacé par `text-orange-possacode-ink` (token déjà défini
+  dans `src/styles/global.css`, même motif déjà appliqué sur d'autres
+  boutons du site — voir History "Fix contraste texte-sur-orange-possacode
+  (WCAG AA)")
+- Vérifié avec axe `color-contrast` : 0 violation sur ce nœud, à
+  375/768/1024/1440px
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+`src/pages/about.astro` ligne 75 (lien `.boutton-standard` "Nous
+contacter")
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+Ce bug fait partie de la liste "à faire avant mise en production" laissée
+par la feature précédente (voir History "Fix contraste
+texte-sur-orange-possacode (WCAG AA)") : le même motif
+`boutton-standard text-white` existe aussi sur `members.astro:53`, non
+inclus dans le scope de cette feature.
 
 ---
 
