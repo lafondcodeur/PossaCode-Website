@@ -39,6 +39,31 @@ _Aucune note pour le moment._
 
 ## 📜 History
 
+### Extraction des données hors de la page A-propos (2026-09-02)
+
+Demande utilisateur directe (hors workflow `/feature load`, faite en
+observant `src/pages/about.astro` ouvert dans l'éditeur) : « ne mélange pas
+la logique métier et la logique UI sur la page About ». Deux tableaux de
+données étaient déclarés en dur dans le frontmatter d'`about.astro` —
+`historyMilestones` (les 4 jalons de la section "Notre histoire") et
+`partnerLogos` (les 6 logos partenaires affichés dans le marquee, en plus du
+logo Congo DevOps déjà géré via `astro:assets`) — au lieu d'être extraits
+comme le reste des données du projet (`src/data/experts.ts`, `events.ts`,
+`members-preview.ts`, `members-directory.ts`).
+
+Créé `src/data/history-milestones.ts` (type `HistoryMilestone`) et
+`src/data/partner-logos.ts` (type `PartnerLogo`), même style que les
+fichiers existants (`export type` + `export const` typé). `about.astro` ne
+garde plus que les imports dans son frontmatter. Refactor pur, aucun contenu
+ni classe modifiés : vérifié par diff bit-à-bit du HTML généré (`npm run
+build`, `dist/about/index.html`) avant/après le changement — sortie
+identique.
+
+**Hors scope, laissé en l'état** : `src/pages/index.astro` contient une
+copie strictement identique du tableau `partnerLogos` (déjà en dur, non
+extraite). La demande portait explicitement sur « la page About » — pas
+touché, signalé à l'utilisateur comme piste de dédoublonnage possible.
+
 ### Fix contraste panneau "Notre mission" — mosaïque Vision/Mission/Valeurs, page A-propos (2026-09-02)
 
 `src/pages/about.astro` lignes 220-221, panneau `data-panel="mission"` de la
