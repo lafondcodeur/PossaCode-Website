@@ -7,33 +7,55 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Compléter les métadonnées SEO du head partagé (`Layout.astro`)
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+Le `<head>` partagé (`src/layouts/Layout.astro`, lignes 18-26) est incomplet
+pour le SEO/partage social : pas de canonical, pas d'`og:type`/`og:url`,
+aucune balise `twitter:*`, aucun favicon déclaré. Compléter ce head pour que
+chaque page du site (dont `/about`) expose des métadonnées correctes et
+propres à sa propre URL.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- `<link rel="canonical">` ajouté, construit dynamiquement depuis `Astro.url`
+  (pas une valeur en dur) — corrige le `querySelector` qui renvoie `null` sur
+  `/about`
+- `og:type="website"` ajouté
+- `og:url` ajouté, propre à chaque page (dérivé d'`Astro.url`, cohérent avec
+  le canonical)
+- Balises `twitter:card`, `twitter:title`, `twitter:description`,
+  `twitter:image` ajoutées
+- `<link rel="icon">` ajouté, vers `/assets/possacodebb.jpg` ou une favicon
+  dédiée
+- Vérifié par un scan DOM confirmant la présence de toutes ces balises et
+  leur valeur propre à la page (pas une valeur figée identique partout) sur
+  `/about` **et** au moins une autre route
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+`src/layouts/Layout.astro` (lignes 18-26)
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+- Le head partagé a déjà `title`/`description`/`og:title`/`og:description`/
+  `og:image` (voir History "Fix page metadata — Layout.astro"), pointant vers
+  `/assets/possacodebb.jpg` pour `og:image` — réutilisable comme référence de
+  style et potentiellement comme image par défaut pour `twitter:image`.
+- `Layout.astro` accepte déjà des props `title`/`description` optionnelles
+  par page (voir History "Page de profil complet d'un membre") — s'appuyer
+  sur ce mécanisme existant plutôt que d'en recréer un.
 
 ---
 
