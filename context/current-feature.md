@@ -7,59 +7,83 @@
 
 ## 🔧 Feature en cours
 
-Compléter les métadonnées SEO du head partagé (`Layout.astro`)
+_Aucune feature active._
 
-**Status:** In Progress
+**Status:** Not Started
 
 ---
 
 ## 🎯 Objectif
 
-Le `<head>` partagé (`src/layouts/Layout.astro`, lignes 18-26) est incomplet
-pour le SEO/partage social : pas de canonical, pas d'`og:type`/`og:url`,
-aucune balise `twitter:*`, aucun favicon déclaré. Compléter ce head pour que
-chaque page du site (dont `/about`) expose des métadonnées correctes et
-propres à sa propre URL.
+_À définir._
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- `<link rel="canonical">` ajouté, construit dynamiquement depuis `Astro.url`
-  (pas une valeur en dur) — corrige le `querySelector` qui renvoie `null` sur
-  `/about`
-- `og:type="website"` ajouté
-- `og:url` ajouté, propre à chaque page (dérivé d'`Astro.url`, cohérent avec
-  le canonical)
-- Balises `twitter:card`, `twitter:title`, `twitter:description`,
-  `twitter:image` ajoutées
-- `<link rel="icon">` ajouté, vers `/assets/possacodebb.jpg` ou une favicon
-  dédiée
-- Vérifié par un scan DOM confirmant la présence de toutes ces balises et
-  leur valeur propre à la page (pas une valeur figée identique partout) sur
-  `/about` **et** au moins une autre route
+_À définir._
 
 ---
 
 ## 📍 Fichier concerné
 
-`src/layouts/Layout.astro` (lignes 18-26)
+_À définir._
 
 ---
 
 ## 🗒️ Notes
 
-- Le head partagé a déjà `title`/`description`/`og:title`/`og:description`/
-  `og:image` (voir History "Fix page metadata — Layout.astro"), pointant vers
-  `/assets/possacodebb.jpg` pour `og:image` — réutilisable comme référence de
-  style et potentiellement comme image par défaut pour `twitter:image`.
-- `Layout.astro` accepte déjà des props `title`/`description` optionnelles
-  par page (voir History "Page de profil complet d'un membre") — s'appuyer
-  sur ce mécanisme existant plutôt que d'en recréer un.
+_Aucune note pour le moment._
 
 ---
 
 ## 📜 History
+
+### Compléter les métadonnées SEO du head partagé (2026-09-03)
+
+`src/layouts/Layout.astro` (lignes 18-26) exposait déjà `title`/
+`description`/`og:title`/`og:description`/`og:image` mais rien d'autre :
+pas de canonical (`querySelector('link[rel=canonical]')` renvoyait `null`
+sur `/about`), pas d'`og:type`/`og:url`, 0 balise `twitter:*`, aucun
+favicon déclaré. Ajouté `<link rel="canonical">` et `og:url`, tous deux
+construits depuis `Astro.url.href` (pas une valeur en dur) — donc chaque
+page, pas seulement `/about`, obtient sa propre URL correcte. Ajouté
+`og:type="website"` et les 4 balises `twitter:card`/`title`/`description`/
+`image` (réutilisant `title`/`description` déjà passés en props par page,
+voir History "Page de profil complet d'un membre"). Favicon ajouté vers
+`/assets/possacodebb.jpg`, le même logo déjà utilisé pour `og:image` —
+préféré aux fichiers `public/favicon.ico`/`favicon.svg` déjà présents dans
+le repo mais qui se sont révélés être le logo par défaut du starter Astro
+("A" stylisé), sans lien avec la marque PossaCode, jamais référencés nulle
+part avant cette feature.
+
+**Écart de scope trouvé et traité en cours d'implémentation** (question
+posée à l'utilisateur avant d'agir) : sans `site` défini dans
+`astro.config.mjs`, `Astro.url` retombe sur `http://localhost:4321` même
+pendant `npm run build` — canonical/og:url auraient donc pointé vers
+localhost une fois le site déployé, rendant tout l'ajout inutile en
+production. Aucun domaine n'était référencé nulle part ailleurs dans le
+repo (recherché avant de poser la question). Réponse de l'utilisateur :
+le site n'a pas encore de domaine personnalisé acheté, seulement un
+déploiement Vercel. `astro.config.mjs` dérive donc `site` des variables
+d'environnement fournies automatiquement par Vercel au build :
+`VERCEL_PROJECT_PRODUCTION_URL` (domaine de prod stable du projet, mis à
+jour automatiquement par Vercel si un domaine personnalisé est ajouté plus
+tard) en priorité, puis `VERCEL_URL` (URL du déploiement en cours, couvre
+aussi les previews), avec repli sur `localhost:4321` hors Vercel — pas de
+domaine non possédé codé en dur.
+
+Vérifié via `npm run build` (71 pages, aucune erreur) et un scan DOM du
+HTML généré : les 4 balises `twitter:*`, `og:type`, `og:url`, le canonical
+et le favicon sont bien présents et propres à chaque page sur `/about`
+(`.../about/`, titre "A propos — PossaCode") et `/` (`.../`, titre par
+défaut) — valeurs distinctes confirmées, pas une valeur figée dupliquée.
+La résolution `VERCEL_PROJECT_PRODUCTION_URL` a été vérifiée séparément en
+simulant la variable d'environnement (`VERCEL_PROJECT_PRODUCTION_URL=
+possacode-website.vercel.app npx astro build`) : canonical généré en
+`https://possacode-website.vercel.app/about/`, confirmant que le
+mécanisme fonctionnera réellement une fois déployé sur Vercel, pas
+seulement en local.
 
 ### Optimisation des photos non compressées — page A-propos (2026-09-02)
 
