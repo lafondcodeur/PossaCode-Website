@@ -7,46 +7,73 @@
 
 ## 🔧 Feature en cours
 
-Section "chiffres clés" photo + stats — homepage
+_Aucune feature active._
 
-**Status:** In Progress
+**Status:** Not Started
 
 ---
 
 ## 🎯 Objectif
 
-Ajouter sur la page d'accueil une section inspirée du bloc "17K / 200K+ / 98%"
-d'andela.com : une grande carte arrondie coupée en deux, photo d'un membre à
-gauche, panneau sombre avec 3 grands chiffres empilés à droite (phrase d'accroche et
-CTA sous la carte retirés à la demande de l'utilisateur).
+_À définir._
 
 ---
 
 ## ✅ Critères d'acceptation
 
-- Carte arrondie 2 colonnes (photo / panneau `blue-possacode`) en desktop, empilée en mobile
-- 3 chiffres réels déjà publiés sur le site (80+ membres, 1000+ personnes impactées, 5 domaines d'expertise — repris de `about.astro`), pas de chiffres inventés
-- Photo optimisée via `astro:assets` (`<Image>`, webp, lazy)
-- Titres en `font-Phudu`, texte en `font-nunito`, couleurs du thème uniquement
-- Contraste AA sur le panneau sombre, aucun scroll horizontal à 375px
+_À définir._
 
 ---
 
 ## 📍 Fichier concerné
 
-`src/pages/index.astro`
+_À définir._
 
 ---
 
 ## 🗒️ Notes
 
-Placée entre "Vision / Mission / Valeurs" et "Nos événements". Photo :
-`src/assets/heri.jpg` (membre en t-shirt PossaCode, déjà utilisée dans
-`history-milestones.ts`).
+_Aucune note pour le moment._
 
 ---
 
 ## 📜 History
+
+### Section "chiffres clés" photo + stats — homepage (2026-10-22)
+
+Demande utilisateur : reproduire sur la homepage le bloc "17K / 200K+ / 98%"
+d'andela.com (capturé via Playwright). Ajoutée dans `src/pages/index.astro`
+entre "Vision / Mission / Valeurs" et "Nos événements" : grande carte arrondie
+(`max-w-[1360px]`, `md:min-h-[540px]`) en 2 colonnes `1.25fr / 1fr`, empilée
+en mobile. À gauche `src/assets/heri.jpg` (membre en t-shirt PossaCode, déjà
+utilisée dans `history-milestones.ts`) via `<Image>` webp lazy, cadrée
+`object-[center_25%]` pour garder le visage. À droite un `<dl>` sur dégradé
+bleu PossaCode → bleu nuit avec une lueur orange en bas à droite et un léger
+reflet blanc en haut à gauche ; chiffres en `font-Phudu` blanc, suffixe "+"
+en `orange-possacode-light` (token AA sur fond bleu). `dt` placé avant `dd`
+dans le DOM (HTML valide) et inversé visuellement avec `flex-col-reverse`.
+Titre `h2` en `sr-only` pour que la section garde un intitulé accessible.
+
+Chiffres repris tels quels du bandeau de stats de `about.astro` (80+ membres,
+1000+ personnes impactées, 5 domaines d'expertise) dans un tableau
+`keyFigures` — aucun chiffre inventé. Itérations demandées par l'utilisateur :
+phrase d'accroche + 2 CTA sous la carte puis pastille logo PossaCode sur la
+photo retirées ; dégradé ajouté sur le panneau ; carte élargie puis
+rabaissée (1152×560 → 1280×680 → 1360×540).
+
+Vérifié via `npm run build` (71 pages) et Playwright (installé dans un
+dossier temporaire, hors projet) à 1440/820/375px : image chargée, 0 erreur
+console/réseau, 0 débordement horizontal causé par la section (le 1px à
+375px préexiste, il vient de `.logo-marquee-track`). Le commit ne contient
+que cette section : les autres modifications non commitées de
+`index.astro` (refonte de la section événements) et du reste du working
+tree ont été laissées intactes, et le commit a été buildé seul dans un
+worktree isolé.
+
+**À traiter séparément** (trouvé par la suite Playwright, non corrigé) :
+dans `MemberCarousel.astro`, à 1366px les 12 points de pagination ne mènent
+qu'à 7 positions de scroll atteignables — les points 7 à 12 renvoient tous au
+scroll max et c'est le 7e qui reste surligné.
 
 ### Compléter les métadonnées SEO du head partagé (2026-09-03)
 
