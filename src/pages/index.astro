@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import congoDevOpsLogo from '../assets/par/Congo DevOps.jpg';
+import heriPhoto from '../assets/heri.jpg';
 import { experts } from '../data/experts';
 import { featuredEvent } from '../data/events';
 import { membersCarousel } from '../data/members-preview';
@@ -14,6 +15,13 @@ const partnerLogos = [
     { src: '/assets/par/unionlab.jpg', alt: 'Logo partenaire UnionLab', class: 'w-24 md:w-35 h-16 md:h-25 object-cover' },
     { src: '/assets/par/logo.webp', alt: 'Logo partenaire Miabé Hackathon', class: 'w-36 md:w-55 h-14 md:h-20 object-contain' },
     { src: '/assets/par/logo-asso-10000codeurs.png', alt: 'Logo partenaire 10000 Codeurs', class: 'w-24 md:w-35 h-14 md:h-20 object-contain' },
+];
+
+// Mêmes chiffres que le bandeau de statistiques de la page A-propos.
+const keyFigures = [
+    { value: '80', suffix: '+', label: 'membres actifs dans la communauté' },
+    { value: '1000', suffix: '+', label: 'personnes impactées par nos événements' },
+    { value: '5', suffix: '', label: "domaines d'expertise représentés" },
 ];
 ---
 
@@ -174,6 +182,34 @@ const partnerLogos = [
             <p class="text-sm md:text-base font-nunito text-justify text-orange-possacode-ink font-semibold mt-2">
                 Nous valorisons l'inclusion, la collaboration, l'innovation, la diversité et l'impact social. Nous croyons que chaque membre de notre communauté a un rôle à jouer dans le développement de l'écosystème technologique africain, et nous nous engageons à créer un environnement où chacun peut s'épanouir et contribuer à la croissance de notre communauté.
             </p>
+        </div>
+    </section>
+
+    <!-- Chiffres clés : photo membre + panneau de statistiques -->
+    <section class="px-6 md:px-10 pb-16 md:pb-24" aria-labelledby="key-figures-title">
+        <h2 id="key-figures-title" class="sr-only">PossaCode en chiffres</h2>
+        <div class="max-w-[1360px] mx-auto overflow-hidden rounded-3xl grid md:grid-cols-[1.25fr_1fr] shadow-xl/10">
+            <div class="relative h-80 sm:h-96 md:h-auto md:min-h-[540px]">
+                <Image
+                    src={heriPhoto}
+                    alt="Membre de PossaCode en t-shirt de la communauté préparant sa présentation lors d'un événement"
+                    class="absolute inset-0 w-full h-full object-cover object-[center_25%]"
+                    width={800}
+                    densities={[1, 2]}
+                    format="webp"
+                    loading="lazy"
+                />
+            </div>
+            <dl class="bg-blue-possacode bg-[radial-gradient(circle_at_100%_100%,rgba(241,77,14,0.35),transparent_55%),radial-gradient(circle_at_0%_0%,rgba(255,255,255,0.08),transparent_45%),linear-gradient(160deg,#1a2251_0%,#121842_55%,#0b0f2e_100%)] flex flex-col justify-center gap-10 md:gap-12 px-8 py-12 md:py-14 text-center">
+                {keyFigures.map((figure) => (
+                    <div class="flex flex-col-reverse gap-2">
+                        <dt class="font-nunito text-white/85 text-base md:text-lg">{figure.label}</dt>
+                        <dd class="font-Phudu font-bold text-white text-6xl md:text-7xl leading-none">
+                            {figure.value}<span class="text-orange-possacode-light">{figure.suffix}</span>
+                        </dd>
+                    </div>
+                ))}
+            </dl>
         </div>
     </section>
 

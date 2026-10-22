@@ -7,33 +7,42 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Section "chiffres clés" photo + stats — homepage
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+Ajouter sur la page d'accueil une section inspirée du bloc "17K / 200K+ / 98%"
+d'andela.com : une grande carte arrondie coupée en deux, photo d'un membre à
+gauche, panneau sombre avec 3 grands chiffres empilés à droite (phrase d'accroche et
+CTA sous la carte retirés à la demande de l'utilisateur).
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- Carte arrondie 2 colonnes (photo / panneau `blue-possacode`) en desktop, empilée en mobile
+- 3 chiffres réels déjà publiés sur le site (80+ membres, 1000+ personnes impactées, 5 domaines d'expertise — repris de `about.astro`), pas de chiffres inventés
+- Photo optimisée via `astro:assets` (`<Image>`, webp, lazy)
+- Titres en `font-Phudu`, texte en `font-nunito`, couleurs du thème uniquement
+- Contraste AA sur le panneau sombre, aucun scroll horizontal à 375px
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+`src/pages/index.astro`
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+Placée entre "Vision / Mission / Valeurs" et "Nos événements". Photo :
+`src/assets/heri.jpg` (membre en t-shirt PossaCode, déjà utilisée dans
+`history-milestones.ts`).
 
 ---
 
