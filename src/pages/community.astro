@@ -1,12 +1,100 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { Image } from 'astro:assets';
+import engroupePhoto from '../assets/engroupe.jpg';
+import { SOCIAL_LINKS } from '../data/contact';
+
+const activities = [
+    { title: 'Conférences', text: "Des mégaconférences en ligne sur les grands enjeux du métier : l'IA, l'accompagnement des juniors, l'état de l'écosystème." },
+    { title: 'PossaCode DevDay', text: 'Le grand rendez-vous des développeurs au Congo-Brazzaville : salon, conférences, hackathon et exposants.' },
+    { title: 'Hackathons', text: 'Des défis de code en équipe pour apprendre en construisant et révéler les talents de la communauté.' },
+    { title: 'Webinaires', text: 'Des lives animés par des professionnels sur des sujets concrets, comme fixer le bon prix d\'un projet.' },
+    { title: 'Meetups & formations', text: 'Des rencontres et sessions de formation pour progresser techniquement et échanger entre pairs.' },
+    { title: "Partage d'expertise", text: 'Des développeurs expérimentés qui interviennent pour transmettre leur savoir aux plus jeunes.' },
+];
+
+const stats = [
+    { value: '80+', label: 'membres' },
+    { value: '1000+', label: 'personnes impactées' },
+    { value: '5', label: "domaines d'expertise" },
+];
 ---
 
-<Layout>
-    <section class="px-6 md:px-10 py-16 md:py-24 text-center">
-        <h1 class="text-3xl md:text-5xl font-Phudu font-bold text-blue-possacode">Communauté</h1>
-        <p class="text-gray-500 font-nunito mt-4 max-w-2xl mx-auto">
-            Cette page est en construction. Retrouvez bientôt ici tout ce qui fait vivre la communauté PossaCode.
+<Layout title="Communauté — PossaCode" description="Conférences, DevDay, hackathons, webinaires et PossaCode Dev Girls : découvrez ce qui fait vivre la communauté de développeurs PossaCode.">
+    <PageHero subtitle="Une communauté de développeurs qui se rassemble pour apprendre, coder et grandir ensemble.">
+        Ce qui fait vivre la <span class="text-orange-possacode-light">communauté</span>
+        <Fragment slot="actions">
+            <a href="/join" class="boutton-standard text-orange-possacode-ink text-base md:text-lg px-8 py-3">Nous Rejoindre</a>
+            <a href="/members" class="border-2 border-white text-white font-bold px-8 py-3 rounded-lg hover:bg-white hover:text-blue-possacode transition">Voir nos membres</a>
+        </Fragment>
+    </PageHero>
+
+    <!-- Chiffres -->
+    <section class="bg-white">
+        <div class="grid grid-cols-3 divide-x divide-gray-200 px-6 md:px-10 py-8 md:py-12 text-center">
+            {stats.map((stat) => (
+                <div>
+                    <p class="text-2xl md:text-4xl font-Phudu font-bold text-orange-possacode-ink">{stat.value}</p>
+                    <p class="text-gray-600 font-nunito text-xs md:text-base mt-1">{stat.label}</p>
+                </div>
+            ))}
+        </div>
+    </section>
+
+    <!-- Activités -->
+    <section class="bg-gray-50 px-6 md:px-10 py-16 md:py-24">
+        <SectionHeading>Nos <span class="text-orange-possacode-ink">activités</span></SectionHeading>
+        <div class="mt-10 md:mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {activities.map((activity) => (
+                <div class="rounded-2xl bg-white border-2 border-blue-possacode/10 p-6 md:p-8 hover:border-orange-possacode transition-colors">
+                    <h3 class="font-Phudu font-bold text-blue-possacode text-xl md:text-2xl">{activity.title}</h3>
+                    <p class="text-gray-600 font-nunito text-sm md:text-base mt-3">{activity.text}</p>
+                </div>
+            ))}
+        </div>
+        <div class="flex justify-center mt-12">
+            <a href="/event" class="boutton-standard text-orange-possacode-ink font-nunito text-base md:text-lg px-8">Voir nos événements</a>
+        </div>
+    </section>
+
+    <!-- PossaCode Dev Girls -->
+    <section class="px-6 md:px-10 py-16 md:py-24">
+        <div class="max-w-6xl mx-auto grid gap-10 md:grid-cols-2 md:gap-16 items-center">
+            <div class="rounded-2xl overflow-hidden shadow-xl shadow-blue-possacode/15 aspect-4/3">
+                <Image src={engroupePhoto} alt="Membres de la communauté PossaCode réunis lors d'un événement" class="w-full h-full object-cover" width={640} densities={[1, 2]} format="webp" loading="lazy" />
+            </div>
+            <div>
+                <SectionHeading align="left">PossaCode <span class="text-orange-possacode-ink">Dev Girls</span></SectionHeading>
+                <p class="text-gray-600 font-nunito text-sm md:text-base mt-6">
+                    Lancé en 2026, PossaCode Dev Girls rassemble les développeuses de la communauté pour encourager et accompagner davantage de femmes dans les métiers du développement, à travers des rencontres dédiées, du partage d'expérience et de l'entraide.
+                </p>
+                <a href="/contact?sujet=adhesion" class="boutton-standard text-orange-possacode-ink font-nunito text-base px-6 inline-block mt-8">Rejoindre les Dev Girls</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Réseaux sociaux -->
+    <section class="bg-blue-possacode px-6 md:px-10 py-16 md:py-24 text-center">
+        <SectionHeading class="text-white">Restons <span class="text-orange-possacode-light">connectés</span></SectionHeading>
+        <p class="text-white font-nunito font-light text-base md:text-xl max-w-2xl mx-auto mt-6 mb-8">
+            Annonces d'événements, replays et actualités de la communauté : suivez PossaCode sur les réseaux sociaux.
         </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            {SOCIAL_LINKS.map((social) => (
+                <a
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-3 border-2 border-white text-white font-nunito font-bold px-6 py-3 rounded-lg hover:bg-white hover:text-blue-possacode transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-possacode"
+                >
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d={social.path}></path>
+                    </svg>
+                    {social.name}
+                </a>
+            ))}
+        </div>
     </section>
 </Layout>

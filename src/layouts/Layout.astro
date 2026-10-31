@@ -5,11 +5,14 @@ import Footer from "../components/Footer.astro";
 interface Props {
 	title?: string;
 	description?: string;
+	/** Image de partage social (og:image / twitter:image) */
+	image?: string;
 }
 
 const {
 	title = "PossaCode — Communauté de développeurs",
 	description = "PossaCode est une communauté de développeurs qui se rassemble pour apprendre, coder et grandir ensemble à travers des événements, des rencontres et des projets collaboratifs.",
+	image = "/assets/possacodebb.jpg",
 } = Astro.props;
 ---
 
@@ -26,18 +29,19 @@ const {
 	<meta property="og:url" content={Astro.url.href}>
 	<meta property="og:title" content={title}>
 	<meta property="og:description" content={description}>
-	<meta property="og:image" content="/assets/possacodebb.jpg">
+	<meta property="og:image" content={image}>
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:title" content={title}>
 	<meta name="twitter:description" content={description}>
-	<meta name="twitter:image" content="/assets/possacodebb.jpg">
+	<meta name="twitter:image" content={image}>
 </head>
 <body>
+<a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-200 focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:font-nunito focus:font-bold focus:text-blue-possacode focus:shadow-xl focus:outline focus:outline-2 focus:outline-orange-possacode">Aller au contenu principal</a>
 <div class="bg-[#1A2251] h-10 ">
-	<p class=" text-center font-light py-2 text-sm text-gray-200">Première rencontre des <span class="text-orange-possacode-light">PossaCode Dev Girsl</span> prévue pour le samedi 16 Mai</p>
+	<p class=" text-center font-light py-2 text-sm text-gray-200">Première rencontre des <span class="text-orange-possacode-light">PossaCode Dev Girls</span> prévue pour le samedi 16 Mai</p>
 </div>
 	<Header  />
-	<main >
+	<main id="main-content" tabindex="-1" class="focus:outline-none">
 		 <slot />
 	</main>
 	<Footer />

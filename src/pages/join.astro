@@ -1,12 +1,80 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const benefits = [
+    { title: 'Se former', text: "Meetups, conférences et webinaires animés par des professionnels pour renforcer vos compétences techniques." },
+    { title: 'Partager', text: "Présentez vos projets, transmettez ce que vous savez et apprenez de l'expérience des autres membres." },
+    { title: "S'inspirer", text: "Rencontrez des développeurs qui ont déjà parcouru le chemin et découvrez les métiers du numérique." },
+    { title: "S'orienter", text: "Profitez de conseils concrets pour choisir une spécialité, fixer vos prix ou décrocher une première mission." },
+    { title: 'Réseauter', text: "Intégrez un réseau de plus de 80 membres au Congo et en Afrique, et ouvrez-vous à de nouvelles opportunités." },
+    { title: 'Coder ensemble', text: "Participez aux hackathons et aux projets collaboratifs pour mettre la théorie en pratique." },
+];
+
+const profiles = [
+    { title: 'Développeur débutant', text: 'Vous apprenez à coder et cherchez une communauté bienveillante pour progresser.' },
+    { title: 'Développeur expérimenté', text: "Vous souhaitez partager vos connaissances et intervenir en tant qu'expert." },
+    { title: 'Étudiant ou en reconversion', text: 'Vous découvrez les métiers du numérique et voulez être bien orienté.' },
+];
+
+const steps = [
+    { title: 'Envoyez votre demande', text: "Remplissez le formulaire de contact en choisissant « Rejoindre la communauté » et présentez-vous en quelques lignes." },
+    { title: "Échangez avec l'équipe", text: "Un membre de l'équipe PossaCode revient vers vous pour faire connaissance et vous présenter la communauté." },
+    { title: 'Participez', text: "Prenez part à votre premier événement et commencez à échanger avec les autres membres." },
+];
 ---
 
-<Layout>
-    <section class="px-6 md:px-10 py-16 md:py-24 text-center">
-        <h1 class="text-3xl md:text-5xl font-Phudu font-bold text-blue-possacode">Nous Rejoindre</h1>
-        <p class="text-gray-500 font-nunito mt-4 max-w-2xl mx-auto">
-            Cette page est en construction. Le formulaire d'inscription à la communauté PossaCode arrive bientôt.
-        </p>
+<Layout title="Nous rejoindre — PossaCode" description="Rejoignez PossaCode, la communauté de développeurs du Congo et d'Afrique : formations, événements, réseau et projets collaboratifs.">
+    <PageHero subtitle="Intégrez une communauté de développeurs qui apprend, partage et grandit ensemble, du Congo à toute l'Afrique.">
+        Rejoignez la <span class="text-orange-possacode-light">communauté</span>
+        <Fragment slot="actions">
+            <a href="/contact?sujet=adhesion" class="boutton-standard text-orange-possacode-ink text-base md:text-lg px-8 py-3">Envoyer ma demande</a>
+            <a href="/community" class="border-2 border-white text-white font-bold px-8 py-3 rounded-lg hover:bg-white hover:text-blue-possacode transition">Découvrir la communauté</a>
+        </Fragment>
+    </PageHero>
+
+    <!-- Avantages -->
+    <section class="px-6 md:px-10 py-16 md:py-24">
+        <SectionHeading>Pourquoi nous <span class="text-orange-possacode-ink">rejoindre</span> ?</SectionHeading>
+        <div class="mt-10 md:mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {benefits.map((benefit) => (
+                <div class="rounded-2xl border-2 border-blue-possacode/10 p-6 md:p-8 hover:border-orange-possacode transition-colors">
+                    <p class="font-Archivo-Black text-orange-possacode-ink text-sm" aria-hidden="true">#</p>
+                    <h3 class="font-Phudu font-bold text-blue-possacode text-xl md:text-2xl mt-1">{benefit.title}</h3>
+                    <p class="text-gray-600 font-nunito text-sm md:text-base mt-3">{benefit.text}</p>
+                </div>
+            ))}
+        </div>
+    </section>
+
+    <!-- Profils -->
+    <section class="bg-orange-possacode px-6 md:px-10 py-16 md:py-24">
+        <SectionHeading stroke="#1a2251" class="text-blue-possacode">Pour qui ?</SectionHeading>
+        <div class="mt-10 md:mt-16 grid gap-6 md:grid-cols-3">
+            {profiles.map((profile) => (
+                <div class="border-l-2 border-blue-possacode p-6 md:p-8">
+                    <h3 class="font-Phudu font-bold text-blue-possacode text-xl md:text-2xl">{profile.title}</h3>
+                    <p class="text-orange-possacode-ink font-nunito font-semibold text-sm md:text-base mt-3">{profile.text}</p>
+                </div>
+            ))}
+        </div>
+    </section>
+
+    <!-- Étapes -->
+    <section class="px-6 md:px-10 py-16 md:py-24">
+        <SectionHeading>Comment ça marche ?</SectionHeading>
+        <ol class="mt-10 md:mt-16 grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
+            {steps.map((step, index) => (
+                <li class="flex flex-col items-center text-center">
+                    <span class="w-14 h-14 rounded-full bg-blue-possacode text-white font-Phudu font-bold text-2xl flex items-center justify-center ring-8 ring-orange-possacode/20">{index + 1}</span>
+                    <h3 class="font-Phudu font-bold text-blue-possacode text-xl md:text-2xl mt-5">{step.title}</h3>
+                    <p class="text-gray-600 font-nunito text-sm md:text-base mt-3 max-w-xs">{step.text}</p>
+                </li>
+            ))}
+        </ol>
+        <div class="flex justify-center mt-12">
+            <a href="/contact?sujet=adhesion" class="boutton-standard text-orange-possacode-ink font-nunito text-base md:text-lg px-8">Je rejoins PossaCode</a>
+        </div>
     </section>
 </Layout>

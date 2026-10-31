@@ -1,4 +1,4 @@
-# Current Feature
+# Current Feature: Page détail d'un événement
 
 > Ce fichier décrit la fonctionnalité ou la section en cours de développement.  
 > Mettre à jour à chaque changement de focus.
@@ -7,33 +7,63 @@
 
 ## 🔧 Feature en cours
 
-_Aucune feature active._
+Page détail par événement (`/event/[slug]`), proposition n°1 issue de
+l'analyse Playwright de shecodeafrica.org / girlswhocode.com / andela.com
+(modèle : page webinaire d'Andela).
 
-**Status:** Not Started
+**Status:** In Progress
 
 ---
 
 ## 🎯 Objectif
 
-_À définir._
+Chaque événement de `src/data/events.ts` a sa propre page partageable :
+type + statut + date/lieu, affiche, programme, public visé, intervenants,
+chiffres clés, CTA inscription/replay, et autres événements.
 
 ---
 
 ## ✅ Critères d'acceptation
 
-_À définir._
+- Une page statique par événement via `getStaticPaths()` (5 pages).
+- Les cartes `EventCard` (page Événements) et les événements de la homepage
+  mènent vers la page détail.
+- Sections affichées uniquement si la donnée existe (pas de section vide).
+- Aucune donnée inventée : seules les infos lisibles sur les affiches de
+  `src/assets/events/` sont ajoutées.
+- `og:image` = affiche de l'événement (partage social).
+- `npm run build` OK, rendu vérifié à 375/768/1440px, aucun overflow.
 
 ---
 
 ## 📍 Fichier concerné
 
-_À définir._
+`src/pages/event/[slug].astro` (nouveau), `src/data/events.ts`,
+`src/components/EventCard.astro`, `src/pages/index.astro`,
+`src/layouts/Layout.astro`.
 
 ---
 
 ## 🗒️ Notes
 
-_Aucune note pour le moment._
+Liens d'inscription / replay : champs prévus mais vides (aucune URL réelle
+connue). Partenaires par événement non repris : plusieurs logos des
+affiches sont illisibles, risque d'erreur sur les noms.
+
+Données ajoutées à `events.ts`, toutes lues sur les affiches : intervenants
+et rôles (webinaire 2026), programme (2025, Birthday 2024, conférence 2023),
+public visé (Birthday), chiffres (DevDay), plateforme Google Meet (2024/2025),
+adresse + heure + gratuité (2023), gratuité (Birthday).
+
+Vérifié : `npm run build` (76 pages = 71 + 5), Playwright sur dev + `astro
+preview` à 375/768/1024/1440px — 0 overflow, 1 seul `h1`, sections
+conditionnelles correctes par événement, affiches chargées (lazy compris,
+via défilement réel), 0 erreur console/réseau, axe-core WCAG 2.2 AA →
+0 violation sur les 5 pages, clic n'importe où sur une `EventCard` → page
+détail, focus clavier → contour orange sur la carte, 4 liens `/event/*` de
+la homepage en 200, `og:image` = affiche en URL absolue.
+Non lié à cette feature, constaté : à 768px le header coupe "A-propos" et
+"Nos Membres" sur deux lignes.
 
 ---
 

@@ -4,18 +4,10 @@ import { Image } from 'astro:assets';
 import congoDevOpsLogo from '../assets/par/Congo DevOps.jpg';
 import heriPhoto from '../assets/heri.jpg';
 import { experts } from '../data/experts';
-import { featuredEvent } from '../data/events';
+import { events } from '../data/events';
+import { partnerLogos } from '../data/partner-logos';
 import { membersCarousel } from '../data/members-preview';
 import MemberCarousel from '../components/MemberCarousel.astro';
-
-const partnerLogos = [
-    { src: '/assets/par/cgdt.jpg', alt: 'Logo partenaire CGDT', class: 'w-24 md:w-35 h-14 md:h-20 object-cover' },
-    { src: "/assets/par/Logo de l'ACDN.png", alt: 'Logo partenaire ACDN', class: 'w-40 md:w-65 h-14 md:h-20 object-contain' },
-    { src: '/assets/par/galsendev.jpg', alt: 'Logo partenaire GalsenDev', class: 'w-24 md:w-35 h-14 md:h-20 object-contain' },
-    { src: '/assets/par/unionlab.jpg', alt: 'Logo partenaire UnionLab', class: 'w-24 md:w-35 h-16 md:h-25 object-cover' },
-    { src: '/assets/par/logo.webp', alt: 'Logo partenaire Miabé Hackathon', class: 'w-36 md:w-55 h-14 md:h-20 object-contain' },
-    { src: '/assets/par/logo-asso-10000codeurs.png', alt: 'Logo partenaire 10000 Codeurs', class: 'w-24 md:w-35 h-14 md:h-20 object-contain' },
-];
 
 // Mêmes chiffres que le bandeau de statistiques de la page A-propos.
 const keyFigures = [
@@ -23,6 +15,10 @@ const keyFigures = [
     { value: '1000', suffix: '+', label: 'personnes impactées par nos événements' },
     { value: '5', suffix: '', label: "domaines d'expertise représentés" },
 ];
+
+// Événement le plus récent mis en avant, suivi des 3 précédents.
+const [featuredEvent, ...previousEvents] = events;
+const recentEvents = previousEvents.slice(0, 3);
 ---
 
 <Layout>
@@ -225,44 +221,28 @@ const keyFigures = [
         </div>
         <div class="flex flex-col lg:flex-row justify-between items-start gap-8">
             <div class="w-full lg:w-1/2 p-2 flex flex-col gap-4">
-                <img class="w-full rounded-lg object-cover object-top h-56 md:h-72 lg:h-auto" src={featuredEvent.image} alt={`Affiche de l'événement : ${featuredEvent.title}`}>
+                <Image class="w-full rounded-lg object-cover object-top h-56 md:h-72 lg:h-auto" src={featuredEvent.image} alt={featuredEvent.alt} width={720} densities={[1, 2]} format="webp" loading="lazy" />
                 <p class="text-orange-possacode-ink text-lg font-nunito font-light">{featuredEvent.date}</p>
-                <h2 class="text-xl md:text-2xl font-bold font-Phudu text-blue-possacode">
-                    {featuredEvent.title}
-                </h2>
+                <h3 class="text-xl md:text-2xl font-bold font-Phudu text-blue-possacode">
+                    <a href={`/event/${featuredEvent.slug}`} class="hover:text-orange-possacode-ink transition-colors rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-possacode">{featuredEvent.title}</a>
+                </h3>
                 <p class="text-gray-500 text-base md:text-lg text-justify font-nunito font-light">
                     {featuredEvent.excerpt}
                 </p>
-                <div class="boutton-standard text-orange-possacode-ink font-nunito text-center text-base md:text-lg">Participer</div>
+                <a href="/event" class="boutton-standard text-orange-possacode-ink font-nunito text-center text-base md:text-lg">Voir tous nos événements</a>
             </div>
             <div class="w-full lg:w-1/2 flex flex-col gap-6">
-                <div class="border-b border-gray-300 pb-4 flex gap-4">
-                    <img class="h-32 md:h-48 lg:h-60 w-36 md:w-56 lg:w-80 object-cover object-top rounded-lg shrink-0" src="/assets/Developpeur_a_lere_de_lia.jpeg" alt="Affiche de la mégaconférence en ligne PossaCode : Développeur à l'ère de l'IA, s'adapter ou disparaître ?">
-                    <div class="content-center space-y-2 md:space-y-3">
-                        <p class="text-orange-possacode-ink text-sm md:text-lg font-nunito font-light">22 au 24 Mai 2025</p>
-                        <h2 class="text-base md:text-2xl font-bold font-Phudu">
-                            Développeur à l'ère de l'IA : s'adapter ou disparaître ?
-                        </h2>
+                {recentEvents.map((event) => (
+                    <div class="border-b border-gray-300 pb-4 flex gap-4">
+                        <Image class="h-32 md:h-48 lg:h-60 w-36 md:w-56 lg:w-80 object-cover object-top rounded-lg shrink-0" src={event.image} alt={event.alt} width={320} densities={[1, 2]} format="webp" loading="lazy" />
+                        <div class="content-center space-y-2 md:space-y-3">
+                            <p class="text-orange-possacode-ink text-sm md:text-lg font-nunito font-light">{event.date}</p>
+                            <h3 class="text-base md:text-2xl font-bold font-Phudu">
+                                <a href={`/event/${event.slug}`} class="hover:text-orange-possacode-ink transition-colors rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-possacode">{event.title}</a>
+                            </h3>
+                        </div>
                     </div>
-                </div>
-                <div class="border-b border-gray-300 pb-4 flex gap-4">
-                    <img class="h-32 md:h-48 lg:h-60 w-36 md:w-56 lg:w-80 object-cover object-top rounded-lg shrink-0" src="/assets/PossaCode_Birthday.jpeg" alt="Affiche de la mégaconférence en ligne PossaCode Birthday">
-                    <div class="content-center space-y-2 md:space-y-3">
-                        <p class="text-orange-possacode-ink text-sm md:text-lg font-nunito font-light">07 Septembre 2024</p>
-                        <h2 class="text-base md:text-2xl font-bold font-Phudu">
-                            PossaCode Birthday : comment accompagner les développeurs juniors en Afrique ?
-                        </h2>
-                    </div>
-                </div>
-                <div class="border-b border-gray-300 pb-4 flex gap-4">
-                    <img class="h-32 md:h-48 lg:h-60 w-36 md:w-56 lg:w-80 object-cover object-top rounded-lg shrink-0" src="/assets/Letat_actuelle_des_developpeurs.jpeg" alt="Affiche de la 1ère édition de la conférence PossaCode : L'état actuel des développeurs au Congo-Brazzaville (problèmes et solutions)">
-                    <div class="content-center space-y-2 md:space-y-3">
-                        <p class="text-orange-possacode-ink text-sm md:text-lg font-nunito font-light">01 Juillet 2023</p>
-                        <h2 class="text-base md:text-2xl font-bold font-Phudu">
-                            L'état actuel des développeurs au Congo-Brazzaville (problèmes et solutions)
-                        </h2>
-                    </div>
-                </div>
+                ))}
             </div>
         </div>
     </section>

@@ -1,12 +1,69 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import EventCard from '../components/EventCard.astro';
+import { upcomingEvents, pastEvents } from '../data/events';
+import { SOCIAL_LINKS } from '../data/contact';
 ---
 
-<Layout>
-    <section class="px-6 md:px-10 py-16 md:py-24 text-center">
-        <h1 class="text-3xl md:text-5xl font-Phudu font-bold text-blue-possacode">Événements</h1>
-        <p class="text-gray-500 font-nunito mt-4 max-w-2xl mx-auto">
-            Cette page est en construction. Retrouvez bientôt ici tous nos meetups, hackathons et conférences.
+<Layout title="Événements — PossaCode" description="Conférences, DevDay, hackathons et webinaires : retrouvez tous les événements à venir et passés organisés par la communauté PossaCode.">
+    <PageHero subtitle="Conférences, DevDay, hackathons et webinaires : des rendez-vous pour apprendre, partager et rencontrer les développeurs du Congo et d'Afrique.">
+        Nos <span class="text-orange-possacode-light">événements</span>
+    </PageHero>
+
+    <!-- À venir -->
+    <section class="px-6 md:px-10 py-16 md:py-24">
+        <SectionHeading>À venir</SectionHeading>
+
+        {upcomingEvents.length > 0 ? (
+            <div class="mt-10 md:mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {upcomingEvents.map((event) => <EventCard event={event} />)}
+            </div>
+        ) : (
+            <div class="mt-10 md:mt-16 max-w-2xl mx-auto rounded-2xl bg-[#fff3ee] border-2 border-orange-possacode p-6 md:p-10 text-center">
+                <p class="font-Phudu font-bold text-blue-possacode text-xl md:text-2xl">Le prochain événement se prépare</p>
+                <p class="text-gray-700 font-nunito mt-3 text-sm md:text-base">
+                    Aucun événement n'est annoncé pour le moment. Suivez PossaCode sur les réseaux sociaux pour être parmi les premiers informés.
+                </p>
+                <div class="flex justify-center gap-3 mt-6">
+                    {SOCIAL_LINKS.map((social) => (
+                        <a
+                            href={social.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`PossaCode sur ${social.name}`}
+                            class="w-11 h-11 rounded-full bg-blue-possacode text-white flex items-center justify-center hover:bg-orange-possacode hover:text-orange-possacode-ink transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-possacode"
+                        >
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d={social.path}></path>
+                            </svg>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        )}
+    </section>
+
+    <!-- Événements passés -->
+    <section class="bg-gray-50 px-6 md:px-10 py-16 md:py-24">
+        <SectionHeading>Événements passés</SectionHeading>
+        <div class="mt-10 md:mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {pastEvents.map((event) => <EventCard event={event} />)}
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-blue-possacode px-6 md:px-10 py-16 md:py-24 text-center">
+        <SectionHeading class="text-white">
+            Envie de <span class="text-orange-possacode-light">partager</span> votre expertise ?
+        </SectionHeading>
+        <p class="text-white font-nunito font-light text-base md:text-xl max-w-2xl mx-auto mt-6 mb-8">
+            Intervenez lors d'un prochain événement ou co-organisez-le avec nous : la communauté grandit grâce à celles et ceux qui transmettent.
         </p>
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <a href="/contact?sujet=intervenant" class="boutton-standard text-orange-possacode-ink text-base md:text-lg px-8 py-3">Proposer une intervention</a>
+            <a href="/partners" class="border-2 border-white text-white font-bold px-8 py-3 rounded-lg hover:bg-white hover:text-blue-possacode transition">Devenir partenaire</a>
+        </div>
     </section>
 </Layout>

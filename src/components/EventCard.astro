@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+import type { Event } from '../data/events';
+
+interface Props {
+    event: Event;
+    headingLevel?: 'h2' | 'h3';
+}
+
+const { event, headingLevel: Heading = 'h3' } = Astro.props;
+---
+
+<!-- Le lien du titre s'étend à toute la carte (after:absolute) : une seule cible au clavier, toute la carte cliquable. -->
+<article class="group relative h-full flex flex-col rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-xl/5 hover:border-orange-possacode transition-colors has-[a:focus-visible]:outline has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-orange-possacode">
+    <Image
+        src={event.image}
+        alt={event.alt}
+        class="w-full aspect-4/5 object-cover object-top"
+        width={480}
+        densities={[1, 2]}
+        format="webp"
+        loading="lazy"
+    />
+    <div class="flex flex-col gap-3 p-5 md:p-6 flex-1">
+        <div class="flex flex-wrap items-center gap-2">
+            <p class="text-orange-possacode-ink font-nunito font-semibold text-sm md:text-base">{event.date}</p>
+            {event.format && (
+                <span class="rounded-full bg-blue-possacode/10 text-blue-possacode font-nunito font-semibold text-xs px-3 py-1">{event.format}</span>
+            )}
+        </div>
+        <Heading class="font-Phudu font-bold text-blue-possacode text-lg md:text-xl group-hover:text-orange-possacode-ink transition-colors">
+            <a href={`/event/${event.slug}`} class="after:absolute after:inset-0 focus-visible:outline-none">{event.title}</a>
+        </Heading>
+        <p class="text-gray-600 font-nunito text-sm md:text-base">{event.excerpt}</p>
+        <span class="mt-auto pt-2 inline-flex items-center gap-1.5 font-nunito font-bold text-sm text-orange-possacode-ink" aria-hidden="true">
+            Voir l'événement
+            <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+        </span>
+    </div>
+</article>

@@ -1,12 +1,59 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const uses = [
+    { title: 'Organiser des événements', text: 'Salles, matériel, connexion et logistique des conférences, DevDay et hackathons ouverts à tous.' },
+    { title: 'Former gratuitement', text: 'Des formations, meetups et webinaires accessibles aux jeunes développeurs, quels que soient leurs moyens.' },
+    { title: 'Soutenir les Dev Girls', text: 'Encourager et accompagner davantage de femmes dans les métiers du développement.' },
+    { title: 'Équiper la communauté', text: 'Ordinateurs, outils et ressources pour celles et ceux qui apprennent sans équipement personnel.' },
+];
+
+const donationTypes = [
+    { title: 'Don financier', text: 'Un soutien ponctuel ou régulier aux activités de l\'association.' },
+    { title: 'Don matériel', text: 'Ordinateurs, écrans, équipements réseau ou fournitures pour les formations.' },
+    { title: 'Mise à disposition', text: 'Une salle, un espace de coworking ou un service pour accueillir nos événements.' },
+];
 ---
 
-<Layout>
-    <section class="px-6 md:px-10 py-16 md:py-24 text-center">
-        <h1 class="text-3xl md:text-5xl font-Phudu font-bold text-blue-possacode">Faire un don</h1>
-        <p class="text-gray-500 font-nunito mt-4 max-w-2xl mx-auto">
-            Cette page est en construction. Les modalités de don pour soutenir PossaCode arrivent bientôt.
-        </p>
+<Layout title="Faire un don — PossaCode" description="Soutenez PossaCode : vos dons financent des événements, des formations gratuites et l'accompagnement des jeunes développeurs africains.">
+    <PageHero subtitle="Chaque don aide PossaCode à former, rassembler et inspirer la prochaine génération de développeurs africains.">
+        Soutenez <span class="text-orange-possacode-light">PossaCode</span>
+        <Fragment slot="actions">
+            <a href="/contact?sujet=don" class="boutton-standard text-orange-possacode-ink text-base md:text-lg px-8 py-3">Je fais un don</a>
+        </Fragment>
+    </PageHero>
+
+    <!-- À quoi servent les dons -->
+    <section class="px-6 md:px-10 py-16 md:py-24">
+        <SectionHeading>À quoi sert votre <span class="text-orange-possacode-ink">don</span> ?</SectionHeading>
+        <div class="mt-10 md:mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {uses.map((use) => (
+                <div class="rounded-2xl bg-[#fff3ee] p-6 md:p-8">
+                    <h3 class="font-Phudu font-bold text-blue-possacode text-xl">{use.title}</h3>
+                    <p class="text-gray-700 font-nunito text-sm md:text-base mt-3">{use.text}</p>
+                </div>
+            ))}
+        </div>
+    </section>
+
+    <!-- Comment donner -->
+    <section class="bg-blue-possacode px-6 md:px-10 py-16 md:py-24">
+        <SectionHeading class="text-white">Comment <span class="text-orange-possacode-light">donner</span> ?</SectionHeading>
+        <div class="mt-10 md:mt-16 grid gap-6 md:grid-cols-3">
+            {donationTypes.map((type) => (
+                <div class="border-l-2 border-orange-possacode p-6 md:p-8">
+                    <h3 class="font-Phudu font-bold text-white text-xl md:text-2xl">{type.title}</h3>
+                    <p class="text-white/85 font-nunito text-sm md:text-base mt-3">{type.text}</p>
+                </div>
+            ))}
+        </div>
+        <div class="max-w-2xl mx-auto text-center mt-12">
+            <p class="text-white font-nunito font-light text-base md:text-lg">
+                Écrivez-nous en précisant le type de don envisagé : l'équipe vous communiquera les modalités adaptées et restera à votre écoute pour le suivi.
+            </p>
+            <a href="/contact?sujet=don" class="boutton-standard text-orange-possacode-ink font-nunito text-base md:text-lg px-8 inline-block mt-8">Contacter l'équipe</a>
+        </div>
     </section>
 </Layout>

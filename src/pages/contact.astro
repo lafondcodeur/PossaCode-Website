@@ -1,12 +1,130 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import { CONTACT_CITY, CONTACT_EMAIL, CONTACT_SUBJECTS, SOCIAL_LINKS } from '../data/contact';
+
+const fieldClass = 'w-full rounded-lg border-2 border-gray-300 bg-white px-4 py-3 font-nunito text-base text-gray-800 placeholder:text-gray-500 focus:border-blue-possacode focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-possacode';
+const labelClass = 'block font-nunito font-semibold text-blue-possacode mb-2';
 ---
 
-<Layout>
-    <section class="px-6 md:px-10 py-16 md:py-24 text-center">
-        <h1 class="text-3xl md:text-5xl font-Phudu font-bold text-blue-possacode">Contact</h1>
-        <p class="text-gray-500 font-nunito mt-4 max-w-2xl mx-auto">
-            Cette page est en construction.
-        </p>
+<Layout title="Contact — PossaCode" description="Une question, une envie de rejoindre la communauté, un projet de partenariat ou de don ? Écrivez à l'équipe PossaCode.">
+    <PageHero subtitle="Une question, une envie de rejoindre la communauté, un projet de partenariat ou de don ? L'équipe PossaCode vous répond.">
+        <span class="text-orange-possacode-light">Contactez</span>-nous
+    </PageHero>
+
+    <section class="px-6 md:px-10 py-16 md:py-24">
+        <div class="max-w-6xl mx-auto grid gap-10 lg:grid-cols-[2fr_1fr] lg:gap-16">
+            <!-- Formulaire -->
+            <form
+                id="contact-form"
+                action={`mailto:${CONTACT_EMAIL}`}
+                method="post"
+                enctype="text/plain"
+                class="space-y-6"
+                novalidate
+            >
+                <div class="grid gap-6 md:grid-cols-2">
+                    <div>
+                        <label for="contact-name" class={labelClass}>Nom complet</label>
+                        <input id="contact-name" name="nom" type="text" autocomplete="name" required class={fieldClass} aria-describedby="contact-name-error" />
+                        <p id="contact-name-error" class="hidden mt-2 text-sm font-nunito text-red-700" data-error>Indiquez votre nom.</p>
+                    </div>
+                    <div>
+                        <label for="contact-email" class={labelClass}>Adresse e-mail</label>
+                        <input id="contact-email" name="email" type="email" autocomplete="email" required class={fieldClass} aria-describedby="contact-email-error" />
+                        <p id="contact-email-error" class="hidden mt-2 text-sm font-nunito text-red-700" data-error>Indiquez une adresse e-mail valide.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="contact-subject" class={labelClass}>Sujet</label>
+                    <select id="contact-subject" name="sujet" class={fieldClass}>
+                        {CONTACT_SUBJECTS.map((subject) => (
+                            <option value={subject.key}>{subject.label}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="contact-message" class={labelClass}>Message</label>
+                    <textarea id="contact-message" name="message" rows="7" required class={fieldClass} aria-describedby="contact-message-error"></textarea>
+                    <p id="contact-message-error" class="hidden mt-2 text-sm font-nunito text-red-700" data-error>Écrivez votre message.</p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <button type="submit" class="boutton-standard text-orange-possacode-ink font-nunito text-base md:text-lg px-8 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-possacode">
+                        Envoyer le message
+                    </button>
+                    <p class="text-gray-600 font-nunito text-sm">
+                        Votre messagerie s'ouvrira avec le message prêt à être envoyé à {CONTACT_EMAIL}.
+                    </p>
+                </div>
+            </form>
+
+            <!-- Coordonnées -->
+            <aside class="rounded-2xl bg-blue-possacode text-white p-6 md:p-8 h-fit space-y-6">
+                <h2 class="font-Phudu font-bold text-2xl">Nos coordonnées</h2>
+                <div>
+                    <p class="font-nunito text-white/80 text-sm">E-mail</p>
+                    <a href={`mailto:${CONTACT_EMAIL}`} class="font-nunito font-semibold text-lg break-all underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-possacode rounded-sm">{CONTACT_EMAIL}</a>
+                </div>
+                <div>
+                    <p class="font-nunito text-white/80 text-sm">Basés à</p>
+                    <p class="font-nunito font-semibold text-lg">{CONTACT_CITY}</p>
+                </div>
+                <div>
+                    <p class="font-nunito text-white/80 text-sm mb-3">Suivez-nous</p>
+                    <div class="flex gap-3">
+                        {SOCIAL_LINKS.map((social) => (
+                            <a
+                                href={social.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={`PossaCode sur ${social.name}`}
+                                class="w-11 h-11 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-orange-possacode hover:text-orange-possacode-ink transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-possacode"
+                            >
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d={social.path}></path>
+                                </svg>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            </aside>
+        </div>
     </section>
 </Layout>
+
+<script>
+    import { CONTACT_EMAIL, CONTACT_SUBJECTS } from '../data/contact';
+
+    const form = document.querySelector<HTMLFormElement>('#contact-form');
+    const subjectSelect = document.querySelector<HTMLSelectElement>('#contact-subject');
+
+    // Pré-sélection du sujet depuis les liens des autres pages (ex. /contact?sujet=partenariat).
+    const requestedSubject = new URLSearchParams(window.location.search).get('sujet');
+    if (subjectSelect && CONTACT_SUBJECTS.some((subject) => subject.key === requestedSubject)) {
+        subjectSelect.value = requestedSubject as string;
+    }
+
+    form?.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea'));
+        const invalidFields = fields.filter((field) => {
+            const isValid = field.value.trim() !== '' && field.checkValidity();
+            form.querySelector<HTMLElement>(`#${field.id}-error`)?.classList.toggle('hidden', isValid);
+            field.setAttribute('aria-invalid', String(!isValid));
+            return !isValid;
+        });
+        if (invalidFields.length > 0) {
+            invalidFields[0].focus();
+            return;
+        }
+
+        const data = new FormData(form);
+        const subjectLabel = CONTACT_SUBJECTS.find((subject) => subject.key === data.get('sujet'))?.label ?? 'Contact';
+        const body = `${data.get('message')}\n\n—\n${data.get('nom')}\n${data.get('email')}`;
+        window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`[Site PossaCode] ${subjectLabel}`)}&body=${encodeURIComponent(body)}`;
+    });
+</script>

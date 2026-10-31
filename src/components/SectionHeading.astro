@@ -1,0 +1,22 @@
+---
+// Titre de section avec le trait ondulé animé (.wave-line) commun à tout le site.
+interface Props {
+    as?: 'h1' | 'h2';
+    align?: 'left' | 'center';
+    stroke?: string;
+    class?: string;
+}
+
+const { as: Tag = 'h2', align = 'center', stroke = '#f14d0e', class: className = 'text-blue-possacode' } = Astro.props;
+---
+
+<div class={align === 'center' ? 'flex justify-center' : ''}>
+    <div class="inline-block">
+        <Tag class:list={['text-3xl md:text-5xl font-Phudu font-bold', align === 'center' && 'text-center', className]}>
+            <slot />
+        </Tag>
+        <svg class="w-full h-3 mt-1" viewBox="0 0 200 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M0 10 Q 5 0, 10 10 T 20 10 T 30 10 T 40 10 T 50 10 T 60 10 T 70 10 T 80 10 T 90 10 T 100 10 T 110 10 T 120 10 T 130 10 T 140 10 T 150 10 T 160 10 T 170 10 T 180 10 T 190 10 T 200 10" stroke={stroke} stroke-width="2" fill="transparent" class="wave-line"/>
+        </svg>
+    </div>
+</div>

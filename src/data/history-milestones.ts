@@ -12,33 +12,33 @@ export type HistoryMilestone = {
     alt: string;
 };
 
-// Jalons temporaires (fictifs) — à remplacer par les vraies dates et événements de PossaCode avant mise en production.
+// Jalons tirés des événements réellement organisés par PossaCode (voir src/data/events.ts et les affiches dans src/assets/events/).
 export const historyMilestones: HistoryMilestone[] = [
     {
         year: '2023',
-        title: 'Naissance de PossaCode',
-        description: "Un noyau de développeurs passionnés se réunit pour donner vie à une communauté tech pensée pour et par la jeunesse africaine.",
+        title: 'Première conférence PossaCode',
+        description: "Le 1er juillet 2023, la toute première conférence PossaCode dresse l'état des lieux des développeurs au Congo-Brazzaville : les problèmes qu'ils rencontrent et les solutions pour avancer ensemble.",
         image: heriPhoto,
         alt: 'Membre de PossaCode animant une session de formation devant un poster de présentation',
     },
     {
         year: '2024',
-        title: 'Premier hackathon communautaire',
-        description: 'PossaCode organise son tout premier hackathon, réunissant développeurs et porteurs de projets autour de défis techniques.',
+        title: 'PossaCode DevDay, 2ème édition',
+        description: 'Les 19 et 20 juillet 2024 à Brazzaville : un salon, 20 conférences, un hackathon de coding et plus de 20 exposants réunis pour le plus grand rendez-vous des développeurs du pays.',
         image: a3Photo,
-        alt: 'Membres de la communauté PossaCode collaborant ensemble autour d\'une tablette',
+        alt: "Membres de la communauté PossaCode collaborant ensemble autour d'une tablette",
     },
     {
         year: '2025',
-        title: '1000 personnes impactées',
-        description: 'Le cap symbolique des 1000 personnes accompagnées est franchi grâce aux formations et événements organisés.',
+        title: "Développeur à l'ère de l'IA",
+        description: "Du 22 au 24 mai 2025, trois jours de mégaconférence en ligne pour aider les développeurs africains à s'adapter à l'arrivée de l'intelligence artificielle dans leur métier.",
         image: engroupePhoto,
         alt: "Membres de la communauté PossaCode réunis lors d'un événement",
     },
     {
         year: '2026',
-        title: "PossaCode aujourd'hui",
-        description: "Plus de 80 membres actifs et une communauté toujours grandissante, portée par une vision claire pour l'avenir.",
+        title: 'Lancement de PossaCode Dev Girls',
+        description: "Première rencontre des PossaCode Dev Girls le 16 mai 2026, pour encourager et accompagner les femmes dans le développement, au sein d'une communauté de plus de 80 membres actifs.",
         image: groupePhoto,
         alt: 'Grand groupe de membres de la communauté PossaCode réunis',
     },

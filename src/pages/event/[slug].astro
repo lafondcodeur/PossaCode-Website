@@ -1,0 +1,188 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import EventCard from '../../components/EventCard.astro';
+import { Image, getImage } from 'astro:assets';
+import { events, isUpcoming, type Event } from '../../data/events';
+
+export function getStaticPaths() {
+    return events.map((event) => ({
+        params: { slug: event.slug },
+        props: { event },
+    }));
+}
+
+type Props = { event: Event };
+
+const { event } = Astro.props;
+const upcoming = isUpcoming(event);
+const otherEvents = events.filter((other) => other.slug !== event.slug).slice(0, 3);
+
+// Affiche de l'événement en image de partage social (les crawlers exigent une URL absolue).
+const ogImage = await getImage({ src: event.image, width: Math.min(1200, event.image.width), format: 'jpg' });
+const ogImageUrl = new URL(ogImage.src, Astro.site ?? Astro.url).href;
+
+const description = event.excerpt.length <= 160 ? event.excerpt : `${event.excerpt.slice(0, 157).replace(/\s+\S*$/, '')}…`;
+
+const initials = (name: string) =>
+    name
+        .split(' ')
+        .map((part) => part[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase();
+---
+
+<Layout title={`${event.title} — PossaCode`} description={description} image={ogImageUrl}>
+    <!-- Hero : infos clés + affiche -->
+    <section class="bg-blue-possacode px-6 md:px-10 pt-10 md:pt-14 pb-16 md:pb-24">
+        <div class="max-w-6xl mx-auto">
+            <a
+                href="/event"
+                class="inline-flex items-center gap-1.5 font-nunito text-sm text-white/85 hover:text-orange-possacode-light transition rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-possacode mb-8 md:mb-12"
+            >
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                </svg>
+                Tous les événements
+            </a>
+
+            <div class="grid gap-10 md:grid-cols-[1fr_minmax(0,340px)] lg:grid-cols-[1fr_minmax(0,420px)] md:gap-14 items-start">
+                <div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="rounded-full bg-orange-possacode text-orange-possacode-ink font-nunito font-bold text-xs uppercase tracking-wide px-3 py-1">{event.kind}</span>
+                        <span class="rounded-full border border-white/40 text-white font-nunito font-semibold text-xs px-3 py-1">{upcoming ? 'À venir' : 'Terminé'}</span>
+                        {event.format && (
+                            <span class="rounded-full bg-white/10 text-white font-nunito font-semibold text-xs px-3 py-1">{event.format}</span>
+                        )}
+                        {event.free && (
+                            <span class="rounded-full bg-white text-blue-possacode font-nunito font-bold text-xs px-3 py-1">Gratuit</span>
+                        )}
+                    </div>
+
+                    <h1 class="mt-5 font-Phudu font-bold text-white text-3xl md:text-4xl lg:text-5xl leading-tight">{event.title}</h1>
+
+                    <dl class="mt-6 flex flex-col gap-3 font-nunito text-white">
+                        <div class="flex items-start gap-3">
+                            <dt class="shrink-0">
+                                <span class="sr-only">Date</span>
+                                <svg class="w-5 h-5 mt-0.5 text-orange-possacode-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </dt>
+                            <dd class="font-semibold">{event.date}</dd>
+                        </div>
+                        {(event.location ?? event.format) && (
+                            <div class="flex items-start gap-3">
+                                <dt class="shrink-0">
+                                    <span class="sr-only">Lieu</span>
+                                    <svg class="w-5 h-5 mt-0.5 text-orange-possacode-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </dt>
+                                <dd>{event.location ?? event.format}</dd>
+                            </div>
+                        )}
+                    </dl>
+
+                    <p class="mt-6 text-white/85 font-nunito font-light text-base md:text-lg leading-relaxed">{event.excerpt}</p>
+
+                    {upcoming && event.registrationUrl && (
+                        <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer" class="boutton-standard text-orange-possacode-ink text-base md:text-lg px-8 py-3 inline-block mt-8">Réserver ma place</a>
+                    )}
+                    {!upcoming && event.replayUrl && (
+                        <a href={event.replayUrl} target="_blank" rel="noopener noreferrer" class="boutton-standard text-orange-possacode-ink text-base md:text-lg px-8 py-3 inline-block mt-8">Revoir le replay</a>
+                    )}
+                </div>
+
+                <Image
+                    src={event.image}
+                    alt={event.alt}
+                    class="w-full h-auto rounded-2xl shadow-2xl shadow-black/30"
+                    width={420}
+                    densities={[1, 2]}
+                    format="webp"
+                    loading="eager"
+                />
+            </div>
+        </div>
+    </section>
+
+    <!-- Au programme / Pour qui ? -->
+    {(event.programme || event.audience) && (
+        <section class="px-6 md:px-10 py-16 md:py-24">
+            <div class:list={['max-w-6xl mx-auto grid gap-14', event.programme && event.audience && 'lg:grid-cols-2']}>
+                {event.programme && (
+                    <div>
+                        <SectionHeading align="left">Au <span class="text-orange-possacode-ink">programme</span></SectionHeading>
+                        <ul class="mt-8 md:mt-10 grid gap-4 sm:grid-cols-2">
+                            {event.programme.map((item) => (
+                                <li class="flex items-center gap-3 rounded-2xl bg-white border-2 border-blue-possacode/10 p-4 md:p-5 font-nunito font-semibold text-blue-possacode">
+                                    <span class="shrink-0 w-8 h-8 rounded-full bg-[#fff3ee] text-orange-possacode-ink flex items-center justify-center">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </span>
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+                {event.audience && (
+                    <div>
+                        <SectionHeading align="left">Pour <span class="text-orange-possacode-ink">qui ?</span></SectionHeading>
+                        <ul class="mt-8 md:mt-10 flex flex-wrap gap-3">
+                            {event.audience.map((profile) => (
+                                <li class="rounded-full bg-blue-possacode text-white font-nunito font-semibold px-5 py-2.5">{profile}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+            </div>
+        </section>
+    )}
+
+    <!-- Chiffres clés -->
+    {event.figures && (
+        <section class="bg-[#fff3ee] px-6 md:px-10 py-16 md:py-24">
+            <SectionHeading>En <span class="text-orange-possacode-ink">chiffres</span></SectionHeading>
+            <dl class="max-w-5xl mx-auto mt-10 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                {event.figures.map((figure) => (
+                    <div class="flex flex-col-reverse">
+                        <dt class="text-gray-700 font-nunito text-sm md:text-base mt-1">{figure.label}</dt>
+                        <dd class="text-4xl md:text-5xl font-Phudu font-bold text-orange-possacode-ink">{figure.value}</dd>
+                    </div>
+                ))}
+            </dl>
+        </section>
+    )}
+
+    <!-- Intervenants -->
+    {event.speakers && (
+        <section class="px-6 md:px-10 py-16 md:py-24">
+            <SectionHeading>Les <span class="text-orange-possacode-ink">intervenants</span></SectionHeading>
+            <ul class="max-w-6xl mx-auto mt-10 md:mt-16 flex flex-wrap justify-center gap-6">
+                {event.speakers.map((speaker) => (
+                    <li class="w-full sm:w-64 lg:w-52 rounded-2xl bg-white border-2 border-blue-possacode/10 p-6 text-center">
+                        <span class="mx-auto w-16 h-16 rounded-full bg-blue-possacode text-white font-Phudu font-bold text-xl flex items-center justify-center" aria-hidden="true">{initials(speaker.name)}</span>
+                        <p class="mt-4 font-Phudu font-bold text-blue-possacode text-lg">{speaker.name}</p>
+                        <p class="mt-1 font-nunito text-gray-600 text-sm">{speaker.role}</p>
+                    </li>
+                ))}
+            </ul>
+        </section>
+    )}
+
+    <!-- Autres événements -->
+    <section class="bg-gray-50 px-6 md:px-10 py-16 md:py-24">
+        <SectionHeading>Autres <span class="text-orange-possacode-ink">événements</span></SectionHeading>
+        <div class="max-w-6xl mx-auto mt-10 md:mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {otherEvents.map((other) => <EventCard event={other} />)}
+        </div>
+        <div class="flex justify-center mt-12">
+            <a href="/event" class="boutton-standard text-orange-possacode-ink font-nunito text-base md:text-lg px-8">Voir tous les événements</a>
+        </div>
+    </section>
+</Layout>

@@ -1,12 +1,53 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import LegalSection from '../components/LegalSection.astro';
+import { CONTACT_CITY, CONTACT_EMAIL } from '../data/contact';
 ---
 
-<Layout>
-    <section class="px-6 md:px-10 py-16 md:py-24 text-center">
-        <h1 class="text-3xl md:text-5xl font-Phudu font-bold text-blue-possacode">Mentions légales</h1>
-        <p class="text-gray-500 font-nunito mt-4 max-w-2xl mx-auto">
-            Cette page est en construction.
+<Layout title="Mentions légales — PossaCode" description="Mentions légales du site de PossaCode : éditeur, hébergement, propriété intellectuelle et crédits.">
+    <PageHero>Mentions <span class="text-orange-possacode-light">légales</span></PageHero>
+
+    <div class="max-w-3xl mx-auto px-6 md:px-10 py-16 md:py-24 space-y-12">
+        <LegalSection title="Éditeur du site">
+            <p>
+                Ce site est édité par <strong>PossaCode</strong>, association qui forme et réunit les développeurs du Congo et d'Afrique, basée à {CONTACT_CITY}.
+            </p>
+            <p>Contact : <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
+            <p>Responsable de la publication : le bureau de l'association PossaCode.</p>
+        </LegalSection>
+
+        <LegalSection title="Hébergement">
+            <p>
+                Le site est hébergé par <strong>Vercel Inc.</strong> (États-Unis) — <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">vercel.com</a>.
+            </p>
+        </LegalSection>
+
+        <LegalSection title="Propriété intellectuelle">
+            <p>
+                L'ensemble des contenus de ce site (textes, logo, photographies, affiches d'événements) est la propriété de PossaCode ou de leurs auteurs respectifs. Toute reproduction ou réutilisation, totale ou partielle, sans autorisation préalable est interdite.
+            </p>
+            <p>
+                Les logos des partenaires restent la propriété de leurs détenteurs respectifs et sont affichés pour illustrer les partenariats de l'association.
+            </p>
+        </LegalSection>
+
+        <LegalSection title="Liens externes">
+            <p>
+                Le site contient des liens vers des sites tiers (réseaux sociaux, profils de membres, partenaires). PossaCode n'est pas responsable de leur contenu ni de leurs pratiques en matière de données personnelles.
+            </p>
+        </LegalSection>
+
+        <LegalSection title="Crédits">
+            <ul>
+                <li>Polices : Phudu, Nunito Sans, Archivo Black et Elsie Swash Caps, via Google Fonts.</li>
+                <li>Avatars générés : <a href="https://www.dicebear.com/" target="_blank" rel="noopener noreferrer">DiceBear</a>.</li>
+                <li>Site réalisé avec <a href="https://astro.build/" target="_blank" rel="noopener noreferrer">Astro</a> et Tailwind CSS.</li>
+            </ul>
+        </LegalSection>
+
+        <p class="font-nunito text-sm text-gray-600">
+            Pour toute question relative à ces mentions, consultez aussi notre <a href="/confidentialite" class="text-blue-possacode font-semibold underline underline-offset-4">politique de confidentialité</a> ou <a href="/contact" class="text-blue-possacode font-semibold underline underline-offset-4">contactez-nous</a>.
         </p>
-    </section>
+    </div>
 </Layout>
